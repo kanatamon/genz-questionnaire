@@ -254,6 +254,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'วุฒิการศึกษาอย่างน้อยระดับปริญญาตรีคือเป้าหมายด้านการเรียนในอนาคตของท่าน',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -269,6 +270,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'การสำเร็จการศึกษาจากสถาบันที่มีชื่อเสียงทำให้ท่านเกิดการได้เปรียบในการได้งานที่มีรายได้สูง',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -284,6 +286,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'การเรียนเพื่อการพัฒนาทักษะ soft skills หรือทักษะที่เป็นประโยชน์ต่อการทำงานและการใช้ชีวิตสังคม เช่น ทักษะการคิดสังเคราะห์ (Critical thinking) ทักษะการทำงานเป็นทีม (teamwork) มีความจำเป็น',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -298,6 +301,7 @@ export const SECTIONS = {
         showForGroups: ['A', 'B'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'การได้รับวุฒิปริญญาตรีจะทำให้ท่านมีโอกาสได้งานที่มั่นคง',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -313,6 +317,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'การสำเร็จการศึกษาจากมหาวิทยาลัยที่มีชื่อเสียงทำให้ท่านมีความก้าวหน้าของอาชีพ',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -328,6 +333,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'การเรียนในมหาวิทยาลัยเป็นการสร้างเครือข่ายความสัมพันธ์ (connection) ที่มีผลต่ออาชีพของท่านในอนาคต',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -343,6 +349,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'การประกอบอาชีพอิสระ การเป็นผู้ประกอบการ หรือเจ้านายตัวเองดีกว่าการทำงานเป็นองค์กรภาครัฐหรือเอกชน',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -358,6 +365,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'ท่านมีจุดมุ่งหมายของการเรียนรู้คือพัฒนาตนเองเพื่อเข้าสู่การเรียนระดับมหาวิทยาลัย',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -372,6 +380,7 @@ export const SECTIONS = {
         showForGroups: ['B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'ท่านสามารถกำหนดทิศทางการพัฒนาตนเองได้ ',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -387,6 +396,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'ท่านมีจุดมุ่งหมายของการเรียนคือการปรับและเพิ่มพูนทักษะ (Reskill/Upskill) ในการประกอบอาชีพ',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -402,6 +412,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'ท่านมีจุดมุ่งหมายของการเรียนเพื่อพัฒนาตนเอง สร้างโอกาส และทางเลือกในการประกอบอาชีพที่สอง หรืออาชีพเสริม',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -417,6 +428,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'ท่านมีจุดมุ่งหมายของการเรียนเพื่อพัฒนาทักษะ Soft skill หรือทักษะที่เป็นประโยชน์ต่อการทำงานและการใช้ชีวิตสังคม',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -432,6 +444,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'ท่านมีจุดมุ่งหมายของการเรียนเพื่อตอบสนองความหลงใหลในการเรียนรู้ (passion)',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -447,6 +460,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'ท่านมีจุดมุ่งหมายของการเรียนในมหาวิทยาลัยเป็นความภาคภูมิใจในชื่อเสียงและเกียรติยศแก่ตนเอง',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -461,6 +475,7 @@ export const SECTIONS = {
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'ครอบครัวสนับสนุนท่านในการเข้าศึกษาต่อในระดับมหาวิทยาลัย',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -475,6 +490,7 @@ export const SECTIONS = {
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'ครอบครัวเปิดโอกาสให้ท่านทำในสิ่งที่ท่านสนใจอย่างเต็มที่',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -490,6 +506,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'สิ่งที่ท่านต้องการเรียนรู้ มักเกี่ยวข้องกับธุรกิจหรืออาชีพของครอบครัว',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -504,6 +521,7 @@ export const SECTIONS = {
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'การเรียนมหาวิทยาลัยมีส่วนทำให้ท่านได้รับการยอมรับจากสังคม',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -519,6 +537,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'ท่านสนใจเรียนรู้สิ่งใหม่/ทักษะใหม่ ตามเทคโนโลยีและสังคมที่เปลี่ยนแปลงไป',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -534,6 +553,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'ท่านสนใจเรียนรู้สิ่งใหม่/ทักษะใหม่ เมื่อมีบุคคลใกล้ชิดเข้ารับการเรียนรู้ด้วย',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -553,6 +573,7 @@ export const SECTIONS = {
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'อยากเรียนวิชาที่สนใจแต่ไม่มีให้เรียน',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -566,6 +587,7 @@ export const SECTIONS = {
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'ระยะเวลาเรียนในระดับอุดมศึกษานานเกินไป',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -580,6 +602,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'วิธีการสอนและการจัดการเรียนรู้ไม่น่าสนใจ/รูปแบบการเรียนการสอนไม่น่าสนใจ ไม่หลากหลาย',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -593,6 +616,7 @@ export const SECTIONS = {
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'ค่าใช้จ่ายในการเรียนหรือค่าธรรมเนียมการศึกษาสูง',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -607,6 +631,7 @@ export const SECTIONS = {
         showForGroups: ['A', 'B'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'ไม่มีผู้ให้คำแนะนำในการเรียน/ขาดความรู้เกี่ยวกับหลักสูตร',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -620,6 +645,7 @@ export const SECTIONS = {
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'เข้าถึง/ค้นหาข้อมูลหลักสูตร/การอบรมได้ยาก',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -633,6 +659,7 @@ export const SECTIONS = {
         showForGroups: ['A', 'B'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'ระบบการรับสมัคร/คัดเลือกที่ยุ่งยาก',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -678,6 +705,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีหลักสูตรที่รองรับการพัฒนาทักษะเฉพาะด้าน (specialized course)',
+        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -692,6 +720,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีหลักสูตรที่รองรับการพัฒนาทักษะรอบด้าน (generalized course)',
+        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -706,6 +735,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีหลักสูตรที่รองรับการออกแบบหลักสูตรโดยผู้เรียน (customized course)',
+        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -720,6 +750,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'ระบบการรับสมัคร/คัดเลือกที่ยุ่งยาก4.	มหาวิทยาลัยมีหลักสูตรที่ให้ความยืดหยุ่นด้านเวลาที่ใช้ในการศึกษา เช่น หลักสูตรปริญญาที่ไม่กำหนดระยะเวลาในการศึกษา',
+        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -734,6 +765,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีหลักสูตรที่เน้นการพัฒนาทักษะความรู้ที่ไม่มุ่งหวังปริญญา (non-degree)',
+        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -748,6 +780,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีหลักสูตรหรือกิจกรรมที่ส่งเสริมทักษะใหม่เพื่อรองรับการเปลี่ยนแปลง',
+        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -761,6 +794,7 @@ export const SECTIONS = {
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'มหาวิทยาลัยมีหลักสูตรหรือกิจกรรมการปูพื้นฐานในระดับมหาวิทยาลัย',
+        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -774,6 +808,7 @@ export const SECTIONS = {
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'มหาวิทยาลัยมีหลักสูตรเน้นการลงมือปฏิบัติจริง',
+        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -788,6 +823,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีหลักสูตรที่ส่งเสริมทักษะด้านการพัฒนานวัตกรรมเพื่อเป็นผู้ประกอบการ',
+        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -802,6 +838,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีการจัดการเรียนการสอนโดยใช้เทคโนโลยีที่ผู้เรียนสามารถติดตามย้อนหลังได้',
+        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -816,6 +853,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยให้การสนับสนุนด้านเทคโนโลยีสารสนเทศ เช่น อินเตอร์เน็ต โปรแกรมคอมพิวเตอร์ ห้องปฏิบัติการคอมพิวเตอร์',
+        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -830,6 +868,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีอาจารย์ผู้สอนที่มีวิธีการสอนที่ดีและปรับเปลี่ยนตามบริบทที่เปลี่ยนไป',
+        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -844,6 +883,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีการส่งเสริมกิจกรรมเพื่อให้เกิดการพัฒนาทักษะในศตวรรษที่ 21 เช่น ทักษะการสื่อสาร การทำงานร่วมกับผู้อื่น การคิดวิเคราะห์ และความคิดสร้างสรรค์',
+        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -862,7 +902,7 @@ export const SECTIONS = {
       {
         type: RESPONSE_TYPE_LONG_ANSWER,
         title: 'ข้อเสนอแนะ',
-        placeholder: 'แตะเพื่อเขียน',
+        placeholder: 'เพิ่มข้อเสนอแนะ',
       },
     ],
   },
