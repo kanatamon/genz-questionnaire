@@ -1,6 +1,7 @@
 import Document, {Html, Head, Main, NextScript} from 'next/document'
 import {Provider as StyletronProvider} from 'styletron-react'
-import {styletron} from '../styletron'
+
+import {styletron} from '../../styletron'
 
 class MyDocument extends Document {
   static async getInitialProps(context) {
