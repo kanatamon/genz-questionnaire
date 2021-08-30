@@ -288,7 +288,9 @@ const MainNavigation = ({title}) => {
   )
 }
 
-const QuestionHeader = ({title, description}) => {
+import {Tag, VARIANT} from 'baseui/tag'
+
+const QuestionHeader = ({title, description, label}) => {
   return (
     <>
       <Card
@@ -303,6 +305,21 @@ const QuestionHeader = ({title, description}) => {
       >
         <StyledBody>
           <Paragraph1>{title}</Paragraph1>
+          {label ? (
+            <Tag
+              closeable={false}
+              variant={VARIANT.solid}
+              overrides={{
+                Text: {
+                  style: {
+                    maxWidth: 'max-content',
+                  },
+                },
+              }}
+            >
+              {label}
+            </Tag>
+          ) : null}
           {description ? (
             <Caption1 $style={{marginTop: '0px', marginBottom: '0px'}}>
               {description}
@@ -338,7 +355,8 @@ const ShortAnswerResponding = ({question, onValidate = () => {}}) => {
         question.id,
       )
       const memoryValue = memoryResponding?.respondingText
-      if (!!memoryValue) {
+
+      if (memoryValue) {
         setValue(memoryValue)
         onValidateRef.current(true)
       } else {
@@ -395,7 +413,8 @@ const LongAnswerResponding = ({question, onValidate = () => {}}) => {
         question.id,
       )
       const memoryValue = memoryResponding?.respondingText
-      if (!!memoryValue) {
+
+      if (memoryValue) {
         setValue(memoryValue)
         onValidateRef.current(true)
       } else {
@@ -971,8 +990,10 @@ const Questionnaire = ({question}) => {
           display: 'grid',
           gridTemplateColumns: 'repeat(2, 1fr)',
           gridTemplateRows: 'repeat(2, auto)',
-          columnGap: 24,
+          columnGap: 16,
           rowGap: 16,
+          paddingLeft: '24px',
+          paddingRight: '24px',
         }}
       >
         {linkCursor.prevQuestionLink ? (
@@ -1036,6 +1057,7 @@ const Questionnaire = ({question}) => {
             </span>
           </>
         ) : null}
+        <Block height={'64px'} />
       </div>
     </>
   )
