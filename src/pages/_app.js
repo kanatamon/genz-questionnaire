@@ -3,6 +3,7 @@ import {Provider as StyletronProvider} from 'styletron-react'
 import {BaseProvider, LightTheme} from 'baseui'
 
 import {styletron} from '../../styletron'
+import '../styles.css'
 
 export default class MyApp extends App {
   render() {
