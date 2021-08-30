@@ -83,3 +83,11 @@ export function generateGetStartedQuestionLink() {
 export function getSectionDisplayIndexBySectionSlug(slug) {
   return questionnairesMetadata.SECTION_DISPLAY_INDEX[slug]
 }
+
+export function getServerSectionIdBySectionSlug(slug) {
+  return questionnairesMetadata.SERVER_SECTION_IDS[slug]
+}
+
+export function getServerAnswerTypeByRespondingType(respondingType) {
+  return questionnairesMetadata.SERVER_ANSWERS_TYPES[respondingType]
+}

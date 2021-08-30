@@ -10,6 +10,7 @@
     "format": "prettier --write \"**/*.+(js|json|css|md|html)\""
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "baseui": "^10.1.0",
     "next": "11.1.0",
     "react": "17.0.2",

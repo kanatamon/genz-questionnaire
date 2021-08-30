@@ -1,15 +1,7 @@
 import * as React from 'react'
 
 import {styled, useStyletron} from 'styletron-react'
-import {
-  Display4,
-  Caption1,
-  Paragraph1,
-  Paragraph3,
-  H1,
-  H2,
-  H3,
-} from 'baseui/typography'
+import {Caption1, Paragraph1, Paragraph3} from 'baseui/typography'
 import {Input, SIZE} from 'baseui/input'
 import {Button, KIND as ButtonKind} from 'baseui/button'
 import {RadioGroup, Radio, ALIGN} from 'baseui/radio'
@@ -34,15 +26,8 @@ import {Avatar} from 'baseui/avatar'
 import ArrowRight from 'baseui/icon/arrow-right'
 import ArrowLeft from 'baseui/icon/arrow-left'
 
-import {AppNavBar, setItemActive} from 'baseui/app-nav-bar'
-import {
-  ChevronDown,
-  ChevronRight,
-  Delete,
-  Overflow,
-  Upload,
-  Plus,
-} from 'baseui/icon'
+import {AppNavBar} from 'baseui/app-nav-bar'
+import {ChevronRight} from 'baseui/icon'
 
 import Link from 'next/link'
 import {useRouter} from 'next/router'
@@ -92,13 +77,11 @@ const ActivityRegisterModal = ({
             isOpen={isOpen}
             unstable_ModalBackdropScroll={true}
           >
-            <ModalHeader>
-              ท่านสนใจเข้าร่วมกิจกรรมลุ้นรับ iPad หรือไม่?
-            </ModalHeader>
+            <ModalHeader>ท่านสนใจเข้าร่วมกิจกรรมลุ้นรับ iPad?</ModalHeader>
             <ModalBody>
-              Proin ut dui sed metus pharetra hend rerit vel non mi. Nulla
-              ornare faucibus ex, non facilisis nisl. Maecenas aliquet mauris ut
-              tempus.
+              จากการร่วมตอบแบบสอบถามหรือไม่? เพียงกรอกข้อมูล E-mail
+              และทำแบบสอบถามให้ครบทุกข้อ
+              ก็มีสิทธิ์ได้ลุ้นรับของรางวัลจากทางโครงการ
             </ModalBody>
             <ModalFooter>
               <ModalButton kind="tertiary" onClick={onClose}>
@@ -114,13 +97,21 @@ const ActivityRegisterModal = ({
             onClose={() => toggleConfirm(false)}
             isOpen={isConfirmationOpen}
           >
-            <ModalHeader>โปรดระบุอีเมลของท่าน</ModalHeader>
+            <ModalHeader>เงื่อนไขการลุ้นรับของรางวัล</ModalHeader>
             <ModalBody>
-              <span>
-                Proin ut dui sed metus pharetra hend rerit vel non mi. Nulla
-                ornare faucibus ex, non facilisis nisl. Maecenas aliquet mauris
-                ut tempus.
-              </span>
+              <ol style={{listStyleType: 'revert', marginLeft: '12px'}}>
+                <li>
+                  ผู้ร่วมกิจกรรมต้องระบุข้อมูล E-mail สำหรับติดต่อกลับให้ถูกต้อง
+                  หากได้เป็นผู้โชคดี ทางทีมงานจะได้สามารถติดต่อกลับได้
+                </li>
+                <li>
+                  ผู้ร่วมกิจกรรมต้องมีช่วงอายุ Gen Z ระหว่าง 16 – 26 ปี เท่านั้น
+                </li>
+                <li>
+                  ผู้ร่วมกิจกรรมจะต้องตอบแบบสอบถามให้ครบทุกข้อ
+                  ถึงจะได้ลุ้นรับของรางวัลจากทางโครงการ
+                </li>
+              </ol>
               <Block height={'12px'} />
               <Input
                 value={email}
@@ -468,8 +459,6 @@ const MultiChoiceResponding = ({
 
   React.useEffect(
     function initValueToWhateverSavedInMemoryWhenQuestionChanged() {
-      console.log(question)
-
       const memoryResponding = ClientMemory.getRespondingByQuestionId(
         question.id,
       )
@@ -879,6 +868,19 @@ function findNearestQuestionLink(
   return nextQuestionLink
 }
 
+async function postData(url = '', data = {}) {
+  const response = await fetch(url, {
+    method: 'POST',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  const responseData = await response.json()
+  return responseData
+}
+
 const Questionnaire = ({question}) => {
   const router = useRouter()
   const [isAutoNext, setIsAutoNext] = React.useState(false)
@@ -888,6 +890,14 @@ const Questionnaire = ({question}) => {
     prevQuestionLink: '',
     nextQuestionLink: '',
   })
+  const [submittingResponseModalData, setSubmittingResponseModalData] =
+    React.useState({
+      isOpen: false,
+      isSuccess: false,
+    })
+
+  const [isSubmittingAllQuestionnaires, setIsSubmittingAllQuestionnaires] =
+    React.useState(false)
 
   React.useEffect(
     function updateLinkCursorWhenRegisteredGroupsChanged() {
@@ -954,11 +964,79 @@ const Questionnaire = ({question}) => {
     setRegisteredGroups(newRegisteringGroups)
   }
 
+  const handleOnSubmitAllQuestionnaires = async () => {
+    setIsSubmittingAllQuestionnaires(true)
+
+    const email = ClientMemory.getAttendeeEmail()
+    const allRespondingsTemplate = ClientMemory.getAllRespondingsTemplate()
+
+    const responseDetails = Object.values(allRespondingsTemplate).map(
+      responding => {
+        const {
+          sectionSlug,
+          type,
+          title,
+          respondingText,
+          showForGroups,
+          respondingOptions,
+        } = responding
+
+        const options = respondingOptions.map(option => ({
+          answer: option.respondingText,
+          weight: option.weight,
+          is_other: +option.isOther,
+          other_detail: option.respondingOtherText,
+        }))
+
+        return {
+          section_id:
+            QuestionnairesUtils.getServerSectionIdBySectionSlug(sectionSlug),
+          no_id: +responding.questionIndex + 1,
+          anstype:
+            QuestionnairesUtils.getServerAnswerTypeByRespondingType(type),
+          question: title,
+          answer: respondingText,
+          group_name: showForGroups?.join() ?? null,
+          options,
+        }
+      },
+    )
+
+    const submittingData = {
+      qid: 'GenZ',
+      email,
+      response_details: responseDetails,
+    }
+
+    const submittingResult = await postData(
+      '/api/questionnaires',
+      submittingData,
+    )
+
+    setIsSubmittingAllQuestionnaires(false)
+    setSubmittingResponseModalData({
+      isOpen: true,
+      isSuccess: submittingResult.isSuccess,
+    })
+  }
+
+  const handleOnSendAnotherResponseClick = () => {
+    setSubmittingResponseModalData({
+      isOpen: false,
+      isSuccess: false,
+    })
+    const getStartedQuestionLink =
+      QuestionnairesUtils.generateGetStartedQuestionLink()
+    router.push(getStartedQuestionLink)
+  }
+
   const sectionDisplayIndex =
     QuestionnairesUtils.getSectionDisplayIndexBySectionSlug(
       question.sectionSlug,
     )
   const title = `ตอนที่ ${sectionDisplayIndex}`
+
+  const isLastQuestion = !question.nextQuestionLink
 
   return (
     <>
@@ -996,7 +1074,7 @@ const Questionnaire = ({question}) => {
           paddingRight: '24px',
         }}
       >
-        {linkCursor.prevQuestionLink ? (
+        {linkCursor.prevQuestionLink && !isSubmittingAllQuestionnaires ? (
           <Link href={linkCursor.prevQuestionLink} passHref>
             <Button
               $as="a"
@@ -1023,7 +1101,12 @@ const Questionnaire = ({question}) => {
             ) : (
               <StatefulPopover
                 content={
-                  <Paragraph3 padding="scale500">
+                  <Paragraph3
+                    padding="scale500"
+                    $style={{
+                      backgroundColor: colors.yellow200,
+                    }}
+                  >
                     โปรดระบุคำตอบเพื่อไปยังคำถามถัดไป
                   </Paragraph3>
                 }
@@ -1033,8 +1116,7 @@ const Questionnaire = ({question}) => {
                   $as="a"
                   $style={{
                     gridColumn: 2,
-                    backgroundColor: colors.yellow100,
-                    color: colors.gray600,
+                    backgroundColor: colors.gray100,
                   }}
                   endEnhancer={() => <ArrowRight size={24} />}
                   disabled
@@ -1043,22 +1125,58 @@ const Questionnaire = ({question}) => {
                 </Button>
               </StatefulPopover>
             )}
-
-            <span
-              style={{gridColumn: '1 / -1', gridRow: 2, justifySelf: 'center'}}
-            >
-              <Checkbox
-                checked={isAutoNext}
-                onChange={e => setIsAutoNext(e.target.checked)}
-                labelPlacement={LABEL_PLACEMENT.right}
-              >
-                เปิดโหมดเลื่อนไปคำถามถัดไปอัตโนมัติ?
-              </Checkbox>
-            </span>
           </>
+        ) : isLastQuestion ? (
+          <Button
+            onClick={handleOnSubmitAllQuestionnaires}
+            disabled={isSubmittingAllQuestionnaires}
+            isLoading={isSubmittingAllQuestionnaires}
+            $style={{gridColumn: 2}}
+            endEnhancer={() => <ArrowRight size={24} />}
+          >
+            ส่งคำตอบ
+          </Button>
         ) : null}
-        <Block height={'64px'} />
+        <span style={{gridColumn: '1 / -1', gridRow: 2, justifySelf: 'center'}}>
+          <Checkbox
+            checked={isAutoNext}
+            onChange={e => setIsAutoNext(e.target.checked)}
+            labelPlacement={LABEL_PLACEMENT.right}
+          >
+            เปิดโหมดเลื่อนไปคำถามถัดไปอัตโนมัติ?
+          </Checkbox>
+        </span>
       </div>
+      <Block height={'64px'} />
+      <Modal
+        unstable_ModalBackdropScroll={true}
+        closeable={!submittingResponseModalData.isSuccess}
+        onClose={() =>
+          setSubmittingResponseModalData(prevState => ({
+            ...prevState,
+            isOpen: false,
+          }))
+        }
+        isOpen={submittingResponseModalData.isOpen}
+        animate
+        autoFocus
+        size={SIZE.default}
+        role={ROLE.dialog}
+      >
+        <ModalHeader>ส่งแบบสอบถามสำเร็จ</ModalHeader>
+        <ModalBody>
+          Proin ut dui sed metus pharetra hend rerit vel non mi. Nulla ornare
+          faucibus ex, non facilisis nisl. Maecenas aliquet mauris ut tempus.
+        </ModalBody>
+        <ModalFooter>
+          <ModalButton
+            kind={ButtonKind.tertiary}
+            onClick={handleOnSendAnotherResponseClick}
+          >
+            ส่งคำตอบอีกครั้ง
+          </ModalButton>
+        </ModalFooter>
+      </Modal>
     </>
   )
 }
