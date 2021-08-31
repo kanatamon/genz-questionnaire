@@ -1194,15 +1194,16 @@ const Questionnaire = ({question}) => {
             style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
+              alignItems: 'center',
               gap: '24px',
             }}
           >
-            <Image src={SuccessGraphic} alt="success" />
             <p>
               ขอบคุณที่ร่วมตอบแบบสอบถาม &quot;ปัญหา (Pain Point) และความต้องการ
               (Gain Point) ของ Gen Z
               ในด้านรูปแบบการจัดการเรียนรู้และหลักสูตร&quot;
             </p>
+            <Image src={SuccessGraphic} alt="success" />
           </div>
         </ModalBody>
         <ModalFooter>
