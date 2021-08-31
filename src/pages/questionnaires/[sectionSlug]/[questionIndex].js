@@ -28,8 +28,11 @@ import ArrowRight from 'baseui/icon/arrow-right'
 import ArrowLeft from 'baseui/icon/arrow-left'
 import {ChevronRight} from 'baseui/icon'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
+
+import SuccessGraphic from '../../../../public/undraw_Done_re_oak4.svg'
 
 import * as QuestionnairesUtils from '../../../questionnaires-utils'
 import * as ClientMemory from '../../../client-memory'
@@ -1187,8 +1190,20 @@ const Questionnaire = ({question}) => {
       >
         <ModalHeader>ส่งแบบสอบถามสำเร็จ</ModalHeader>
         <ModalBody>
-          Proin ut dui sed metus pharetra hend rerit vel non mi. Nulla ornare
-          faucibus ex, non facilisis nisl. Maecenas aliquet mauris ut tempus.
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '24px',
+            }}
+          >
+            <Image src={SuccessGraphic} alt="success" />
+            <p>
+              ขอบคุณที่ร่วมตอบแบบสอบถาม &quot;ปัญหา (Pain Point) และความต้องการ
+              (Gain Point) ของ Gen Z
+              ในด้านรูปแบบการจัดการเรียนรู้และหลักสูตร&quot;
+            </p>
+          </div>
         </ModalBody>
         <ModalFooter>
           <ModalButton
