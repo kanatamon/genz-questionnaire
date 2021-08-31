@@ -143,10 +143,20 @@ body {
   height: 100%;
 }
 
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 #__next {
   height: 100%;
 }
 
-#__next > div {
-  min-height: 100vh;
+* {
+  font-family: 'Prompt', sans-serif;
+}
+
+:root {
+  --border-radius: 6px;
+  --card-overrides-border-width: 0;
 }

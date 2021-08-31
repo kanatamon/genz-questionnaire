@@ -1,6 +1,6 @@
 import * as React from 'react'
-
-import {styled, useStyletron} from 'styletron-react'
+import {styled} from 'styletron-react'
+import {useStyletron} from 'baseui'
 import {Caption1, Paragraph1, Paragraph3} from 'baseui/typography'
 import {Input, SIZE} from 'baseui/input'
 import {Button, KIND as ButtonKind} from 'baseui/button'
@@ -22,11 +22,10 @@ import {Block} from 'baseui/block'
 import {Drawer} from 'baseui/drawer'
 import {Card, StyledBody} from 'baseui/card'
 import {Avatar} from 'baseui/avatar'
+import {AppNavBar} from 'baseui/app-nav-bar'
 
 import ArrowRight from 'baseui/icon/arrow-right'
 import ArrowLeft from 'baseui/icon/arrow-left'
-
-import {AppNavBar} from 'baseui/app-nav-bar'
 import {ChevronRight} from 'baseui/icon'
 
 import Link from 'next/link'
@@ -258,7 +257,11 @@ const MainNavigation = ({title}) => {
   return (
     <>
       <AppNavBar
-        title={title}
+        title={
+          <Link href="/">
+            <a>{title}</a>
+          </Link>
+        }
         username={email}
         usernameSubtitle={email ? '' : 'ยังไม่ได้ลงทะเบียน'}
         userItems={userItems}
@@ -287,10 +290,20 @@ const QuestionHeader = ({title, description, label}) => {
       <Card
         overrides={{
           Root: {
-            style: {
+            style: ({$theme}) => ({
+              backgroundColor: colors.blue50,
+              boxShadow: $theme.lighting.shadow400,
               width: '100%',
               textAlign: 'center',
-            },
+              borderLeftWidth: 'var(--card-overrides-border-width)',
+              borderRightWidth: 'var(--card-overrides-border-width)',
+              borderTopWidth: 'var(--card-overrides-border-width)',
+              borderBottomWidth: 'var(--card-overrides-border-width)',
+              borderTopLeftRadius: 'var(--border-radius)',
+              borderTopRightRadius: 'var(--border-radius)',
+              borderBottomRightRadius: 'var(--border-radius)',
+              borderBottomLeftRadius: 'var(--border-radius)',
+            }),
           },
         }}
       >
@@ -883,6 +896,8 @@ async function postData(url = '', data = {}) {
 
 const Questionnaire = ({question}) => {
   const router = useRouter()
+  const [css, theme] = useStyletron()
+
   const [isAutoNext, setIsAutoNext] = React.useState(false)
   const [isReadyToGoNext, setIsReadyToGoNext] = React.useState(false)
   const [registeredGroups, setRegisteredGroups] = React.useState([])
@@ -1060,19 +1075,26 @@ const Questionnaire = ({question}) => {
           question.title
         )}
       </div>
-      <Block height={'64px'} />
+      <Block height={'128px'} />
       <div
-        style={{
-          maxWidth: '900px',
-          margin: 'auto',
+        className={css({
           display: 'grid',
           gridTemplateColumns: 'repeat(2, 1fr)',
           gridTemplateRows: 'repeat(2, auto)',
-          columnGap: 16,
-          rowGap: 16,
-          paddingLeft: '24px',
-          paddingRight: '24px',
-        }}
+          columnGap: '16px',
+          rowGap: '16px',
+          padding: '12px 24px 32px',
+          boxShadow: theme.lighting.shadow400,
+          backgroundColor: theme.colors.primaryB,
+          position: 'fixed',
+          maxWidth: '900px',
+          margin: 'auto',
+          bottom: '0px',
+          right: '0px',
+          left: '0px',
+          borderTopLeftRadius: 'var(--border-radius)',
+          borderTopRightRadius: 'var(--border-radius)',
+        })}
       >
         {linkCursor.prevQuestionLink && !isSubmittingAllQuestionnaires ? (
           <Link href={linkCursor.prevQuestionLink} passHref>
