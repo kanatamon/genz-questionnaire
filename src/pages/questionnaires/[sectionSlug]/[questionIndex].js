@@ -465,12 +465,16 @@ const MultiChoiceResponding = ({
   question,
   onValidate = () => {},
   onRegisteringGroups = () => {},
+  onEdited = () => {},
 }) => {
   const [value, setValue] = React.useState('')
+
   const onValidateRef = React.useRef(onValidate)
+  const onEditedRef = React.useRef(onEdited)
 
   React.useEffect(function asyncOnValidateCallback() {
     onValidateRef.current = onValidate
+    onEditedRef.current = onEdited
   })
 
   React.useEffect(
@@ -502,6 +506,10 @@ const MultiChoiceResponding = ({
 
   const handleOnValueChange = ({currentTarget}) => {
     const {value: currentValue} = currentTarget
+
+    if (currentValue !== value) {
+      onEdited()
+    }
 
     setValue(currentValue)
 
@@ -898,27 +906,54 @@ async function postData(url = '', data = {}) {
 }
 
 const Questionnaire = ({question}) => {
-  const router = useRouter()
   const [css, theme] = useStyletron()
 
+  const router = useRouter()
+  const routerRef = React.useRef(router)
+
   const [isAutoNext, setIsAutoNext] = React.useState(false)
-  const [isReadyToGoNext, setIsReadyToGoNext] = React.useState(false)
-  const [registeredGroups, setRegisteredGroups] = React.useState([])
+  const isAutoNextRef = React.useRef(isAutoNext)
+
+  const questionRef = React.useRef(question)
+
   const [linkCursor, setLinkCursor] = React.useState({
     prevQuestionLink: '',
     nextQuestionLink: '',
   })
-  const [submittingResponseModalData, setSubmittingResponseModalData] =
-    React.useState({
-      isOpen: false,
-      isSuccess: false,
-    })
+  const linkCursorRef = React.useRef(linkCursor)
 
-  const [isSubmittingAllQuestionnaires, setIsSubmittingAllQuestionnaires] =
+  const [isRespondingOk, setIsRespondingOk] = React.useState(false)
+  const [isEditedRespondingOnceOnVisit, setIsEditedRespondingOnceOnVisit] =
     React.useState(false)
 
+  const [registeredGroups, setRegisteredGroups] = React.useState(() => {
+    return typeof window !== 'undefined'
+      ? ClientMemory.getRegisteredGroups()
+      : []
+  })
+
+  const [submitResultModalData, setSubmitResultModalData] = React.useState({
+    isOpen: false,
+    isSuccess: false,
+  })
+  const [isSubmitting, setIsSubmitting] = React.useState(false)
+
+  React.useEffect(function syncRefs() {
+    routerRef.current = router
+    isAutoNextRef.current = isAutoNext
+    questionRef.current = question
+    linkCursorRef.current = linkCursor
+  })
+
   React.useEffect(
-    function updateLinkCursorWhenRegisteredGroupsChanged() {
+    function restoreStatesWhenQuestionChanged() {
+      setIsEditedRespondingOnceOnVisit(false)
+    },
+    [question],
+  )
+
+  React.useEffect(
+    function updateLinkCursor() {
       const allQuestionsMap = QuestionnairesUtils.generateAllQuestionsMap()
       const allQuestionsMapIds = Object.keys(allQuestionsMap)
 
@@ -952,30 +987,26 @@ const Questionnaire = ({question}) => {
     [question, registeredGroups],
   )
 
-  React.useEffect(function initRegisteredGroupsToWhateverSavedInMemory() {
-    const memoryRegisteredGroups =
-      typeof window !== 'undefined' ? ClientMemory.getRegisteredGroups() : []
-    setRegisteredGroups(memoryRegisteredGroups)
-  }, [])
-
-  const isNewResponding = router.query.isNewResponding !== undefined
-
-  if (isNewResponding) {
-    ClientMemory.reset()
-
-    const newRespondingsTemplate =
-      QuestionnairesUtils.generateNewRespondingsTemplate()
-    ClientMemory.saveAllRespondingsTemplate(newRespondingsTemplate)
-  }
-
-  const RespondingComp = RESPONDING_COMPONENTS[question.type]
+  React.useEffect(
+    function considerToAutoNext() {
+      if (
+        isEditedRespondingOnceOnVisit &&
+        isRespondingOk &&
+        isAutoNextRef.current &&
+        questionRef.current.type === 'MULTI_CHOICE'
+      ) {
+        routerRef.current.push(linkCursorRef.current.nextQuestionLink)
+      }
+    },
+    [isRespondingOk, isEditedRespondingOnceOnVisit],
+  )
 
   const handleOnRespondingValidate = isOk => {
-    setIsReadyToGoNext(isOk)
+    setIsRespondingOk(isOk)
+  }
 
-    if (isOk && isAutoNext && question.type === 'MULTI_CHOICE') {
-      router.push(linkCursor.nextQuestionLink)
-    }
+  const handleOnRespondingEdited = () => {
+    setIsEditedRespondingOnceOnVisit(true)
   }
 
   const handleOnRegisteringNewGroups = newRegisteringGroups => {
@@ -983,7 +1014,7 @@ const Questionnaire = ({question}) => {
   }
 
   const handleOnSubmitAllQuestionnaires = async () => {
-    setIsSubmittingAllQuestionnaires(true)
+    setIsSubmitting(true)
 
     const email = ClientMemory.getAttendeeEmail()
     const allRespondingsTemplate = ClientMemory.getAllRespondingsTemplate()
@@ -1031,15 +1062,15 @@ const Questionnaire = ({question}) => {
       submittingData,
     )
 
-    setIsSubmittingAllQuestionnaires(false)
-    setSubmittingResponseModalData({
+    setIsSubmitting(false)
+    setSubmitResultModalData({
       isOpen: true,
       isSuccess: submittingResult.isSuccess,
     })
   }
 
   const handleOnSendAnotherResponseClick = () => {
-    setSubmittingResponseModalData({
+    setSubmitResultModalData({
       isOpen: false,
       isSuccess: false,
     })
@@ -1047,6 +1078,14 @@ const Questionnaire = ({question}) => {
       QuestionnairesUtils.generateGetStartedQuestionLink()
     router.push(getStartedQuestionLink)
   }
+
+  const isNewResponding = router.query.isNewResponding !== undefined
+
+  if (isNewResponding) {
+    ClientMemory.reset()
+  }
+
+  const RespondingComp = RESPONDING_COMPONENTS[question.type]
 
   const sectionDisplayIndex =
     QuestionnairesUtils.getSectionDisplayIndexBySectionSlug(
@@ -1073,6 +1112,7 @@ const Questionnaire = ({question}) => {
             question={question}
             onValidate={handleOnRespondingValidate}
             onRegisteringGroups={handleOnRegisteringNewGroups}
+            onEdited={handleOnRespondingEdited}
           />
         ) : (
           question.title
@@ -1099,7 +1139,7 @@ const Questionnaire = ({question}) => {
           borderTopRightRadius: 'var(--border-radius)',
         })}
       >
-        {linkCursor.prevQuestionLink && !isSubmittingAllQuestionnaires ? (
+        {linkCursor.prevQuestionLink && !isSubmitting ? (
           <Link href={linkCursor.prevQuestionLink} passHref>
             <Button
               $as="a"
@@ -1113,7 +1153,7 @@ const Questionnaire = ({question}) => {
         ) : null}
         {linkCursor.nextQuestionLink ? (
           <>
-            {isReadyToGoNext ? (
+            {isRespondingOk ? (
               <Link href={linkCursor.nextQuestionLink} passHref>
                 <Button
                   $as="a"
@@ -1154,8 +1194,8 @@ const Questionnaire = ({question}) => {
         ) : isLastQuestion ? (
           <Button
             onClick={handleOnSubmitAllQuestionnaires}
-            disabled={isSubmittingAllQuestionnaires}
-            isLoading={isSubmittingAllQuestionnaires}
+            disabled={isSubmitting}
+            isLoading={isSubmitting}
             $style={{gridColumn: 2}}
             endEnhancer={() => <ArrowRight size={24} />}
           >
@@ -1168,21 +1208,21 @@ const Questionnaire = ({question}) => {
             onChange={e => setIsAutoNext(e.target.checked)}
             labelPlacement={LABEL_PLACEMENT.right}
           >
-            เปิดโหมดเลื่อนไปคำถามถัดไปอัตโนมัติ?
+            เปิดโหมดเลื่อนคำถามถัดไปอัตโนมัติ?
           </Checkbox>
         </span>
       </div>
       <Block height={'64px'} />
       <Modal
         unstable_ModalBackdropScroll={true}
-        closeable={!submittingResponseModalData.isSuccess}
+        closeable={!submitResultModalData.isSuccess}
         onClose={() =>
-          setSubmittingResponseModalData(prevState => ({
+          setSubmitResultModalData(prevState => ({
             ...prevState,
             isOpen: false,
           }))
         }
-        isOpen={submittingResponseModalData.isOpen}
+        isOpen={submitResultModalData.isOpen}
         animate
         autoFocus
         size={SIZE.default}

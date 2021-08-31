@@ -1,3 +1,5 @@
+import * as QuestionnairesUtils from './questionnaires-utils'
+
 const RESPONDINGS_TEMPLATE_KEY = 'RESPONDINGS_TEMPLATE'
 const REGISTERING_GROUPS_KEY = 'REGISTERING_GROUPS'
 
@@ -58,4 +60,9 @@ export function getAttendeeEmail() {
 
 export function reset() {
   localStorage.clear()
+
+  const newRespondingsTemplate =
+    QuestionnairesUtils.generateNewRespondingsTemplate()
+
+  saveAllRespondingsTemplate(newRespondingsTemplate)
 }
