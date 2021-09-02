@@ -1,8 +1,7 @@
 import * as React from 'react'
 
 import {Block} from 'baseui/block'
-
-import {useRouter} from 'next/router'
+import {motion, AnimatePresence} from 'framer-motion'
 
 import * as QuestionnairesUtils from '../../../questionnaires-utils'
 import * as ClientMemory from '../../../client-memory'
@@ -14,6 +13,9 @@ import {CheckboxesResponding} from '../../../components/CheckboxesResponding'
 import {PrioritizationResponding} from '../../../components/PrioritizationResponding'
 import {ActionsGroup} from '../../../components/ActionsGroup'
 
+import {usePrevious} from '../../../hooks/usePrevious'
+import {useResetMemory} from '../../../hooks/useResetMemory'
+
 const RESPONDING_COMPONENTS = {
   SHORT_ANSWER: ShortAnswerResponding,
   MULTI_CHOICE: MultiChoiceResponding,
@@ -22,18 +24,36 @@ const RESPONDING_COMPONENTS = {
   LONG_ANSWER: LongAnswerResponding,
 }
 
-function useResetMemory() {
-  const router = useRouter()
-
-  const isNewResponding = router.query.isNewResponding !== undefined
-
-  if (isNewResponding) {
-    ClientMemory.reset()
-  }
+const motionVariants = {
+  enter: direction => {
+    return {
+      x: direction >= 0 ? 200 : -200,
+      opacity: 0,
+    }
+  },
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1,
+  },
+  exit: direction => {
+    return {
+      zIndex: 0,
+      x: direction > 0 ? -200 : 200,
+      opacity: 0,
+    }
+  },
 }
 
 function Questionnaire({question}) {
   useResetMemory()
+
+  const prevQuestionLinkIndex = usePrevious(question.linkIndex)
+
+  const direction =
+    prevQuestionLinkIndex !== undefined
+      ? question.linkIndex - prevQuestionLinkIndex
+      : 0
 
   const [isRespondingOk, setIsRespondingOk] = React.useState(false)
   const [isEditedRespondingOnceOnVisit, setIsEditedRespondingOnceOnVisit] =
@@ -74,24 +94,52 @@ function Questionnaire({question}) {
 
   return (
     <>
-      <MainNavigation title={title} />
-      <Block height={'48px'} />
-      <div className="holy-grail-wrapper">
-        <RespondingComp
-          question={question}
-          onValidate={handleOnRespondingValidate}
-          onRegisteringGroups={handleOnRegisteringNewGroups}
-          onEdited={handleOnRespondingEdited}
-        />
+      <div
+        style={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <MainNavigation title={title} />
+        <Block height={'48px'} />
+        <section
+          className="holy-grail-wrapper"
+          style={{
+            isolation: 'isolate',
+            flex: '1',
+          }}
+        >
+          <AnimatePresence exitBeforeEnter initial={false} custom={direction}>
+            <motion.div
+              key={question.id}
+              custom={direction}
+              variants={motionVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                x: {type: 'spring', stiffness: 300, damping: 30},
+                opacity: {duration: 0.2},
+              }}
+            >
+              <RespondingComp
+                question={question}
+                onValidate={handleOnRespondingValidate}
+                onRegisteringGroups={handleOnRegisteringNewGroups}
+                onEdited={handleOnRespondingEdited}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </section>
+        <Block height={'212px'} />
       </div>
-      <Block height={'128px'} />
       <ActionsGroup
         isRespondingOk={isRespondingOk}
         registeredGroups={registeredGroups}
         question={question}
         isEditedRespondingOnceOnVisit={isEditedRespondingOnceOnVisit}
       />
-      <Block height={'64px'} />
     </>
   )
 }
@@ -142,6 +190,7 @@ export async function getStaticProps({params}) {
         ...thisQuestion,
         prevQuestionLink,
         nextQuestionLink,
+        linkIndex: thisQuestionLinkIndex,
       },
     },
   }
