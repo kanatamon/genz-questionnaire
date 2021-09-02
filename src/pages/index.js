@@ -21,14 +21,14 @@ export default function LandingPage() {
     <div
       style={{
         height: '100%',
-        display: 'grid',
-        gridTemplateColumns: '1fr min(1136px, calc(100% - 64px)) 1fr',
-        gridTemplateRows: 'auto',
-        columnGap: '32px',
+        maxWidth: '1136px',
+        margin: 'auto',
       }}
     >
       <main
         style={{
+          padding: '0 32px',
+          height: '100%',
           gridColumn: '2',
           display: 'flex',
           justifyContent: 'space-between',
