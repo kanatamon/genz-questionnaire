@@ -22,6 +22,7 @@ function SubmitResultModal({isOpen, isSuccess, onClose}) {
   const router = useRouter()
 
   const handleOnSendAnotherButtonClick = () => {
+    onClose()
     const getStartedQuestionLink =
       QuestionnairesUtils.generateGetStartedQuestionLink()
     router.push(getStartedQuestionLink)

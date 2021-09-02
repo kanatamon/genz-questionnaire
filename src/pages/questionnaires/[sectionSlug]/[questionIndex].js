@@ -24,7 +24,7 @@ const RESPONDING_COMPONENTS = {
   LONG_ANSWER: LongAnswerResponding,
 }
 
-const motionVariants = {
+const questionMotionVariants = {
   enter: direction => {
     return {
       x: direction >= 0 ? 200 : -200,
@@ -96,7 +96,7 @@ function Questionnaire({question}) {
     <>
       <div
         style={{
-          height: '100%',
+          minHeight: '100%',
           display: 'flex',
           flexDirection: 'column',
         }}
@@ -114,7 +114,7 @@ function Questionnaire({question}) {
             <motion.div
               key={question.id}
               custom={direction}
-              variants={motionVariants}
+              variants={questionMotionVariants}
               initial="enter"
               animate="center"
               exit="exit"

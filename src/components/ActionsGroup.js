@@ -1,11 +1,12 @@
 import * as React from 'react'
 
+import {AnimatePresence} from 'framer-motion'
 import {useStyletron} from 'baseui'
 import {Paragraph3} from 'baseui/typography'
-import {Button, KIND as ButtonKind} from 'baseui/button'
 import {Checkbox, LABEL_PLACEMENT} from 'baseui/checkbox'
 import {StatefulPopover} from 'baseui/popover'
 import {colors} from 'baseui/tokens'
+import {Block} from 'baseui/block'
 
 import ArrowRight from 'baseui/icon/arrow-right'
 import ArrowLeft from 'baseui/icon/arrow-left'
@@ -17,6 +18,8 @@ import * as QuestionnairesUtils from '../questionnaires-utils'
 import * as QuestionnairesService from '../services/questionnaires'
 
 import {SubmitResultModal} from './SubmitResultModal'
+import {Button} from './Button'
+import {SproutMotionWrapper} from './SproutMotionWrapper'
 
 const IDLE = 'idle'
 const PENDING = 'pending'
@@ -122,6 +125,10 @@ function ActionsGroup({
     setIsOpenSubmitResultModal(true)
   }
 
+  const goToNextQuestion = () => {
+    router.push(linkCursor.nextQuestionLink)
+  }
+
   const isReadyToSubmit = !question.nextQuestionLink
 
   let leftAction = null
@@ -129,70 +136,73 @@ function ActionsGroup({
 
   if (linkCursor.prevQuestionLink && submittingStatus === IDLE) {
     leftAction = (
-      <Link href={linkCursor.prevQuestionLink} passHref>
-        <Button
-          $as="a"
-          startEnhancer={() => <ArrowLeft size={24} />}
-          kind={ButtonKind.secondary}
-          $style={{width: '100%'}}
-        >
-          ก่อนหน้า
-        </Button>
-      </Link>
+      <SproutMotionWrapper key="actions-go-previous">
+        <Link href={linkCursor.prevQuestionLink}>
+          <a>
+            <Button variant="secondary" startEnhancer={<ArrowLeft size={24} />}>
+              ก่อนหน้า
+            </Button>
+          </a>
+        </Link>
+      </SproutMotionWrapper>
     )
   }
 
-  if (linkCursor.nextQuestionLink && isRespondingOk) {
+  if (linkCursor.nextQuestionLink) {
     rightAction = (
-      <Link href={linkCursor.nextQuestionLink} passHref>
-        <Button
-          $as="a"
-          endEnhancer={() => <ArrowRight size={24} />}
-          $style={{width: '100%'}}
-        >
-          ถัดไป
-        </Button>
-      </Link>
-    )
-  } else if (linkCursor.nextQuestionLink && !isRespondingOk) {
-    rightAction = (
-      <StatefulPopover
-        content={
-          <Paragraph3
-            padding="scale500"
-            $style={{
-              backgroundColor: colors.yellow200,
-            }}
-          >
-            โปรดระบุคำตอบเพื่อไปยังคำถามถัดไป
-          </Paragraph3>
-        }
-        accessibilityType={'tooltip'}
-      >
-        <Button
-          $as="a"
-          $style={{
-            width: '100%',
-            backgroundColor: colors.gray100,
+      <SproutMotionWrapper key="actions-go-next">
+        <StatefulPopover
+          overrides={{
+            Body: {
+              style: {
+                display: isRespondingOk ? 'none' : 'block',
+              },
+            },
+            Arrow: {
+              style: {
+                backgroundColor: colors.yellow200,
+              },
+            },
+            Inner: {
+              style: {
+                backgroundColor: colors.yellow200,
+              },
+            },
           }}
-          endEnhancer={() => <ArrowRight size={24} />}
-          disabled
+          content={() => (
+            <Block padding={'20px'}>
+              <Paragraph3>โปรดระบุคำตอบเพื่อไปยังคำถามถัดไป !</Paragraph3>
+            </Block>
+          )}
+          accessibilityType={'tooltip'}
+          showArrow
         >
-          ถัดไป
-        </Button>
-      </StatefulPopover>
+          <div>
+            <Button
+              disabled={!isRespondingOk}
+              onClick={goToNextQuestion}
+              endEnhancer={<ArrowRight size={24} />}
+              isChangeEnhancerOnDisabled
+            >
+              ถัดไป
+            </Button>
+          </div>
+        </StatefulPopover>
+      </SproutMotionWrapper>
     )
   } else if (!linkCursor.nextQuestionLink && isReadyToSubmit) {
     rightAction = (
-      <Button
-        onClick={handleOnSubmitAllRespondingsToServer}
-        disabled={submittingStatus !== IDLE}
-        isLoading={submittingStatus === PENDING}
-        $style={{width: '100%'}}
-        endEnhancer={() => <ArrowRight size={24} />}
-      >
-        ส่งคำตอบ
-      </Button>
+      <SproutMotionWrapper key="actions-submit">
+        <Button
+          variant="submit"
+          onClick={handleOnSubmitAllRespondingsToServer}
+          disabled={submittingStatus !== IDLE}
+          isLoading={submittingStatus === PENDING}
+        >
+          ส่งคำตอบ
+          <ArrowRight size={24} />
+        </Button>
+      </SproutMotionWrapper>
     )
   }
 
@@ -213,19 +223,21 @@ function ActionsGroup({
               gridTemplateColumns: 'repeat(2, 1fr)',
               gridTemplateRows: 'repeat(2, auto)',
               columnGap: '16px',
-              rowGap: '16px',
+              rowGap: '24px',
               padding: '24px 32px 32px',
-              boxShadow: theme.lighting.shadow500,
-              borderTopLeftRadius: 'var(--border-radius)',
-              borderTopRightRadius: 'var(--border-radius)',
+              boxShadow: theme.lighting.shadow400,
+              borderTopLeftRadius: '16px',
+              borderTopRightRadius: '16px',
               marginRight: 'calc(-1 * var(--column-spacing))',
               marginLeft: 'calc(-1 * var(--column-spacing))',
               background: 'rgba(255, 255, 255, 0.8)',
               backdropFilter: 'saturate(180%) blur(10px)',
             })}
           >
-            <div style={{gridColumn: 1}}>{leftAction}</div>
-            <div style={{gridColumn: 2}}>{rightAction}</div>
+            <AnimatePresence exitBeforeEnter initial={false}>
+              <div style={{gridColumn: 1}}>{leftAction}</div>
+              <div style={{gridColumn: 2}}>{rightAction}</div>
+            </AnimatePresence>
             <div
               style={{gridColumn: '1 / -1', gridRow: 2, justifySelf: 'center'}}
             >
