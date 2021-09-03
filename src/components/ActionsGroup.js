@@ -136,7 +136,7 @@ function ActionsGroup({
 
   if (linkCursor.prevQuestionLink && submittingStatus === IDLE) {
     leftAction = (
-      <SproutMotionWrapper key="actions-go-previous">
+      <SproutMotionWrapper key="actions-go-previous" style={{gridColumn: 1}}>
         <Link href={linkCursor.prevQuestionLink}>
           <a>
             <Button variant="secondary" startEnhancer={<ArrowLeft size={24} />}>
@@ -150,7 +150,7 @@ function ActionsGroup({
 
   if (linkCursor.nextQuestionLink) {
     rightAction = (
-      <SproutMotionWrapper key="actions-go-next">
+      <SproutMotionWrapper key="actions-go-next" style={{gridColumn: 2}}>
         <StatefulPopover
           overrides={{
             Body: {
@@ -192,7 +192,7 @@ function ActionsGroup({
     )
   } else if (!linkCursor.nextQuestionLink && isReadyToSubmit) {
     rightAction = (
-      <SproutMotionWrapper key="actions-submit">
+      <SproutMotionWrapper key="actions-submit" style={{gridColumn: 2}}>
         <Button
           variant="submit"
           onClick={handleOnSubmitAllRespondingsToServer}
@@ -235,8 +235,10 @@ function ActionsGroup({
             })}
           >
             <AnimatePresence exitBeforeEnter initial={false}>
-              <div style={{gridColumn: 1}}>{leftAction}</div>
-              <div style={{gridColumn: 2}}>{rightAction}</div>
+              {leftAction}
+            </AnimatePresence>
+            <AnimatePresence exitBeforeEnter initial={false}>
+              {rightAction}
             </AnimatePresence>
             <div
               style={{gridColumn: '1 / -1', gridRow: 2, justifySelf: 'center'}}
