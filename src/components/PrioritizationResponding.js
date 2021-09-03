@@ -1,27 +1,11 @@
 import * as React from 'react'
 
+import {styled} from 'baseui'
 import {List, arrayMove, arrayRemove} from 'baseui/dnd-list'
-import {useStyletron} from 'baseui'
-import {Avatar} from 'baseui/avatar'
 
 import * as ClientMemory from '../client-memory'
 
 import {RespondingCommon} from './RespondingCommon'
-
-const WeightDragHandle = ({$index}) => {
-  const [css] = useStyletron()
-  return (
-    <div
-      className={css({
-        marginRight: '1em',
-        display: 'flex',
-        alignItems: 'center',
-      })}
-    >
-      <Avatar name={`${$index + 1}`} />
-    </div>
-  )
-}
 
 function PrioritizationResponding({question, onValidate = () => {}}) {
   const [items, setItems] = React.useState([])
@@ -79,20 +63,68 @@ function PrioritizationResponding({question, onValidate = () => {}}) {
 
   return (
     <RespondingCommon question={question}>
-      <List
-        items={items}
-        overrides={{
-          DragHandle: WeightDragHandle,
-        }}
-        onChange={({oldIndex, newIndex}) =>
-          setItems(
-            newIndex === -1
-              ? arrayRemove(items, oldIndex)
-              : arrayMove(items, oldIndex, newIndex),
-          )
-        }
-      />
+      <ListWrapper>
+        <List
+          items={items}
+          overrides={{
+            DragHandle: WeightDragHandle,
+          }}
+          onChange={({oldIndex, newIndex}) =>
+            setItems(
+              newIndex === -1
+                ? arrayRemove(items, oldIndex)
+                : arrayMove(items, oldIndex, newIndex),
+            )
+          }
+        />
+        <DragGuard />
+      </ListWrapper>
     </RespondingCommon>
+  )
+}
+
+const ListWrapper = styled('div', {
+  isolation: 'isolate',
+  position: 'relative',
+})
+
+const DragGuard = styled('div', ({$theme}) => ({
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  width: 'calc(100% - 78px)',
+  height: '100%',
+  [$theme.mediaQuery.medium]: {
+    display: 'none',
+  },
+}))
+
+const WeightDragHandle = ({$index}) => {
+  return (
+    <div
+      style={{
+        marginRight: '16px',
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      <div
+        className="luster"
+        style={{
+          width: '44px',
+          height: '44px',
+          borderRadius: 999,
+          color: '#ffffff',
+          backgroundColor: '#000000',
+          display: 'grid',
+          placeContent: 'center',
+          fontWeight: 700,
+          fontSize: '1rem',
+        }}
+      >
+        {$index + 1}
+      </div>
+    </div>
   )
 }
 

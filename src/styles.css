@@ -268,3 +268,32 @@ a {
 .btn-pushable:focus:not(:focus-visible) {
   outline: none;
 }
+
+.luster {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  transition: all 0.2s ease;
+}
+.luster:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -200%;
+  width: 200%;
+  height: 100%;
+  transform: skewX(-20deg);
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: lustering 1.6s ease infinite;
+}
+@keyframes lustering {
+  100% {
+    left: 200%;
+  }
+}
