@@ -13,10 +13,13 @@ import {RegisterEditorModal} from './RegisterEditorModal'
 
 function MainNavigation({title}) {
   const router = useRouter()
+
+  const [email, setEmail] = React.useState(() => {
+    return ClientMemory.getAttendeeEmail()
+  })
   const [isOpenActivityModal, setIsOpenActivityModal] = React.useState(false)
   const [isOpenRegisterEditorModal, setIsOpenRegisterEditorModal] =
     React.useState(false)
-  const [email, setEmail] = React.useState('')
 
   React.useEffect(function initSettingToWhateverInMemory() {
     const memoryAttendeeEmail = ClientMemory.getAttendeeEmail()

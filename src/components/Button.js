@@ -9,11 +9,15 @@ const BUTTON_VARIANTS = {
   },
   secondary: {
     '--text-color': '#000000',
-    '--front-background-image': ` linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)`,
+    '--front-background-image': `linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)`,
   },
   submit: {
     '--text-color': '#ffffff',
     '--front-background-image': `linear-gradient(to right, #4facfe 0%, #00f2fe 100%)`,
+  },
+  ghost: {
+    '--text-color': '#000000',
+    '--front-background-image': `linear-gradient(120deg, #ffffff 0%, #ffffff 100%)`,
   },
 }
 

@@ -1,6 +1,5 @@
 import * as React from 'react'
 
-import {Button, SIZE} from 'baseui/button'
 import {H1, Paragraph1} from 'baseui/typography'
 import {Block} from 'baseui/block'
 import ArrowRight from 'baseui/icon/arrow-right'
@@ -11,6 +10,7 @@ import Link from 'next/link'
 import Graphic from '../../public/undraw_mobile_testing_reah.svg'
 import Logo from '../../public/Chiang_Mai_University.svg'
 
+import {Button} from '../components/Button'
 import * as QuestionnairesUtils from '../questionnaires-utils'
 
 export default function LandingPage() {
@@ -72,14 +72,15 @@ export default function LandingPage() {
             ทั้งนี้ผู้ร่วมตอบแบบสอบถามในกิจกรรมมีสิทธิ์ได้ลุ้นรับของรางวัลจากทางโครงการด้วย
           </Paragraph1>
           <Block height={'32px'} />
-          <Link href={getStartedQuestionLink} passHref>
-            <Button
-              $as="a"
-              size={SIZE.large}
-              endEnhancer={() => <ArrowRight size={24} />}
-            >
-              เริ่มทำแบบสอบถาม
-            </Button>
+          <Link href={getStartedQuestionLink}>
+            <a>
+              <Button
+                style={{maxWidth: '300px'}}
+                endEnhancer={<ArrowRight size={24} />}
+              >
+                เริ่มทำแบบสอบถาม
+              </Button>
+            </a>
           </Link>
         </header>
         <div
