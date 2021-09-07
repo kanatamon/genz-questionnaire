@@ -12,6 +12,8 @@ import {MultiChoiceResponding} from '../../../components/MultiChoiceResponding'
 import {CheckboxesResponding} from '../../../components/CheckboxesResponding'
 import {PrioritizationResponding} from '../../../components/PrioritizationResponding'
 import {ActionsGroup} from '../../../components/ActionsGroup'
+import {ProgressBar} from '../../../components/ProgressBar'
+import {ClientOnly} from '../../../components/ClientOnly'
 
 import {usePrevious} from '../../../hooks/usePrevious'
 import {useResetMemory} from '../../../hooks/useResetMemory'
@@ -99,9 +101,23 @@ function Questionnaire({question}) {
           minHeight: '100%',
           display: 'flex',
           flexDirection: 'column',
+          isolation: 'isolate',
         }}
       >
-        <MainNavigation title={title} />
+        <div
+          style={{
+            position: 'sticky',
+            top: 0,
+            zIndex: 99,
+          }}
+        >
+          <ClientOnly>
+            <ProgressBar />
+          </ClientOnly>
+        </div>
+        <ClientOnly>
+          <MainNavigation title={title} />
+        </ClientOnly>
         <Block height={'48px'} />
         <section
           className="holy-grail-wrapper"
@@ -120,7 +136,7 @@ function Questionnaire({question}) {
               exit="exit"
               transition={{
                 x: {type: 'spring', stiffness: 300, damping: 30},
-                opacity: {duration: 0.2},
+                opacity: {duration: 0.5},
               }}
             >
               <RespondingComp

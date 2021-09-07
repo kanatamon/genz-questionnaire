@@ -197,7 +197,7 @@ function ActionsGroup({
           variant="submit"
           onClick={handleOnSubmitAllRespondingsToServer}
           disabled={submittingStatus !== IDLE}
-          isLoading={submittingStatus === PENDING}
+          // isLoading={submittingStatus === PENDING}
         >
           ส่งคำตอบ
           <ArrowRight size={24} />

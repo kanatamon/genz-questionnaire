@@ -43,6 +43,7 @@ export function generateNewRespondingsTemplate() {
           showForGroups: question.showForGroups,
           respondingText: null,
           respondingOptions: [],
+          isRequired: question.isRequired ?? true,
         },
       }
     },

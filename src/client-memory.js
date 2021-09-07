@@ -66,3 +66,47 @@ export function reset() {
 
   saveAllRespondingsTemplate(newRespondingsTemplate)
 }
+
+export function calculateProgress() {
+  const allRespondings = getAllRespondingsTemplate()
+  const registeredGroups = getRegisteredGroups()
+
+  const numOfAllRequiredQuestions = Object.values(allRespondings).filter(
+    responding =>
+      checkIsRequiredForRegisteringGroups(responding, registeredGroups),
+  ).length
+
+  const numOfAllRespondedQuestions = Object.values(allRespondings).filter(
+    checkIsRespondedQuestion,
+  ).length
+
+  return numOfAllRespondedQuestions / numOfAllRequiredQuestions
+}
+
+function checkIsRespondedQuestion(responding) {
+  return (
+    responding.respondingText !== null ||
+    responding.respondingOptions.length > 0
+  )
+}
+
+function checkIsRequiredForRegisteringGroups(responding, registeredGroups) {
+  const {showForGroups = [], isRequired} = responding
+
+  if (!isRequired) {
+    return false
+  }
+
+  const isRequiredQuestion =
+    registeredGroups.length === 0 || showForGroups.length === 0
+
+  if (isRequiredQuestion) {
+    return true
+  }
+
+  const isRequiredQuestionForCurrentRegisteringGroups = registeredGroups.some(
+    registeredGroup => showForGroups.includes(registeredGroup),
+  )
+
+  return isRequiredQuestionForCurrentRegisteringGroups
+}

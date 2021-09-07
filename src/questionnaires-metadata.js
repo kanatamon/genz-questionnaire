@@ -915,12 +915,12 @@ export const SECTIONS = {
   [SECTION_FEEDBACK]: {
     id: 7,
     title: 'ข้อเสนอแนะ',
-    isRequired: false,
     questions: [
       {
         type: RESPONSE_TYPE_LONG_ANSWER,
         title: 'ข้อเสนอแนะ',
         placeholder: 'เพิ่มข้อเสนอแนะ',
+        isRequired: false,
       },
     ],
   },
