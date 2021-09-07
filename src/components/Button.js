@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {Alert} from 'baseui/icon'
+import {Spinner} from 'baseui/spinner'
 
 const BUTTON_VARIANTS = {
   primary: {
@@ -22,10 +23,12 @@ export function Button({
   endEnhancer = null,
   startEnhancer = null,
   isChangeEnhancerOnDisabled = false,
+  isLoading = false,
   disabled = false,
   ...delegated
 }) {
   const style = BUTTON_VARIANTS[variant]
+
   return (
     <button
       className="btn-pushable"
@@ -34,16 +37,22 @@ export function Button({
       {...delegated}
     >
       <span className="front">
-        {isChangeEnhancerOnDisabled && disabled && startEnhancer ? (
-          <Alert size={24} />
+        {isLoading ? (
+          <Spinner size={24} />
         ) : (
-          startEnhancer
-        )}
-        {children}
-        {isChangeEnhancerOnDisabled && disabled && endEnhancer ? (
-          <Alert size={24} />
-        ) : (
-          endEnhancer
+          <>
+            {isChangeEnhancerOnDisabled && disabled && startEnhancer ? (
+              <Alert size={24} />
+            ) : (
+              startEnhancer
+            )}
+            {children}
+            {isChangeEnhancerOnDisabled && disabled && endEnhancer ? (
+              <Alert size={24} />
+            ) : (
+              endEnhancer
+            )}
+          </>
         )}
       </span>
     </button>
