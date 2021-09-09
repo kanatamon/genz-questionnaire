@@ -49,7 +49,9 @@ function ActionsGroup({
   const isAutoNextRef = React.useRef(isAutoNext)
   const linkCursorRef = React.useRef(linkCursor)
 
-  React.useEffect(function syncRefs() {
+  // NOTE: syncs all refs using `useLayoutEffect` ensures that the syncRefs()
+  // would run before any any other code.
+  React.useLayoutEffect(function syncRefs() {
     routerRef.current = router
     isAutoNextRef.current = isAutoNext
     questionRef.current = question
