@@ -1,10 +1,13 @@
 import * as React from 'react'
 
 export function usePrevious(value) {
-  const previousRef = React.useRef()
-  React.useEffect(() => {
-    previousRef.current = value
-  })
+  const currentValueRef = React.useRef(value)
+  const previousValueRef = React.useRef()
 
-  return previousRef.current
+  if (currentValueRef.current !== value) {
+    previousValueRef.current = currentValueRef.current
+    currentValueRef.current = value
+  }
+
+  return previousValueRef.current
 }
