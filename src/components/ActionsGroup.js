@@ -249,6 +249,7 @@ function ActionsGroup({
                 checked={isAutoNext}
                 onChange={e => setIsAutoNext(e.target.checked)}
                 labelPlacement={LABEL_PLACEMENT.right}
+                disabled={question.type !== 'MULTI_CHOICE'}
               >
                 เปิดโหมดเลื่อนคำถามถัดไปอัตโนมัติ?
               </Checkbox>
