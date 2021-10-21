@@ -78,7 +78,12 @@ export function generateAllQuestionsMap() {
 
 export function generateGetStartedQuestionLink() {
   const {SECTION_GENERAL_INFORMATION} = questionnairesMetadata
-  return `/questionnaires/${SECTION_GENERAL_INFORMATION}/0?isNewResponding`
+  return `/questionnaires/${SECTION_GENERAL_INFORMATION}/0?isGetStarted`
+}
+
+export function generateGetStartedWithoutClearingContactQuestionLink() {
+  const {SECTION_GENERAL_INFORMATION} = questionnairesMetadata
+  return `/questionnaires/${SECTION_GENERAL_INFORMATION}/0?isGetStartedWithoutClearingContact`
 }
 
 export function getSectionDisplayIndexBySectionSlug(slug) {

@@ -14,24 +14,34 @@ import {RegisterEditorModal} from './RegisterEditorModal'
 function MainNavigation({title}) {
   const router = useRouter()
 
-  const [email, setEmail] = React.useState(() => {
-    return ClientMemory.getAttendeeEmail()
-  })
+  const [contact, setContact] = React.useState(() => ({
+    email: ClientMemory.getAttendeeEmail(),
+    name: ClientMemory.getAttendeeName(),
+  }))
+
+  const isUserEnteredContact = !!contact.name && !!contact.email
+
   const [isOpenActivityModal, setIsOpenActivityModal] = React.useState(false)
   const [isOpenRegisterEditorModal, setIsOpenRegisterEditorModal] =
     React.useState(false)
 
-  React.useEffect(function initSettingToWhateverInMemory() {
-    const memoryAttendeeEmail = ClientMemory.getAttendeeEmail()
+  React.useEffect(
+    function openActivityModalIfUserNeverEnterTheirContactWhenUserRevisit() {
+      const memoryAttendeeEmail = ClientMemory.getAttendeeEmail()
+      const memoryAttendeeName = ClientMemory.getAttendeeName()
 
-    if (!memoryAttendeeEmail) {
-      setIsOpenActivityModal(true)
-    }
-  }, [])
+      const isUserEnteredContactInMemory =
+        !!memoryAttendeeEmail && !!memoryAttendeeName
+      setIsOpenActivityModal(!isUserEnteredContactInMemory)
+    },
+    [],
+  )
 
-  const handleOnEmailSubmit = newEmail => {
-    setEmail(newEmail)
-    ClientMemory.saveAttendeeEmail(newEmail)
+  const handleOnContactSubmit = newContact => {
+    setContact(newContact)
+
+    ClientMemory.saveAttendeeEmail(newContact.email)
+    ClientMemory.saveAttendeeName(newContact.name)
   }
 
   const handleOnItemSelect = ({command}) => {
@@ -46,11 +56,11 @@ function MainNavigation({title}) {
         return
       }
 
-      case 'reset_questionnaire': {
-        const getStartedQuestionLink =
-          QuestionnairesUtils.generateGetStartedQuestionLink()
-        router.push(getStartedQuestionLink)
-        setIsOpenActivityModal(true)
+      case 'reset_all_responding': {
+        setIsOpenActivityModal(!isUserEnteredContact)
+        const linkToGo =
+          QuestionnairesUtils.generateGetStartedWithoutClearingContactQuestionLink()
+        router.push(linkToGo)
         return
       }
     }
@@ -61,17 +71,17 @@ function MainNavigation({title}) {
     {
       icon: ChevronRight,
       label: 'เริ่มทำแบบสอบถามใหม่',
-      command: 'reset_questionnaire',
+      command: 'reset_all_responding',
     },
   ]
 
-  if (email) {
+  if (contact.email && contact.name) {
     userItems = [
-      {icon: ChevronRight, label: 'แก้ไขอีเมล', command: 'edit'},
+      {icon: ChevronRight, label: 'แก้ไขข้อมูลติดต่อ', command: 'edit'},
       {
         icon: ChevronRight,
         label: 'เริ่มทำแบบสอบถามใหม่',
-        command: 'reset_questionnaire',
+        command: 'reset_all_responding',
       },
     ]
   }
@@ -84,21 +94,23 @@ function MainNavigation({title}) {
             <a>{title}</a>
           </Link>
         }
-        username={email}
-        usernameSubtitle={email ? '' : 'ยังไม่ได้ลงทะเบียน'}
+        username={isUserEnteredContact ? contact.name : ''}
+        usernameSubtitle={
+          isUserEnteredContact ? contact.email : 'ยังไม่ได้ลงทะเบียน'
+        }
         userItems={userItems}
         onUserItemSelect={handleOnItemSelect}
       />
       <ActivityRegisterModal
         isOpen={isOpenActivityModal}
         onClose={() => setIsOpenActivityModal(false)}
-        onEmailSubmit={handleOnEmailSubmit}
+        onSubmit={handleOnContactSubmit}
       />
       <RegisterEditorModal
-        initialEmail={email}
+        initialContact={contact}
         isOpen={isOpenRegisterEditorModal}
         onClose={() => setIsOpenRegisterEditorModal(false)}
-        onSubmit={handleOnEmailSubmit}
+        onSubmit={handleOnContactSubmit}
       />
     </>
   )

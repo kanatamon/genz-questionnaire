@@ -58,13 +58,25 @@ export function getAttendeeEmail() {
   return attendeeEmail
 }
 
-export function reset() {
-  localStorage.clear()
+export function saveAttendeeName(name) {
+  localStorage.setItem('ATTENDEE_NAME_KEY', name)
+}
 
+export function getAttendeeName() {
+  const attendeeEmail = localStorage.getItem('ATTENDEE_NAME_KEY')
+  return attendeeEmail
+}
+
+export function resetResponding() {
   const newRespondingsTemplate =
     QuestionnairesUtils.generateNewRespondingsTemplate()
 
   saveAllRespondingsTemplate(newRespondingsTemplate)
+}
+
+export function resetAll() {
+  localStorage.clear()
+  resetResponding()
 }
 
 export function calculateProgress() {

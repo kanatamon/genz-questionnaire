@@ -9,7 +9,7 @@ import {Button} from './Button'
 function ActivityRegisterModal({
   isOpen,
   onClose = () => {},
-  onEmailSubmit = () => {},
+  onSubmit = () => {},
 }) {
   return (
     <ModalStateContainer>
@@ -38,19 +38,18 @@ function ActivityRegisterModal({
                   ตกลง
                 </Button>
                 <Button variant="ghost" onClick={onClose}>
-                  ยกเลิก
+                  ปิด
                 </Button>
               </div>
             </ModalFooter>
           </Modal>
           <RegisterEditorModal
-            initialEmail=""
             isOpen={isConfirmationOpen}
             onClose={() => toggleConfirm(false)}
-            onSubmit={email => {
+            onSubmit={contact => {
               toggleConfirm(false, () => {
                 onClose()
-                onEmailSubmit(email)
+                onSubmit(contact)
               })
             }}
           />

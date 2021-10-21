@@ -51,6 +51,7 @@ function formatToServerResponseDetails(allRespondingsTemplate) {
 
 export async function submitAllRespondingsToServer() {
   const email = ClientMemory.getAttendeeEmail()
+  const name = ClientMemory.getAttendeeName()
 
   const allRespondingsTemplate = ClientMemory.getAllRespondingsTemplate()
   const responseDetails = formatToServerResponseDetails(allRespondingsTemplate)
@@ -58,6 +59,7 @@ export async function submitAllRespondingsToServer() {
   const submittingData = {
     qid: 'GenZ',
     email,
+    name,
     response_details: responseDetails,
   }
 
