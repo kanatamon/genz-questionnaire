@@ -150,12 +150,14 @@ function Questionnaire({question}) {
         </section>
         <Block height={'212px'} />
       </div>
-      <ActionsGroup
-        isRespondingOk={isRespondingOk}
-        registeredGroups={registeredGroups}
-        question={question}
-        isEditedRespondingOnceOnVisit={isEditedRespondingOnceOnVisit}
-      />
+      <ClientOnly>
+        <ActionsGroup
+          isRespondingOk={isRespondingOk}
+          registeredGroups={registeredGroups}
+          question={question}
+          isEditedRespondingOnceOnVisit={isEditedRespondingOnceOnVisit}
+        />
+      </ClientOnly>
     </>
   )
 }
