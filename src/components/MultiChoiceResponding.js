@@ -81,7 +81,7 @@ function MultiChoiceResponding({
     })
 
     if (registeringGroups) {
-      ClientMemory.saveAsRegisteredGroups(registeringGroups)
+      ClientMemory.saveRegisteredGroups(registeringGroups)
       onRegisteringGroups(registeringGroups)
     }
   }

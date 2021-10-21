@@ -12,7 +12,8 @@ export function getAllRespondingsTemplate() {
   const rawRespondingsTemplate = localStorage.getItem(RESPONDINGS_TEMPLATE_KEY)
 
   if (typeof rawRespondingsTemplate !== 'string') {
-    throw new Error(`Can's find respondings data in localStorage`)
+    resetResponding()
+    return getAllRespondingsTemplate()
   }
 
   return JSON.parse(rawRespondingsTemplate)
@@ -32,7 +33,7 @@ export function patchRespondingByQuestionId(questionId, patch) {
   saveAllRespondingsTemplate(respondingsTemplate)
 }
 
-export function saveAsRegisteredGroups(registeringGroups) {
+export function saveRegisteredGroups(registeringGroups) {
   const savingData = JSON.stringify(registeringGroups)
   localStorage.setItem(REGISTERING_GROUPS_KEY, savingData)
 }
@@ -70,8 +71,8 @@ export function getAttendeeName() {
 export function resetResponding() {
   const newRespondingsTemplate =
     QuestionnairesUtils.generateNewRespondingsTemplate()
-
   saveAllRespondingsTemplate(newRespondingsTemplate)
+  saveRegisteredGroups([])
 }
 
 export function resetAll() {
