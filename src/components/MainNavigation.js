@@ -21,21 +21,19 @@ function MainNavigation({title}) {
 
   const isUserEnteredContact = !!contact.name && !!contact.email
 
-  const [isOpenActivityModal, setIsOpenActivityModal] = React.useState(false)
-  const [isOpenRegisterEditorModal, setIsOpenRegisterEditorModal] =
-    React.useState(false)
-
-  React.useEffect(
+  const [isOpenActivityModal, setIsOpenActivityModal] = React.useState(
     function openActivityModalIfUserNeverEnterTheirContactWhenUserRevisit() {
       const memoryAttendeeEmail = ClientMemory.getAttendeeEmail()
       const memoryAttendeeName = ClientMemory.getAttendeeName()
 
       const isUserEnteredContactInMemory =
         !!memoryAttendeeEmail && !!memoryAttendeeName
-      setIsOpenActivityModal(!isUserEnteredContactInMemory)
+
+      return !isUserEnteredContactInMemory
     },
-    [],
   )
+  const [isOpenRegisterEditorModal, setIsOpenRegisterEditorModal] =
+    React.useState(false)
 
   const handleOnContactSubmit = newContact => {
     setContact(newContact)

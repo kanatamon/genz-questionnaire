@@ -39,26 +39,7 @@ function ActionsGroup({
     React.useState(false)
   const [submittingStatus, setSubmittingStatus] = React.useState(IDLE)
   const [isAutoNext, setIsAutoNext] = React.useState(false)
-  const [linkCursor, setLinkCursor] = React.useState({
-    prevQuestionLink: '',
-    nextQuestionLink: '',
-  })
-
-  const questionRef = React.useRef(question)
-  const routerRef = React.useRef(router)
-  const isAutoNextRef = React.useRef(isAutoNext)
-  const linkCursorRef = React.useRef(linkCursor)
-
-  // NOTE: syncs all refs using `useLayoutEffect` ensures that the syncRefs()
-  // would run before any any other code.
-  React.useLayoutEffect(function syncRefs() {
-    routerRef.current = router
-    isAutoNextRef.current = isAutoNext
-    questionRef.current = question
-    linkCursorRef.current = linkCursor
-  })
-
-  React.useEffect(
+  const linkCursor = React.useMemo(
     function updateLinkCursor() {
       const allQuestionsMap = QuestionnairesUtils.generateAllQuestionsMap()
       const allQuestionsMapIds = Object.keys(allQuestionsMap)
@@ -85,13 +66,27 @@ function ActionsGroup({
         registeredGroups,
       )
 
-      setLinkCursor({
+      return {
         nextQuestionLink,
         prevQuestionLink,
-      })
+      }
     },
     [question, registeredGroups],
   )
+
+  const questionRef = React.useRef(question)
+  const routerRef = React.useRef(router)
+  const isAutoNextRef = React.useRef(isAutoNext)
+  const linkCursorRef = React.useRef(linkCursor)
+
+  // NOTE: syncs all refs using `useLayoutEffect` ensures that the syncRefs()
+  // would run before any any other code.
+  React.useLayoutEffect(function syncRefs() {
+    routerRef.current = router
+    isAutoNextRef.current = isAutoNext
+    questionRef.current = question
+    linkCursorRef.current = linkCursor
+  })
 
   React.useEffect(
     function considerToAutoNext() {
