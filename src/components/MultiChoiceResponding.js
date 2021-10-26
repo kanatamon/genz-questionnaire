@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import {Input} from 'baseui/input'
 import {RadioGroup, Radio, ALIGN} from 'baseui/radio'
 import {colors} from 'baseui/tokens'
 
@@ -13,33 +14,31 @@ function MultiChoiceResponding({
   onRegisteringGroups = () => {},
   onEdited = () => {},
 }) {
-  const [value, setValue] = React.useState('')
+  const [value, setValue] = React.useState(initValueFromMemory(question.id))
+  const [shortAnswer, setShortAnswer] = React.useState(
+    initShortAnswerFromMemory(question.id),
+  )
 
+  const shortAnswerCompRef = React.useRef(null)
+
+  const questionRef = React.useRef(question)
   const onValidateRef = React.useRef(onValidate)
   const onEditedRef = React.useRef(onEdited)
+  const onRegisteringGroupsRef = React.useRef(onRegisteringGroups)
+  const shortAnswerRef = React.useRef(shortAnswer)
 
-  React.useEffect(function asyncOnValidateCallback() {
+  React.useLayoutEffect(function syncRefs() {
+    questionRef.current = question
     onValidateRef.current = onValidate
     onEditedRef.current = onEdited
+    onRegisteringGroupsRef.current = onRegisteringGroups
   })
 
   React.useEffect(
-    function initValueToWhateverSavedInMemoryWhenQuestionChanged() {
-      const memoryResponding = ClientMemory.getRespondingByQuestionId(
-        question.id,
-      )
-      const memoryValue =
-        memoryResponding?.respondingOptions?.[0]?.respondingText
-
-      if (memoryValue) {
-        setValue(memoryValue)
-        onValidateRef.current(true)
-      } else {
-        setValue('')
-        onValidateRef.current(false)
-      }
+    function syncShortAnswerToRef() {
+      shortAnswerRef.current = shortAnswer
     },
-    [question],
+    [shortAnswer],
   )
 
   React.useEffect(
@@ -50,41 +49,78 @@ function MultiChoiceResponding({
     [value],
   )
 
+  const isAbleToBeShortAnswer = question.options.some(
+    option => option.type === 'SHORT_ANSWER',
+  )
+
+  React.useEffect(
+    function saveValuesToMemoryWhenChanged() {
+      if (!value) {
+        return
+      }
+
+      let optionOfCurrentValue = questionRef.current.options.find(
+        option => option.title === value,
+      )
+
+      if (!optionOfCurrentValue) {
+        optionOfCurrentValue = questionRef.current.options.find(
+          option => option.type === 'SHORT_ANSWER',
+        )
+      }
+
+      if (!optionOfCurrentValue) {
+        throw new Error(`Oop! there is no option for '${value}'`)
+      }
+      const isShortAnswer = optionOfCurrentValue.type === 'SHORT_ANSWER'
+      const {registeringGroups, title, weight = null} = optionOfCurrentValue
+
+      ClientMemory.patchRespondingByQuestionId(questionRef.current.id, {
+        respondingOptions: [
+          {
+            respondingText: isShortAnswer ? null : title,
+            weight,
+            isOther: isShortAnswer,
+            respondingOtherText: isShortAnswer ? shortAnswerRef.current : null,
+          },
+        ],
+      })
+
+      if (registeringGroups) {
+        ClientMemory.saveRegisteredGroups(registeringGroups)
+        onRegisteringGroupsRef.current?.(registeringGroups)
+      }
+    },
+    [value],
+  )
+
   const handleOnValueChange = ({currentTarget}) => {
     const {value: currentValue} = currentTarget
 
-    if (currentValue !== value) {
+    if (currentValue !== value && currentValue !== '') {
       onEdited()
     }
 
+    if (currentValue === '' && isAbleToBeShortAnswer) {
+      shortAnswerCompRef.current?.focus()
+    }
+
     setValue(currentValue)
-
-    const optionOfCurrentValue = question.options.find(
-      option => option.title === currentValue,
-    )
-
-    if (!optionOfCurrentValue) {
-      throw new Error(`Oop! there is no option for '${currentValue}'`)
-    }
-
-    const {registeringGroups, title, weight = null} = optionOfCurrentValue
-
-    ClientMemory.patchRespondingByQuestionId(question.id, {
-      respondingOptions: [
-        {
-          respondingText: title,
-          weight,
-          isOther: false,
-          respondingOtherText: null,
-        },
-      ],
-    })
-
-    if (registeringGroups) {
-      ClientMemory.saveRegisteredGroups(registeringGroups)
-      onRegisteringGroups(registeringGroups)
-    }
   }
+
+  const handleOnShortAnswerFocus = () => {
+    setValue(shortAnswer)
+  }
+
+  const handleOnShortAnswerChange = ({target}) => {
+    const currentShortAnswer = target.value
+    setShortAnswer(currentShortAnswer)
+    setValue(currentShortAnswer)
+  }
+
+  const displayAsMultiChoiceOptions = question.options.filter(
+    option => option.type === undefined,
+  )
 
   return (
     <RespondingCommon question={question}>
@@ -100,7 +136,7 @@ function MultiChoiceResponding({
           },
         }}
       >
-        {question.options.map(option => (
+        {displayAsMultiChoiceOptions.map(option => (
           <Radio
             key={option.title}
             value={option.title}
@@ -120,9 +156,64 @@ function MultiChoiceResponding({
             {option.title}
           </Radio>
         ))}
+        {isAbleToBeShortAnswer ? (
+          <Radio
+            key={'SHORT_ANSWER'}
+            value={shortAnswer}
+            overrides={{
+              Root: {
+                style: {
+                  backgroundColor: colors.gray50,
+                  padding: '0px 0px 0px 14px',
+                  marginTop: '0px',
+                  marginBottom: '0px',
+                  width: '100%',
+                },
+              },
+              Label: {
+                style: {
+                  flex: 1,
+                },
+              },
+            }}
+          >
+            <Input
+              inputRef={shortAnswerCompRef}
+              value={shortAnswer}
+              onFocus={handleOnShortAnswerFocus}
+              onChange={handleOnShortAnswerChange}
+              placeholder="อื่นๆ โปรดระบุ"
+              clearOnEscape
+              clearable
+            />
+          </Radio>
+        ) : null}
       </RadioGroup>
     </RespondingCommon>
   )
+}
+
+function initShortAnswerFromMemory(questionId) {
+  const memoryResponding = ClientMemory.getRespondingByQuestionId(questionId)
+  const memoryShortAnswer =
+    memoryResponding?.respondingOptions?.[0]?.respondingOtherText
+
+  return memoryShortAnswer ?? ''
+}
+
+function initValueFromMemory(questionId) {
+  const memoryResponding = ClientMemory.getRespondingByQuestionId(questionId)
+  const memoryRespondingOption = memoryResponding?.respondingOptions?.[0]
+
+  if (!memoryRespondingOption) {
+    return ''
+  }
+
+  const memoryValue =
+    memoryRespondingOption?.respondingText ??
+    memoryRespondingOption?.respondingOtherText
+
+  return memoryValue
 }
 
 export {MultiChoiceResponding}

@@ -139,12 +139,19 @@ function Questionnaire({question}) {
                 opacity: {duration: 0.5},
               }}
             >
-              <RespondingComp
-                question={question}
-                onValidate={handleOnRespondingValidate}
-                onRegisteringGroups={handleOnRegisteringNewGroups}
-                onEdited={handleOnRespondingEdited}
-              />
+              <ClientOnly>
+                <RespondingComp
+                  // Note: Providing `key` forcing a RespondingComp to be an
+                  // instance of a question, when question is changed the previous
+                  // question with the previous RespondingComp will be destroy
+                  // and then the new one will be mounted.
+                  key={question.id}
+                  question={question}
+                  onValidate={handleOnRespondingValidate}
+                  onRegisteringGroups={handleOnRegisteringNewGroups}
+                  onEdited={handleOnRespondingEdited}
+                />
+              </ClientOnly>
             </motion.div>
           </AnimatePresence>
         </section>
