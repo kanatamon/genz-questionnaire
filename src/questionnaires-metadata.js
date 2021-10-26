@@ -58,6 +58,9 @@ export const SECTIONS = {
         description: 'ใส่ช่วงอายุ Gen Z ระหว่าง 16 – 26 ปี เท่านั้น',
         placeholder: 'โปรดระบุอายุของท่าน',
         inputTypeForDOM: 'number',
+        range: [16, 26],
+        messageForInvalidValue:
+          'โปรดระบุช่วงอายุ ระหว่าง 16 – 26 ปี เท่านั้น, หากท่านไม่ได้อยู่ในช่วงอายุที่กำหนด โปรดปิดแบบสอบถามนี้',
       },
       {
         type: RESPONSE_TYPE_MULTI_CHOICE,

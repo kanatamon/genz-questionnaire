@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import {FormControl} from 'baseui/form-control'
 import {Input, SIZE} from 'baseui/input'
 
 import * as ClientMemory from '../client-memory'
@@ -32,12 +33,17 @@ export const ShortAnswerResponding = ({question, onValidate = () => {}}) => {
     [question.id],
   )
 
+  let isValueValid = value !== ''
+  if (Array.isArray(question.range) && question.range.length === 2) {
+    const [min, max] = question.range
+    isValueValid = min <= value && value <= max
+  }
+
   React.useEffect(
     function validateValueWhenChanged() {
-      const isOk = value !== ''
-      onValidateRef.current(isOk)
+      onValidateRef.current(isValueValid)
     },
-    [value],
+    [isValueValid],
   )
 
   const handleOnChange = ({target}) => {
@@ -51,15 +57,19 @@ export const ShortAnswerResponding = ({question, onValidate = () => {}}) => {
 
   return (
     <RespondingCommon question={question}>
-      <Input
-        value={value}
-        onChange={handleOnChange}
-        size={SIZE.large}
-        placeholder={question.placeholder}
-        type={question.inputTypeForDOM ?? 'text'}
-        clearable
-        clearOnEscape
-      />
+      <FormControl
+        error={!isValueValid ? question.messageForInvalidValue : null}
+      >
+        <Input
+          value={value}
+          onChange={handleOnChange}
+          size={SIZE.large}
+          placeholder={question.placeholder}
+          type={question.inputTypeForDOM ?? 'text'}
+          clearable
+          clearOnEscape
+        />
+      </FormControl>
     </RespondingCommon>
   )
 }
