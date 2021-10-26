@@ -16,7 +16,7 @@ import {ProgressBar} from '../../../components/ProgressBar'
 import {ClientOnly} from '../../../components/ClientOnly'
 
 import {usePrevious} from '../../../hooks/usePrevious'
-import {useResetMemory} from '../../../hooks/useResetMemory'
+import {useClientSession} from '../../../hooks/useClientSession'
 
 const RESPONDING_COMPONENTS = {
   SHORT_ANSWER: ShortAnswerResponding,
@@ -48,7 +48,7 @@ const questionMotionVariants = {
 }
 
 function Questionnaire({question}) {
-  useResetMemory()
+  const sessionId = useClientSession()
 
   const prevQuestionLinkIndex = usePrevious(question.linkIndex)
 
@@ -116,7 +116,7 @@ function Questionnaire({question}) {
           </ClientOnly>
         </div>
         <ClientOnly>
-          <MainNavigation title={title} />
+          <MainNavigation key={sessionId} title={title} />
         </ClientOnly>
         <Block height={'48px'} />
         <section
