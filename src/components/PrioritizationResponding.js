@@ -16,6 +16,8 @@ function PrioritizationResponding({question, onValidate = () => {}}) {
   const onValidateRef = React.useRef(onValidate)
   const questionRef = React.useRef(question)
 
+  const limitedWeight = question?.limit ?? question.options.length
+
   React.useLayoutEffect(function syncRefs() {
     onValidateRef.current = onValidate
     questionRef.current = question
@@ -41,8 +43,8 @@ function PrioritizationResponding({question, onValidate = () => {}}) {
         initialShortAnswer =
           memoryItems.find(item => item.isOther)?.respondingOtherText ?? ''
         initialItems = memoryItems
-          .sort(function lessToMost(a, b) {
-            return a.weight - b.weight
+          .sort(function mostToLess(a, b) {
+            return b.weight - a.weight
           })
           .map(option =>
             option.isOther ? 'SHORT_ANSWER' : option.respondingText,
@@ -72,7 +74,7 @@ function PrioritizationResponding({question, onValidate = () => {}}) {
         const isOther = item === 'SHORT_ANSWER'
         return {
           isOther,
-          weight: itemIndex + 1,
+          weight: convertZeroBasedIndexToWeight(itemIndex, limitedWeight),
           respondingText: isOther ? null : item,
           respondingOtherText: isOther ? shortAnswer : null,
         }
@@ -82,7 +84,7 @@ function PrioritizationResponding({question, onValidate = () => {}}) {
         respondingOptions: patchedRespondingOptions,
       })
     },
-    [items, shortAnswer],
+    [items, shortAnswer, limitedWeight],
   )
 
   const renderedItems = items.map(item =>
@@ -98,13 +100,25 @@ function PrioritizationResponding({question, onValidate = () => {}}) {
     ),
   )
 
+  // NOTE: For none-existing of a short-answer element, the rendered items can be
+  // interacted only for changing the prioritization. With that assumption,
+  // the <DragGuard/> element can be living.
+  const isEnableDragGuard = !question.options.some(
+    option => option.type === 'SHORT_ANSWER',
+  )
+
   return (
     <RespondingCommon question={question}>
       <ListWrapper>
         <List
           items={renderedItems}
           overrides={{
-            DragHandle: WeightDragHandle,
+            DragHandle: dragHandleProps => (
+              <WeightDragHandle
+                {...dragHandleProps}
+                limitedWeight={question?.limit}
+              />
+            ),
           }}
           onChange={({oldIndex, newIndex}) =>
             setItems(
@@ -114,11 +128,7 @@ function PrioritizationResponding({question, onValidate = () => {}}) {
             )
           }
         />
-        {/*
-          [NOTE]: Due to the short-answer element, this safe area need to be
-          able to interact and the guarding melanism need to reinvent !!
-        */}
-        {/* <DragGuard /> */}
+        {isEnableDragGuard ? <DragGuard /> : null}
       </ListWrapper>
     </RespondingCommon>
   )
@@ -129,19 +139,25 @@ const ListWrapper = styled('div', {
   position: 'relative',
 })
 
-// const DragGuard = styled('div', ({$theme}) => ({
-//   background: 'rgba(0, 0, 0, 0.2)',
-//   position: 'absolute',
-//   top: 0,
-//   right: 0,
-//   width: 'calc(100% - 78px)',
-//   height: '100%',
-//   [$theme.mediaQuery.medium]: {
-//     display: 'none',
-//   },
-// }))
+const DragGuard = styled('div', ({$theme}) => ({
+  background: 'rgba(0, 0, 0, 0.2)',
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  width: 'calc(100% - 78px)',
+  height: '100%',
+  [$theme.mediaQuery.medium]: {
+    display: 'none',
+  },
+}))
 
-const WeightDragHandle = ({$index}) => {
+const WeightDragHandle = ({$index, limitedWeight}) => {
+  const isCurrentItemOverLimit = isZeroBasedIndexIsOverPrioritizationLimit(
+    $index,
+    limitedWeight,
+  )
+  const renderedWeight = !isCurrentItemOverLimit ? $index + 1 : null
+
   return (
     <div
       style={{
@@ -157,17 +173,28 @@ const WeightDragHandle = ({$index}) => {
           height: '44px',
           borderRadius: 999,
           color: '#ffffff',
-          backgroundColor: '#000000',
+          backgroundColor: isCurrentItemOverLimit ? '#dadada' : '#000000',
           display: 'grid',
           placeContent: 'center',
           fontWeight: 700,
           fontSize: '1rem',
         }}
       >
-        {$index + 1}
+        {renderedWeight}
       </div>
     </div>
   )
+}
+
+function convertZeroBasedIndexToWeight(zeroBasedIndex, limitedWeight) {
+  return Math.max(limitedWeight - zeroBasedIndex, 0)
+}
+
+function isZeroBasedIndexIsOverPrioritizationLimit(
+  zeroBasedIndex,
+  limitedWeight,
+) {
+  return typeof limitedWeight === 'number' && zeroBasedIndex + 1 > limitedWeight
 }
 
 export {PrioritizationResponding}

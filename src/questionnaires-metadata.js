@@ -334,7 +334,8 @@ export const SECTIONS = {
       },
       {
         showForGroups: ['C', 'D'],
-        type: RESPONSE_TYPE_CHECKBOXES,
+        type: RESPONSE_TYPE_PRIORITIZATION,
+        limit: 3,
         title:
           'ทักษะในด้านใดต่อไปนี้ ที่ท่านคิดว่าตนเองยังขาดและต้องการได้รับการพัฒนา',
         description: 'โปรดเลือก 3 อันดับ ที่คิดว่าจำเป็นมากที่สุด',
