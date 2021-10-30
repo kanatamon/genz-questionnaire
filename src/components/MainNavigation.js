@@ -14,22 +14,20 @@ import {RegisterEditorModal} from './RegisterEditorModal'
 function MainNavigation({title}) {
   const router = useRouter()
 
-  const [contact, setContact] = React.useState(() => ({
-    email: ClientMemory.getAttendeeEmail(),
-    name: ClientMemory.getAttendeeName(),
-  }))
-
-  const isUserEnteredContact = !!contact.name && !!contact.email
+  const [contact, setContact] = React.useState(() => {
+    const memoryAttendeeContact = ClientMemory.getAttendeeContact()
+    return {
+      // prefix: memoryAttendeeContact?.prefix ?? '',
+      name: memoryAttendeeContact?.name ?? '',
+      surname: memoryAttendeeContact?.surname ?? '',
+      email: memoryAttendeeContact?.email ?? '',
+    }
+  })
 
   const [isOpenActivityModal, setIsOpenActivityModal] = React.useState(
     function openActivityModalIfUserNeverEnterTheirContactWhenUserRevisit() {
-      const memoryAttendeeEmail = ClientMemory.getAttendeeEmail()
-      const memoryAttendeeName = ClientMemory.getAttendeeName()
-
-      const isUserEnteredContactInMemory =
-        !!memoryAttendeeEmail && !!memoryAttendeeName
-
-      return !isUserEnteredContactInMemory
+      const memoryAttendeeContact = ClientMemory.getAttendeeContact()
+      return !isUserEnteredContact(memoryAttendeeContact)
     },
   )
   const [isOpenRegisterEditorModal, setIsOpenRegisterEditorModal] =
@@ -38,8 +36,7 @@ function MainNavigation({title}) {
   const handleOnContactSubmit = newContact => {
     setContact(newContact)
 
-    ClientMemory.saveAttendeeEmail(newContact.email)
-    ClientMemory.saveAttendeeName(newContact.name)
+    ClientMemory.saveAttendeeContact(newContact)
   }
 
   const handleOnItemSelect = ({command}) => {
@@ -55,7 +52,7 @@ function MainNavigation({title}) {
       }
 
       case 'reset_all_responding': {
-        setIsOpenActivityModal(!isUserEnteredContact)
+        setIsOpenActivityModal(!isUserEnteredContact(contact))
         const linkToGo =
           QuestionnairesUtils.generateGetStartedWithoutClearingContactQuestionLink()
         router.push(linkToGo)
@@ -73,7 +70,7 @@ function MainNavigation({title}) {
     },
   ]
 
-  if (contact.email && contact.name) {
+  if (isUserEnteredContact(contact)) {
     userItems = [
       {icon: ChevronRight, label: 'แก้ไขข้อมูลติดต่อ', command: 'edit'},
       {
@@ -92,9 +89,13 @@ function MainNavigation({title}) {
             <a>{title}</a>
           </Link>
         }
-        username={isUserEnteredContact ? contact.name : ''}
+        username={
+          isUserEnteredContact(contact)
+            ? `${contact.name} ${contact.surname}`
+            : ''
+        }
         usernameSubtitle={
-          isUserEnteredContact ? contact.email : 'ยังไม่ได้ลงทะเบียน'
+          isUserEnteredContact(contact) ? contact.email : 'ยังไม่ได้ลงทะเบียน'
         }
         userItems={userItems}
         onUserItemSelect={handleOnItemSelect}
@@ -112,6 +113,10 @@ function MainNavigation({title}) {
       />
     </>
   )
+}
+
+function isUserEnteredContact(contact) {
+  return typeof contact === 'object' && Object.values(contact).every(Boolean)
 }
 
 export {MainNavigation}

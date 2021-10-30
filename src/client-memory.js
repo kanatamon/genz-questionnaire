@@ -50,22 +50,36 @@ export function getRegisteredGroups() {
   return Array.isArray(registeredGroups) ? registeredGroups : []
 }
 
-export function saveAttendeeEmail(email) {
-  localStorage.setItem('ATTENDEE_EMAIL_KEY', email)
+// export function saveAttendeeEmail(email) {
+//   localStorage.setItem('ATTENDEE_EMAIL_KEY', email)
+// }
+
+// export function getAttendeeEmail() {
+//   const attendeeEmail = localStorage.getItem('ATTENDEE_EMAIL_KEY')
+//   return attendeeEmail
+// }
+
+// export function saveAttendeeName(name) {
+//   localStorage.setItem('ATTENDEE_NAME_KEY', name)
+// }
+
+// export function getAttendeeName() {
+//   const attendeeEmail = localStorage.getItem('ATTENDEE_NAME_KEY')
+//   return attendeeEmail
+// }
+
+export function getAttendeeContact() {
+  try {
+    const attendeeContact = localStorage.getItem('ATTENDEE_CONTACT_KEY')
+    return JSON.parse(attendeeContact)
+  } catch (error) {
+    return null
+  }
 }
 
-export function getAttendeeEmail() {
-  const attendeeEmail = localStorage.getItem('ATTENDEE_EMAIL_KEY')
-  return attendeeEmail
-}
-
-export function saveAttendeeName(name) {
-  localStorage.setItem('ATTENDEE_NAME_KEY', name)
-}
-
-export function getAttendeeName() {
-  const attendeeEmail = localStorage.getItem('ATTENDEE_NAME_KEY')
-  return attendeeEmail
+export function saveAttendeeContact(contact) {
+  const savingData = JSON.stringify(contact)
+  localStorage.setItem('ATTENDEE_CONTACT_KEY', savingData)
 }
 
 export function resetResponding() {

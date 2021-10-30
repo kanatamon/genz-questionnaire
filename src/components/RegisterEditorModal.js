@@ -4,21 +4,60 @@ import {Input} from 'baseui/input'
 import {FormControl} from 'baseui/form-control'
 import {Block} from 'baseui/block'
 import {Modal, ModalHeader, ModalBody, ModalFooter} from 'baseui/modal'
+import {Checkbox, LABEL_PLACEMENT} from 'baseui/checkbox'
+import {Select} from 'baseui/select'
+import {Button as BaseButton, KIND, SIZE} from 'baseui/button'
+import {Paragraph2} from 'baseui/typography'
 
 import {Button} from './Button'
-import {Button as BaseButton, KIND, SIZE} from 'baseui/button'
 
-function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
-  const [contact, setContact] = React.useState({
+const PREFIXES_DICTIONARY = {
+  นาย: {label: 'นาย', id: '0'},
+  นางสาว: {label: 'นางสาว', id: '1'},
+  นาง: {label: 'นาง', id: '2'},
+  ไม่ระบุ: {label: 'ไม่ระบุ', id: '3'},
+}
+
+function convertInitialContactToLocalState(initialContact) {
+  return {
+    isAcceptPolicy:
+      initialContact && initialContact.isAcceptPolicy
+        ? initialContact.isAcceptPolicy
+        : false,
     email: initialContact && initialContact.email ? initialContact.email : '',
     name: initialContact && initialContact.name ? initialContact.name : '',
-  })
+    surname:
+      initialContact && initialContact.surname ? initialContact.surname : '',
+    prefix:
+      initialContact && initialContact.prefix
+        ? PREFIXES_DICTIONARY[initialContact.prefix]
+        : Object.values(PREFIXES_DICTIONARY).at(-1),
+  }
+}
+
+function generateSubmittingContact({
+  isAcceptPolicy = false,
+  email = '',
+  name = '',
+  surname = '',
+  prefix = '',
+} = {}) {
+  return {
+    isAcceptPolicy,
+    email,
+    name,
+    surname,
+    prefix: typeof prefix === 'object' ? prefix.label : prefix,
+  }
+}
+
+function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
+  const [contact, setContact] = React.useState(
+    convertInitialContactToLocalState(initialContact),
+  )
 
   React.useEffect(() => {
-    setContact({
-      email: initialContact && initialContact.email ? initialContact.email : '',
-      name: initialContact && initialContact.name ? initialContact.name : '',
-    })
+    setContact(convertInitialContactToLocalState(initialContact))
   }, [initialContact])
 
   const handleOnContactChange = event => {
@@ -26,28 +65,51 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
     setContact(prevContact => ({...prevContact, [name]: value}))
   }
 
+  const handleOnPrefixChange = params => {
+    setContact(prevContact => ({...prevContact, prefix: params.option}))
+  }
+
+  const handleOnCheckboxChange = event => {
+    const {checked, name} = event.target
+    setContact(prevContact => ({...prevContact, [name]: checked}))
+  }
+
   const handleOnSaveButtonClick = () => {
     onClose()
-    onSubmit(contact)
+    const submittingContact = generateSubmittingContact(contact)
+    onSubmit(submittingContact)
   }
 
   const handleOnClearContactClick = () => {
     onClose()
-    const emptyContact = {email: '', name: ''}
+    const emptyContact = generateSubmittingContact()
     onSubmit(emptyContact)
   }
 
-  const isEmailInputNeededToFillCorrectly =
-    (contact.name.trim().length > 0 || contact.email.trim().length > 0) &&
-    !isValidEmail(contact.email)
+  const isEitherRequiredFieldOfContactFulfilled =
+    contact.email.trim().length > 0 ||
+    contact.surname.trim().length > 0 ||
+    contact.name.trim().length > 0
+
   const isNameInputNeedToFillCorrectly =
-    contact.email.trim().length > 0 && contact.name.trim().length === 0
+    isEitherRequiredFieldOfContactFulfilled && contact.name.trim().length === 0
+
+  const isSurnameInputNeedToFillCorrectly =
+    isEitherRequiredFieldOfContactFulfilled &&
+    contact.surname.trim().length === 0
+
+  const isEmailInputNeededToFillCorrectly =
+    isEitherRequiredFieldOfContactFulfilled && !isValidEmail(contact.email)
 
   const isOkToSubmit =
-    isValidEmail(contact.email) && contact.name.trim().length > 0
+    isValidEmail(contact.email) &&
+    contact.name.trim().length > 0 &&
+    contact.surname.trim().length > 0 &&
+    contact.isAcceptPolicy
 
   const isInitialContactExisted =
-    initialContact && initialContact.email && initialContact.name
+    typeof initialContact === 'object' &&
+    Object.values(initialContact).every(Boolean)
 
   return (
     <Modal
@@ -59,24 +121,99 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
       <ModalBody>
         <ol style={{listStyleType: 'revert', marginLeft: '12px'}}>
           <li>
-            ผู้ร่วมกิจกรรมต้องระบุข้อมูล E-mail สำหรับติดต่อกลับให้ถูกต้อง
-            หากได้เป็นผู้โชคดี ทางทีมงานจะได้สามารถติดต่อกลับได้
+            ผู้ตอบแบบสอบถามให้ข้อมูล e-mail เพื่อใช้ในการติดต่อเมื่อได้รับรางวัล
+            และข้อมูล ชื่อ-นามสกุล ที่ถูกต้องตามบัตรประจำตัวประชาชน
+            และต้องมีอายุระหว่าง 16-26 ปี ก่อนวันที่ 24 ธันวาคม 2564
+            ต้องมีสัญชาติไทย และอาศัยอยู่ในประเทศไทย เท่านั้น
+          </li>
+          <li>ผู้ตอบแบบสอบถาม 1 ท่าน ตอบแบบสอบถามได้เพียง 1 ชุด เท่านั้น</li>
+          <li>
+            ผู้ตอบแบบสอบถามที่ได้รับรางวัลจะได้รับแจ้ง e-mail
+            และต้องติดต่อรับรางวัล ภายในวันจันทร์ที่ 10 มกราคม 2565 ก่อนเวลา
+            16.00 น. พร้อมแนบหลักฐานยืนยันตัวตนตาม ชื่อ-นามสกุล
+            ที่ได้ให้ไว้ในขั้นตอนการลงทะเบียน และไม่สามารถโอนสิทธิ์ให้ผุ้อื่นได้
           </li>
           <li>
-            ผู้ร่วมกิจกรรมต้องมีช่วงอายุ Gen Z ระหว่าง 16 – 26 ปี เท่านั้น
+            ทีมงานจะไม่รับผิดชอบต่อความชำรุดบกพร่องเกี่ยวกับของรางวัล
+            ตลอดจนความเสียหายใดๆ ที่เกิดขึ้นกับของรางวัล
           </li>
           <li>
-            ผู้ร่วมกิจกรรมจะต้องตอบแบบสอบถามให้ครบทุกข้อ
-            ถึงจะได้ลุ้นรับของรางวัลจากทางโครงการ
+            ทีมงานจะไม่รับภาระและ/หรือรับผิดชอบต่อค่าใช้จ่ายเดินทาง ค่าที่พัก
+            และ/หรือค่าใช้จ่ายอื่นๆ ในการมารับของรางวัลของผู้ได้รับรางวัล
+            ทั้งนี้ ผู้ได้รับรางวัลต้องเป็นผู้รับผิดชอบเองทั้งหมด
           </li>
+          <li>
+            ทีมงานมีสิทธิ์เปลี่ยนแปลง ปฏิเสธ ยกเลิก หรือหยุดกิจกรรมได้โดยชอบธรรม
+            และไม่จำเป็นต้องแจ้งให้ทราบล่วงหน้า ทั้งนี้ ผู้เข้าร่วมกิจกรรม
+            ไม่มีสิทธิ์ในการเรียกร้อง
+            หรือร้องขอผลจากการสูญเสียหรือความเสียหายที่เกิดขึ้นทางตรงและทางอ้อมจากทีมงาน{' '}
+          </li>
+          <li>
+            ผู้ที่ได้รับรางวัลยินยอมให้ทางทีมงานพิมพ์และ/หรือเผยแพร่รายชื่อ
+            และ/หรือรูปถ่ายของผู้ที่ได้รับรางวัลเพื่อการโฆษณาและประชาสัมพันธ์ในปัจจุบันและ/หรือในอนาคตตามที่เห็นสมควร
+          </li>
+          <li>ของรางวัลไม่สามารถแลกหรือเปลี่ยนมูลค่าเป็นเงินสดได้</li>
+          <li>
+            ทีมงานขอสงวนสิทธิ์มอบรางวัลเฉพาะผู้ที่ปฏิบัติตามเงื่อนไขที่กำหนดไว้เท่านั้น
+          </li>
+          <li>
+            ทีมงานขอสงวนสิทธิ์ในการเปลี่ยนแปลงเงื่อนไข และสิทธิประโยชน์ต่าง ๆ
+            โดยมิต้องแจ้งให้ทราบล่วงหน้า
+          </li>
+          <li>การประกาศรายชื่อผู้ได้รับรางวัลถือเป็นที่สิ้นสุด</li>
         </ol>
-        <Block height={'12px'} />
+        <Block height={'16px'} />
+        <FormControl label={() => 'คำนำหน้าชื่อ'}>
+          <Select
+            clearable={false}
+            options={Object.values(PREFIXES_DICTIONARY)}
+            value={[contact.prefix]}
+            searchable={false}
+            placeholder="คำนำหน้าชื่อ"
+            onChange={handleOnPrefixChange}
+          />
+        </FormControl>
+        <FormControl
+          label={() => 'ชื่อ'}
+          caption={() =>
+            isNameInputNeedToFillCorrectly ? 'กรุณาใส่ ชื่อ' : null
+          }
+          positive={contact.name.trim().length > 0}
+          error={isNameInputNeedToFillCorrectly}
+        >
+          <Input
+            name="name"
+            value={contact.name}
+            onChange={handleOnContactChange}
+            placeholder="ชื่อ"
+            clearOnEscape
+            type="text"
+          />
+        </FormControl>
+        <FormControl
+          label={() => 'นามสกุล'}
+          caption={() =>
+            isSurnameInputNeedToFillCorrectly ? 'กรุณาใส่ นามสกุล' : null
+          }
+          positive={contact.surname.trim().length > 0}
+          error={isSurnameInputNeedToFillCorrectly}
+        >
+          <Input
+            name="surname"
+            value={contact.surname}
+            onChange={handleOnContactChange}
+            placeholder="นามสกุล"
+            clearOnEscape
+            type="text"
+          />
+        </FormControl>
+
         <FormControl
           label={() => 'E-mail'}
           caption={() =>
             isEmailInputNeededToFillCorrectly
               ? 'รูปแบบ e-mail ไม่ถูกต้อง กรุณาใช้ e-mail ที่ถูกต้อง เช่น example@email.org'
-              : 'ใช้สำหรับติดต่อกลับ'
+              : null
           }
           positive={isValidEmail(contact.email)}
           error={isEmailInputNeededToFillCorrectly}
@@ -87,31 +224,22 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
             onChange={handleOnContactChange}
             placeholder="example@email.org"
             clearOnEscape
-            clearable
             type="email"
           />
         </FormControl>
         <Block height={'12px'} />
-        <FormControl
-          label={() => 'ชื่อ-สกุล'}
-          caption={() =>
-            isNameInputNeedToFillCorrectly
-              ? 'กรุณาใส่ ชื่อ-สกุล'
-              : 'ใช้สำหรับตรวจสอบกรณีที่ท่านส่งซ้ำ'
-          }
-          positive={contact.name.trim().length > 0}
-          error={isNameInputNeedToFillCorrectly}
+
+        <Checkbox
+          name="isAcceptPolicy"
+          labelPlacement={LABEL_PLACEMENT.right}
+          checked={contact.isAcceptPolicy}
+          onChange={handleOnCheckboxChange}
         >
-          <Input
-            name="name"
-            value={contact.name}
-            onChange={handleOnContactChange}
-            placeholder="ชื่อจริง นามสกุล"
-            clearOnEscape
-            clearable
-            type="text"
-          />
-        </FormControl>
+          <p style={{fontSize: '14px'}}>
+            ข้าพเจ้าได้อ่านและเข้าใจข้อความดีแล้ว
+            ตกลงยินยอมที่จะปฏิบัติตามข้อกำหนดและเงื่อนไขที่ระบุไว้ข้างต้นทุกประการ
+          </p>
+        </Checkbox>
       </ModalBody>
       <ModalFooter>
         <div

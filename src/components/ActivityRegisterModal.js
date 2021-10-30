@@ -20,10 +20,11 @@ function ActivityRegisterModal({
             isOpen={isOpen}
             unstable_ModalBackdropScroll={true}
           >
-            <ModalHeader>ท่านสนใจเข้าร่วมกิจกรรมลุ้นรับ iPad?</ModalHeader>
+            <ModalHeader>
+              ท่านสนใจเข้าร่วมกิจกรรมสุ่มเพื่อรับของรางวัลหรือไม่?
+            </ModalHeader>
             <ModalBody>
-              จากการร่วมตอบแบบสอบถามหรือไม่? เพียงกรอกข้อมูล E-mail
-              และทำแบบสอบถามให้ครบทุกข้อ
+              เพียงกรอกข้อมูล E-mail และทำแบบสอบถามให้ครบทุกข้อ
               ก็มีสิทธิ์ได้ลุ้นรับของรางวัลจากทางโครงการ
             </ModalBody>
             <ModalFooter>
@@ -35,10 +36,10 @@ function ActivityRegisterModal({
                 }}
               >
                 <Button onClick={() => toggleConfirm(true)} autoFocus>
-                  ตกลง
+                  เข้าร่วมกิจกรรม
                 </Button>
                 <Button variant="ghost" onClick={onClose}>
-                  ปิด
+                  ไม่เข้าร่วมกิจกรรม
                 </Button>
               </div>
             </ModalFooter>
