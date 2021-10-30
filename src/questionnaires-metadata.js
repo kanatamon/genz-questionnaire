@@ -109,7 +109,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'โปรดระบุระดับที่กำลังศึกษาอยู่ในปัจจุบัน',
         options: [
-          {title: 'มัธยมศึกษาตอนปลาย หรือเทียบเท่า'},
+          {title: 'มัธยมศึกษาตอนปลาย'},
           {title: 'ประกาศนียบัตรวิชาชีพ (ปวช.)'},
           {title: 'ประกาศนียบัตรวิชาชีพชั้นสูง (ปวส.)'},
           {title: 'การศึกษาตามอัธยาศัย (กศน.)'},
@@ -204,7 +204,7 @@ export const SECTIONS = {
           {title: 'Facebook '},
           {title: 'YouTube '},
           {title: 'Twitter '},
-          {title: 'Line '},
+          {title: 'Line Ads'},
           {title: 'Tik Tok '},
           {title: 'Instagram '},
           {title: 'Podcast'},
@@ -229,7 +229,7 @@ export const SECTIONS = {
           {title: 'Facebook '},
           {title: 'YouTube '},
           {title: 'Twitter '},
-          {title: 'Line '},
+          {title: 'Line Ads'},
           {title: 'Tik Tok '},
           {title: 'Instagram '},
           {title: 'Podcast'},
@@ -262,7 +262,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_PRIORITIZATION,
         title: 'ท่านชอบการเรียนในรูปแบบใด',
         description:
-          'โปรดเรียงลำดับความสำคัญ โดย 1 = ชอบมากที่สุด 6 = ชอบน้อยที่สุด',
+          'เลื่อนตัวเลข ขึ้น-ลง เพื่อเรียงลำดับความสำคัญ โดย 1=ชอบมากที่สุด 6=ชอบน้อยที่สุด',
         options: [
           {title: 'เรียนในห้องเรียน (on-site)'},
           {
@@ -309,8 +309,6 @@ export const SECTIONS = {
             title:
               'เพื่อพัฒนา Professional skill/Hard skill หรือทักษะเชิงเทคนิคเพื่อการประกอบอาชีพ ทักษะด้านวิชาชีพ',
           },
-          {title: 'เพื่อสร้างเครือข่ายความสัมพันธ์ (connection)'},
-          {title: 'เพื่อเรียนรู้ในสิ่งที่ไม่มีสอนในชั้นเรียนหรือหลักสูตรปกติ'},
           {
             type: 'SHORT_ANSWER',
           },
@@ -426,7 +424,7 @@ export const SECTIONS = {
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
-          'การสำเร็จการศึกษาจากสถาบันที่มีชื่อเสียงทำให้ท่านเกิดการได้เปรียบในการได้งานที่มีรายได้สูง',
+          'ท่านต้องการสำเร็จการศึกษาจากสถาบันที่มีชื่อเสียงทำให้ท่านเกิดการได้เปรียบในการได้งานที่มีรายได้สูง',
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
@@ -602,36 +600,6 @@ export const SECTIONS = {
       },
       {
         label: 'แรงสนับสนุนจากตนเอง',
-        showForGroups: ['B', 'C', 'D'],
-        type: RESPONSE_TYPE_MULTI_CHOICE,
-        title:
-          'ท่านมีจุดมุ่งหมายของการเรียนคือการปรับและเพิ่มพูนทักษะ (Reskill/Upskill) ในการประกอบอาชีพ',
-        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
-        options: [
-          {title: 'มากที่สุด', weight: 5},
-          {title: 'มาก', weight: 4},
-          {title: 'ปานกลาง', weight: 3},
-          {title: 'น้อย', weight: 2},
-          {title: 'น้อยที่สุด', weight: 1},
-        ],
-      },
-      {
-        label: 'แรงสนับสนุนจากตนเอง',
-        showForGroups: ['B', 'C', 'D'],
-        type: RESPONSE_TYPE_MULTI_CHOICE,
-        title:
-          'ท่านมีจุดมุ่งหมายของการเรียนเพื่อพัฒนาตนเอง สร้างโอกาส และทางเลือกในการประกอบอาชีพที่สอง หรืออาชีพเสริม',
-        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
-        options: [
-          {title: 'มากที่สุด', weight: 5},
-          {title: 'มาก', weight: 4},
-          {title: 'ปานกลาง', weight: 3},
-          {title: 'น้อย', weight: 2},
-          {title: 'น้อยที่สุด', weight: 1},
-        ],
-      },
-      {
-        label: 'แรงสนับสนุนจากตนเอง',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
@@ -734,20 +702,6 @@ export const SECTIONS = {
       {
         label: 'แรงสนับสนุนด้านสังคม',
         showForGroups: ['A', 'B', 'C', 'D'],
-        type: RESPONSE_TYPE_MULTI_CHOICE,
-        title: 'การเรียนมหาวิทยาลัยมีส่วนทำให้ท่านได้รับการยอมรับจากสังคม',
-        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
-        options: [
-          {title: 'มากที่สุด', weight: 5},
-          {title: 'มาก', weight: 4},
-          {title: 'ปานกลาง', weight: 3},
-          {title: 'น้อย', weight: 2},
-          {title: 'น้อยที่สุด', weight: 1},
-        ],
-      },
-      {
-        label: 'แรงสนับสนุนด้านสังคม',
-        showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'การเรียนมหาวิทยาลัยมีส่วนทำให้ท่านได้รับการยอมรับจากสังคม',
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
@@ -877,20 +831,20 @@ export const SECTIONS = {
           {title: 'น้อยที่สุด', weight: 1},
         ],
       },
-      {
-        title:
-          'ท่านจะเลือกคณะ/สาขาวิชาที่มีโอกาสได้เข้าเรียนในมหาวิทยาลัยมากที่สุดก่อน',
-        showForGroups: ['A'],
-        type: RESPONSE_TYPE_MULTI_CHOICE,
-        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
-        options: [
-          {title: 'มากที่สุด', weight: 5},
-          {title: 'มาก', weight: 4},
-          {title: 'ปานกลาง', weight: 3},
-          {title: 'น้อย', weight: 2},
-          {title: 'น้อยที่สุด', weight: 1},
-        ],
-      },
+      // {
+      //   title:
+      //     'ท่านจะเลือกคณะ/สาขาวิชาที่มีโอกาสได้เข้าเรียนในมหาวิทยาลัยมากที่สุดก่อน',
+      //   showForGroups: ['A'],
+      //   type: RESPONSE_TYPE_MULTI_CHOICE,
+      //   description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
+      //   options: [
+      //     {title: 'มากที่สุด', weight: 5},
+      //     {title: 'มาก', weight: 4},
+      //     {title: 'ปานกลาง', weight: 3},
+      //     {title: 'น้อย', weight: 2},
+      //     {title: 'น้อยที่สุด', weight: 1},
+      //   ],
+      // },
       {
         title:
           'ยังไม่มีหลักสูตร/สาขาวิชาที่ท่านสนใจหรืออยากเรียนในระดับมหาวิทยาลัย',
@@ -1029,6 +983,19 @@ export const SECTIONS = {
         ],
       },
       {
+        title: 'ระบบการรับสมัคร/คัดเลือกเข้าเรียนระดับบัณฑิตศึกษามีความยุ่งยาก',
+        showForGroups: ['B'],
+        type: RESPONSE_TYPE_MULTI_CHOICE,
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
+        options: [
+          {title: 'มากที่สุด', weight: 5},
+          {title: 'มาก', weight: 4},
+          {title: 'ปานกลาง', weight: 3},
+          {title: 'น้อย', weight: 2},
+          {title: 'น้อยที่สุด', weight: 1},
+        ],
+      },
+      {
         title:
           'ท่านไม่สามารถเลือกเรียนในวิชาที่อยากเรียนหรือมีอิสระในการเลือกเรียนเท่าที่ควร',
         showForGroups: ['B', 'C'],
@@ -1056,20 +1023,20 @@ export const SECTIONS = {
           {title: 'น้อยที่สุด', weight: 1},
         ],
       },
-      {
-        title:
-          'วิธีการสอน การจัดการเรียนรู้และรูปแบบการเรียนการสอนในมหาวิทยาลัยยังไม่น่าสนใจ ไม่หลากหลาย',
-        showForGroups: ['A', 'B', 'C'],
-        type: RESPONSE_TYPE_MULTI_CHOICE,
-        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
-        options: [
-          {title: 'มากที่สุด', weight: 5},
-          {title: 'มาก', weight: 4},
-          {title: 'ปานกลาง', weight: 3},
-          {title: 'น้อย', weight: 2},
-          {title: 'น้อยที่สุด', weight: 1},
-        ],
-      },
+      // {
+      //   title:
+      //     'วิธีการสอน การจัดการเรียนรู้และรูปแบบการเรียนการสอนในมหาวิทยาลัยยังไม่น่าสนใจ ไม่หลากหลาย',
+      //   showForGroups: ['A', 'B', 'C'],
+      //   type: RESPONSE_TYPE_MULTI_CHOICE,
+      //   description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
+      //   options: [
+      //     {title: 'มากที่สุด', weight: 5},
+      //     {title: 'มาก', weight: 4},
+      //     {title: 'ปานกลาง', weight: 3},
+      //     {title: 'น้อย', weight: 2},
+      //     {title: 'น้อยที่สุด', weight: 1},
+      //   ],
+      // },
       {
         title: 'ระยะเวลาเรียนในระดับอุดมศึกษานานเกินไป',
         showForGroups: ['A', 'B', 'C', 'D'],
@@ -1097,36 +1064,8 @@ export const SECTIONS = {
         ],
       },
       {
-        title: 'การลาศึกษาต่อเต็มเวลา/ติดต่อกันยาวๆ',
-        showForGroups: [
-          'ข',
-          'ณ',
-          'ะ',
-          'ท',
-          'ำ',
-          'ง',
-          'า',
-          'น',
-          'ไ',
-          'ป',
-          'ด',
-          '้',
-          'ว',
-          'ย',
-          'น',
-          'ั',
-          '้',
-          'น',
-          'ท',
-          'ำ',
-          'ไ',
-          'ด',
-          '้',
-          'ย',
-          'า',
-          'ก',
-          'D',
-        ],
+        title: 'การลาศึกษาต่อเต็มเวลา/ติดต่อกันยาวๆ ขณะทำงานไปด้วยนั้นทำได้ยาก',
+        showForGroups: ['D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
@@ -1279,7 +1218,8 @@ export const SECTIONS = {
       {
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_PRIORITIZATION,
-        title: 'โปรดเรียงลำดับความสำคัญต่อการตัดสินใจในการเรียนรู้ของท่าน',
+        title:
+          'เลื่อนตัวเลข ขึ้น-ลง เพื่อเรียงลำดับความสำคัญ โดย 1=สำคัญมากที่สุด 10=สำคัญน้อยที่สุด',
         description:
           'โดยเรียงหมายเลข 1-10 หน้าข้อความที่มีความสำคัญมากที่สุดไปยังข้อความที่มีความสำคัญน้อยที่สุด (โดย 1 = มีความสำคัญมากที่สุด 10 = มีความสำคัญน้อยที่สุด)',
         options: [
@@ -1307,7 +1247,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีหลักสูตรที่รองรับการพัฒนาทักษะเฉพาะด้าน (specialized course)',
-        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
+        description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -1322,7 +1262,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีหลักสูตรที่รองรับการพัฒนาทักษะรอบด้าน (generalized course)',
-        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
+        description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -1337,7 +1277,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีหลักสูตรที่รองรับการออกแบบหลักสูตรโดยผู้เรียน (customized course)',
-        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
+        description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -1351,8 +1291,8 @@ export const SECTIONS = {
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
-          'ระบบการรับสมัคร/คัดเลือกที่ยุ่งยาก4.	มหาวิทยาลัยมีหลักสูตรที่ให้ความยืดหยุ่นด้านเวลาที่ใช้ในการศึกษา เช่น หลักสูตรปริญญาที่ไม่กำหนดระยะเวลาในการศึกษา',
-        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
+          'มหาวิทยาลัยมีหลักสูตรที่ให้ความยืดหยุ่นด้านเวลาที่ใช้ในการศึกษา เช่น หลักสูตรปริญญาที่ไม่กำหนดระยะเวลาในการศึกษา',
+        description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -1367,7 +1307,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีหลักสูตรที่เน้นการพัฒนาทักษะความรู้ที่ไม่มุ่งหวังปริญญา (non-degree) เพื่อส่งเสริมให้เป็นผู้เรียนรู้ตลอดชีวิต (lifelong learner)',
-        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
+        description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -1382,7 +1322,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีหลักสูตรหรือกิจกรรมที่ส่งเสริมทักษะใหม่เพื่อรองรับการเปลี่ยนแปลง',
-        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
+        description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -1396,7 +1336,7 @@ export const SECTIONS = {
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'มหาวิทยาลัยมีหลักสูตรหรือกิจกรรมการปูพื้นฐานในระดับมหาวิทยาลัย',
-        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
+        description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -1409,8 +1349,8 @@ export const SECTIONS = {
         showForGroups: ['B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
-          'มหาวิทยาลัยมีมหลักสูตรที่ออกแบบตามระดับความรู้ของผู้เรียน (ระดับ beginner intermediate advance)',
-        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
+          'มหาวิทยาลัยมีหลักสูตรที่ออกแบบตามระดับความรู้ของผู้เรียน (ระดับ beginner intermediate advance)',
+        description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -1424,7 +1364,7 @@ export const SECTIONS = {
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'มหาวิทยาลัยมีหลักสูตรเน้นการลงมือปฏิบัติจริง',
-        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
+        description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -1439,7 +1379,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีหลักสูตรที่ส่งเสริมทักษะด้านการพัฒนานวัตกรรมเพื่อเป็นผู้ประกอบการ',
-        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
+        description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -1454,7 +1394,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีการจัดการเรียนการสอนโดยใช้เทคโนโลยีที่ผู้เรียนสามารถติดตามย้อนหลังได้',
-        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
+        description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -1469,7 +1409,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยให้การสนับสนุนด้านเทคโนโลยีสารสนเทศ เช่น อินเตอร์เน็ต โปรแกรมคอมพิวเตอร์ ห้องปฏิบัติการคอมพิวเตอร์',
-        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
+        description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -1484,7 +1424,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีอาจารย์ผู้สอนที่มีวิธีการสอนที่ดีและปรับเปลี่ยนตามบริบทที่เปลี่ยนไป',
-        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
+        description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -1499,7 +1439,7 @@ export const SECTIONS = {
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
           'มหาวิทยาลัยมีการส่งเสริมกิจกรรมเพื่อให้เกิดการพัฒนาทักษะในศตวรรษที่ 21 เช่น ทักษะการสื่อสาร การทำงานร่วมกับผู้อื่น การคิดวิเคราะห์ และความคิดสร้างสรรค์',
-        description: 'โปรดเลือกระดับความต้องการเรียนรู้ในมหาวิทยาลัยของท่าน',
+        description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
           {title: 'มาก', weight: 4},
@@ -1512,7 +1452,8 @@ export const SECTIONS = {
   },
   [SECTION_FEEDBACK]: {
     id: 7,
-    title: 'ข้อเสนอแนะ',
+    title:
+      'กรุณาให้ข้อเสนอแนะในมุมมองด้านความสำคัญของมหาวิทยาลัยต่ออนาคตของท่าน',
     questions: [
       {
         type: RESPONSE_TYPE_LONG_ANSWER,
