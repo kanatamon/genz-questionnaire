@@ -7,7 +7,7 @@ function QuestionHeader({title, description, label}) {
   return (
     <div className="card">
       <Paragraph1>{title}</Paragraph1>
-      {label ? (
+      {/* {label ? (
         <Tag
           closeable={false}
           variant={VARIANT.solid}
@@ -26,7 +26,7 @@ function QuestionHeader({title, description, label}) {
         >
           {label}
         </Tag>
-      ) : null}
+      ) : null} */}
       {description ? (
         <Caption1 $style={{marginTop: '8px', marginBottom: '0px'}}>
           {description}
