@@ -18,6 +18,7 @@ export function ProgressBar() {
         },
         Bar: {
           style: ({$theme}) => ({
+            overflow: 'revert',
             borderTopLeftRadius: '0px',
             borderTopRightRadius: '0px',
             borderBottomLeftRadius: '0px',
@@ -25,13 +26,22 @@ export function ProgressBar() {
           }),
         },
         BarProgress: {
-          style: ({$theme}) => ({
+          style: ({$theme, $value}) => ({
             backgroundImage:
               'linear-gradient(to right, #ed6ea0 0%, #ec8c69 100%)',
             borderTopLeftRadius: '0px',
             borderTopRightRadius: '0px',
             borderBottomLeftRadius: '0px',
             borderBottomRightRadius: '0px',
+            position: 'relative',
+            ':after': {
+              fontSize: '18px',
+              color: '#ec8c69',
+              position: 'absolute',
+              content: `"▲"`,
+              bottom: '-16px',
+              right: '-8.5px',
+            },
           }),
         },
       }}
