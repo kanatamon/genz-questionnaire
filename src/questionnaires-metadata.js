@@ -279,6 +279,9 @@ export const SECTIONS = {
             title:
               'เรียนแบบมีพี่เลี้ยง หรือผู้เชี่ยวชาญเฉพาะด้านให้คำแนะนำ (coaching)',
           },
+          {
+            type: 'SHORT_ANSWER',
+          },
         ],
       },
       {
@@ -294,6 +297,9 @@ export const SECTIONS = {
           },
           {title: 'เพื่อสร้างเครือข่ายความสัมพันธ์ (connection)'},
           {title: 'เพื่อเรียนรู้ในสิ่งที่ไม่มีสอนในชั้นเรียนหรือหลักสูตรปกติ'},
+          {
+            type: 'SHORT_ANSWER',
+          },
         ],
       },
       {

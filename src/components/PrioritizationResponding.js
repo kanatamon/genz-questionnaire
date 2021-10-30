@@ -1,7 +1,9 @@
 import * as React from 'react'
 
+import {Input} from 'baseui/input'
 import {styled} from 'baseui'
 import {List, arrayMove, arrayRemove} from 'baseui/dnd-list'
+import {Paragraph2} from 'baseui/typography'
 
 import * as ClientMemory from '../client-memory'
 
@@ -9,10 +11,14 @@ import {RespondingCommon} from './RespondingCommon'
 
 function PrioritizationResponding({question, onValidate = () => {}}) {
   const [items, setItems] = React.useState([])
-  const onValidateRef = React.useRef(onValidate)
+  const [shortAnswer, setShortAnswer] = React.useState('')
 
-  React.useEffect(function asyncOnValidateCallback() {
+  const onValidateRef = React.useRef(onValidate)
+  const questionRef = React.useRef(question)
+
+  React.useLayoutEffect(function syncRefs() {
     onValidateRef.current = onValidate
+    questionRef.current = question
   })
 
   React.useEffect(function alwaysValidateItems() {
@@ -29,43 +35,74 @@ function PrioritizationResponding({question, onValidate = () => {}}) {
       const isSavedInMemory = memoryItems.length > 0
 
       let initialItems = null
+      let initialShortAnswer = null
 
       if (isSavedInMemory) {
+        initialShortAnswer =
+          memoryItems.find(item => item.isOther)?.respondingOtherText ?? ''
         initialItems = memoryItems
           .sort(function lessToMost(a, b) {
             return a.weight - b.weight
           })
-          .map(option => option.respondingText)
+          .map(option =>
+            option.isOther ? 'SHORT_ANSWER' : option.respondingText,
+          )
       } else {
-        initialItems = question.options.map(option => option.title)
+        initialShortAnswer = ''
+        initialItems = question.options.map(option =>
+          !!option.title ? option.title : 'SHORT_ANSWER',
+        )
       }
 
       setItems(initialItems)
+      setShortAnswer(initialShortAnswer)
     },
     [question],
   )
 
   React.useEffect(
     function saveValuesToMemoryWhenChanged() {
-      const patchedRespondingOptions = items.map((item, itemIndex) => ({
-        respondingText: item,
-        weight: itemIndex + 1,
-        isOther: true,
-        respondingOtherText: null,
-      }))
+      const questionId = questionRef.current?.id
 
-      ClientMemory.patchRespondingByQuestionId(question.id, {
+      if (!questionId) {
+        return
+      }
+
+      const patchedRespondingOptions = items.map((item, itemIndex) => {
+        const isOther = item === 'SHORT_ANSWER'
+        return {
+          isOther,
+          weight: itemIndex + 1,
+          respondingText: isOther ? null : item,
+          respondingOtherText: isOther ? shortAnswer : null,
+        }
+      })
+
+      ClientMemory.patchRespondingByQuestionId(questionId, {
         respondingOptions: patchedRespondingOptions,
       })
     },
-    [question, items],
+    [items, shortAnswer],
+  )
+
+  const renderedItems = items.map(item =>
+    item !== 'SHORT_ANSWER' ? (
+      <Paragraph2 key={item}>{item}</Paragraph2>
+    ) : (
+      <Input
+        key="SHORT_ANSWER"
+        placeholder="อื่นๆ โปรดระบุ"
+        value={shortAnswer}
+        onChange={e => setShortAnswer(e.target.value)}
+      />
+    ),
   )
 
   return (
     <RespondingCommon question={question}>
       <ListWrapper>
         <List
-          items={items}
+          items={renderedItems}
           overrides={{
             DragHandle: WeightDragHandle,
           }}
@@ -77,7 +114,11 @@ function PrioritizationResponding({question, onValidate = () => {}}) {
             )
           }
         />
-        <DragGuard />
+        {/*
+          [NOTE]: Due to the short-answer element, this safe area need to be
+          able to interact and the guarding melanism need to reinvent !!
+        */}
+        {/* <DragGuard /> */}
       </ListWrapper>
     </RespondingCommon>
   )
@@ -88,16 +129,17 @@ const ListWrapper = styled('div', {
   position: 'relative',
 })
 
-const DragGuard = styled('div', ({$theme}) => ({
-  position: 'absolute',
-  top: 0,
-  right: 0,
-  width: 'calc(100% - 78px)',
-  height: '100%',
-  [$theme.mediaQuery.medium]: {
-    display: 'none',
-  },
-}))
+// const DragGuard = styled('div', ({$theme}) => ({
+//   background: 'rgba(0, 0, 0, 0.2)',
+//   position: 'absolute',
+//   top: 0,
+//   right: 0,
+//   width: 'calc(100% - 78px)',
+//   height: '100%',
+//   [$theme.mediaQuery.medium]: {
+//     display: 'none',
+//   },
+// }))
 
 const WeightDragHandle = ({$index}) => {
   return (
