@@ -28,13 +28,18 @@ export const SECTION_GENZ_LIFE_EXPECTANCY_PART_2 = 'genz-life-expectancy-part-2'
 export const SECTION_FEEDBACK = 'feedback'
 
 export const SECTION_DISPLAY_INDEX = {
-  [SECTION_GENERAL_INFORMATION]: '1',
-  [SECTION_KNOWLEDGE_SOURCE_AND_LEARNING_STYLE]: '2',
-  [SECTION_GENZ_LIFESTYLE_IN_PRESENT_PART_1]: '3.1',
-  [SECTION_GENZ_LIFESTYLE_IN_PRESENT_PART_2]: '3.2',
-  [SECTION_GENZ_LIFE_EXPECTANCY_PART_1]: '4.1',
-  [SECTION_GENZ_LIFE_EXPECTANCY_PART_2]: '4.2',
-  [SECTION_FEEDBACK]: '5',
+  [SECTION_GENERAL_INFORMATION]: '1 ข้อมูลทั่วไป',
+  [SECTION_KNOWLEDGE_SOURCE_AND_LEARNING_STYLE]:
+    '2 แหล่งความรู้และรูปแบบการเรียนรู้',
+  [SECTION_GENZ_LIFESTYLE_IN_PRESENT_PART_1]:
+    '3.1 สภาพปัจจุบันของคนในยุค Gen Z',
+  [SECTION_GENZ_LIFESTYLE_IN_PRESENT_PART_2]:
+    '3.2 สภาพปัจจุบันของคนในยุค Gen Z',
+  [SECTION_GENZ_LIFE_EXPECTANCY_PART_1]:
+    '4.1 ข้อมูลการตัดสินใจและความต้องการของคนในยุค Gen Z',
+  [SECTION_GENZ_LIFE_EXPECTANCY_PART_2]:
+    '4.2 ข้อมูลการตัดสินใจและความต้องการของคนในยุค Gen Z',
+  [SECTION_FEEDBACK]: '5 ข้อเสนอแนะ',
 }
 
 export const SERVER_SECTION_IDS = {
@@ -59,8 +64,10 @@ export const SECTIONS = {
         placeholder: 'โปรดระบุอายุของท่าน',
         inputTypeForDOM: 'number',
         range: [16, 26],
+        messageForNotice:
+          'กรณีท่านเป็นผู้ได้รับรางวัล จะมีการตรวจสอบหลักฐานบัตรประจำตัวประชาชน ชื่อ-นามสกุล และอายุของท่านหากท่านมีอายุไม่อยู่ในช่วง 16 – 26 ปี ท่านจะถูกตัดสิทธิ์การได้รับรางวัล',
         messageForInvalidValue:
-          'โปรดระบุช่วงอายุ ระหว่าง 16 – 26 ปี เท่านั้น, หากท่านไม่ได้อยู่ในช่วงอายุที่กำหนด โปรดปิดแบบสอบถามนี้',
+          'ขออภัย แบบสอบถามคุณลักษณะของ Gen Z นี้สำหรับผู้ตอบแบบสอบถามที่มีอายุระหว่าง 16-26 ปี ก่อนวันที่ 24 ธันวาคม 2564 เท่านั้น',
       },
       {
         type: RESPONSE_TYPE_MULTI_CHOICE,

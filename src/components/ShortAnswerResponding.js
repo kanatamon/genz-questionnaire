@@ -58,6 +58,7 @@ export const ShortAnswerResponding = ({question, onValidate = () => {}}) => {
   return (
     <RespondingCommon question={question}>
       <FormControl
+        caption={question?.messageForNotice ?? ''}
         error={!isValueValid ? question.messageForInvalidValue : null}
       >
         <Input
