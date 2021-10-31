@@ -89,7 +89,7 @@ export function generateGetStartedWithoutClearingContactQuestionLink() {
   return `${generateFirstQuestionLink()}?isGetStartedWithoutClearingContact`
 }
 
-export function getSectionDisplayIndexBySectionSlug(slug) {
+export function getSectionTitleInfoBySectionSlug(slug) {
   return questionnairesMetadata.SECTION_DISPLAY_INDEX[slug]
 }
 

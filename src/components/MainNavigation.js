@@ -2,6 +2,8 @@ import * as React from 'react'
 
 import {AppNavBar} from 'baseui/app-nav-bar'
 import {ChevronRight} from 'baseui/icon'
+import {Label1, Paragraph3} from 'baseui/typography'
+
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 
@@ -11,7 +13,7 @@ import * as ClientMemory from '../client-memory'
 import {ActivityRegisterModal} from './ActivityRegisterModal'
 import {RegisterEditorModal} from './RegisterEditorModal'
 
-function MainNavigation({title}) {
+function MainNavigation({title, subtitle}) {
   const router = useRouter()
 
   const [contact, setContact] = React.useState(() => {
@@ -32,6 +34,31 @@ function MainNavigation({title}) {
   )
   const [isOpenRegisterEditorModal, setIsOpenRegisterEditorModal] =
     React.useState(false)
+
+  React.useLayoutEffect(function GREEDY_EXTEND_SPACE_FOR_APP_NAME() {
+    /*
+    IMPORTANT NOTE: Due to the requirement, the main-nav-element includes only
+    2 components [app-name, profile].And the app-name need as much space as
+    possible to fit its long content. And with the Base-UI's lib doesn't provide
+    any utilization to reach that requirement. So, we intent to touch the DOM
+    directly by;
+
+    1. Set outer container of the app-name-element to consume the whole rest space.
+    2. Removing the unused space of the outer container of primary-menu-element
+       by setting width to 0px.
+    */
+    const baseSelector = `[data-baseweb="app-nav-bar"] > *:nth-child(2) > *:first-child`
+
+    const appNameEl = document.querySelector(`${baseSelector} > *:nth-child(1)`)
+    const primaryMenuEl = document.querySelector(
+      `${baseSelector} > *:nth-child(2)`,
+    )
+
+    if (appNameEl && primaryMenuEl) {
+      appNameEl.style = 'flex: 1;'
+      primaryMenuEl.style = 'width: 0px;'
+    }
+  })
 
   const handleOnContactSubmit = newContact => {
     setContact(newContact)
@@ -86,7 +113,10 @@ function MainNavigation({title}) {
       <AppNavBar
         title={
           <Link href="/">
-            <a>{title}</a>
+            <a>
+              <Label1>{title}</Label1>
+              {subtitle ? <Paragraph3>{subtitle}</Paragraph3> : null}
+            </a>
           </Link>
         }
         username={
@@ -99,6 +129,11 @@ function MainNavigation({title}) {
         }
         userItems={userItems}
         onUserItemSelect={handleOnItemSelect}
+        overrides={{
+          AppName: {
+            style: ({$theme}) => ({}),
+          },
+        }}
       />
       <ActivityRegisterModal
         isOpen={isOpenActivityModal}

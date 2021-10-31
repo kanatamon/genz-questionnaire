@@ -88,11 +88,8 @@ function Questionnaire({question}) {
 
   const RespondingComp = RESPONDING_COMPONENTS[question.type]
 
-  const sectionDisplayIndex =
-    QuestionnairesUtils.getSectionDisplayIndexBySectionSlug(
-      question.sectionSlug,
-    )
-  const title = `ตอนที่ ${sectionDisplayIndex}`
+  const {title, subtitle} =
+    QuestionnairesUtils.getSectionTitleInfoBySectionSlug(question.sectionSlug)
 
   return (
     <>
@@ -116,7 +113,7 @@ function Questionnaire({question}) {
           </ClientOnly>
         </div>
         <ClientOnly>
-          <MainNavigation key={sessionId} title={title} />
+          <MainNavigation key={sessionId} title={title} subtitle={subtitle} />
         </ClientOnly>
         <Block height={'48px'} />
         <section

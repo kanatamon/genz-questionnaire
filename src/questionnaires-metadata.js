@@ -28,18 +28,31 @@ export const SECTION_GENZ_LIFE_EXPECTANCY_PART_2 = 'genz-life-expectancy-part-2'
 export const SECTION_FEEDBACK = 'feedback'
 
 export const SECTION_DISPLAY_INDEX = {
-  [SECTION_GENERAL_INFORMATION]: '1 ข้อมูลทั่วไป',
-  [SECTION_KNOWLEDGE_SOURCE_AND_LEARNING_STYLE]:
-    '2 แหล่งความรู้และรูปแบบการเรียนรู้',
-  [SECTION_GENZ_LIFESTYLE_IN_PRESENT_PART_1]:
-    '3.1 สภาพปัจจุบันของคนในยุค Gen Z',
-  [SECTION_GENZ_LIFESTYLE_IN_PRESENT_PART_2]:
-    '3.2 สภาพปัจจุบันของคนในยุค Gen Z',
-  [SECTION_GENZ_LIFE_EXPECTANCY_PART_1]:
-    '4.1 ข้อมูลการตัดสินใจและความต้องการของคนในยุค Gen Z',
-  [SECTION_GENZ_LIFE_EXPECTANCY_PART_2]:
-    '4.2 ข้อมูลการตัดสินใจและความต้องการของคนในยุค Gen Z',
-  [SECTION_FEEDBACK]: '5 ข้อเสนอแนะ',
+  [SECTION_GENERAL_INFORMATION]: {
+    title: 'ตอนที่ 1 ข้อมูลทั่วไป',
+  },
+  [SECTION_KNOWLEDGE_SOURCE_AND_LEARNING_STYLE]: {
+    title: 'ตอนที่ 2 แหล่งความรู้และรูปแบบการเรียนรู้',
+  },
+  [SECTION_GENZ_LIFESTYLE_IN_PRESENT_PART_1]: {
+    title: 'ตอนที่ 3 สภาพปัจจุบันของคนในยุค Gen Z',
+    subtitle: 'ตอนที่ 3.1 ท่านเห็นด้วยกับข้อความต่อไปนี้มากน้อยเพียงใด',
+  },
+  [SECTION_GENZ_LIFESTYLE_IN_PRESENT_PART_2]: {
+    title: 'ตอนที่ 3 สภาพปัจจุบันของคนในยุค Gen Z',
+    subtitle: 'ตอนที่ 3.2 ท่านเห็นด้วยกับข้อความต่อไปนี้มากน้อยเพียงใด',
+  },
+  [SECTION_GENZ_LIFE_EXPECTANCY_PART_1]: {
+    title: 'ตอนที่ 4 ข้อมูลการตัดสินใจและความต้องการของคนในยุค Gen Z',
+    subtitle: 'ตอนที่ 4.1 การให้ความสำคัญต่อการตัดสินใจในการเรียนรู้',
+  },
+  [SECTION_GENZ_LIFE_EXPECTANCY_PART_2]: {
+    title: 'ตอนที่ 4 ข้อมูลการตัดสินใจและความต้องการของคนในยุค Gen Z',
+    subtitle: 'ตอนที่ 4.2 ปัจจัยที่มีผลต่อการเลือกศึกษาต่อในมหาวิทยาลัยของท่าน',
+  },
+  [SECTION_FEEDBACK]: {
+    title: 'ตอนที่ 5 ข้อเสนอแนะ',
+  },
 }
 
 export const SERVER_SECTION_IDS = {
