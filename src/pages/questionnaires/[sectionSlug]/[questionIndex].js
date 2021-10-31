@@ -1,6 +1,16 @@
 import * as React from 'react'
 
 import {Block} from 'baseui/block'
+import {
+  Display1,
+  Label2,
+  Label3,
+  Label4,
+  Paragraph1,
+  Paragraph2,
+  Paragraph3,
+  Paragraph4,
+} from 'baseui/typography'
 import {motion, AnimatePresence} from 'framer-motion'
 
 import * as QuestionnairesUtils from '../../../questionnaires-utils'
@@ -14,6 +24,7 @@ import {PrioritizationResponding} from '../../../components/PrioritizationRespon
 import {ActionsGroup} from '../../../components/ActionsGroup'
 import {ProgressBar} from '../../../components/ProgressBar'
 import {ClientOnly} from '../../../components/ClientOnly'
+import {SuperHeader} from '../../../components/SuperHeader'
 
 import {usePrevious} from '../../../hooks/usePrevious'
 import {useClientSession} from '../../../hooks/useClientSession'
@@ -108,6 +119,7 @@ function Questionnaire({question}) {
             zIndex: 99,
           }}
         >
+          <SuperHeader>อยู่ระหว่างทดสอบระบบ</SuperHeader>
           <ClientOnly>
             <ProgressBar />
           </ClientOnly>
