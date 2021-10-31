@@ -116,7 +116,7 @@ function MainNavigation({title}) {
 }
 
 function isUserEnteredContact(contact) {
-  return typeof contact === 'object' && Object.values(contact).every(Boolean)
+  return !!contact && Object.values(contact).every(Boolean)
 }
 
 export {MainNavigation}
