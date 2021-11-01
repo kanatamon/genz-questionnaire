@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import {FormControl} from 'baseui/form-control'
 import {Input, SIZE} from 'baseui/input'
+import {Paragraph4} from 'baseui/typography'
 
 import * as ClientMemory from '../client-memory'
 
@@ -58,8 +59,15 @@ export const ShortAnswerResponding = ({question, onValidate = () => {}}) => {
   return (
     <RespondingCommon question={question}>
       <FormControl
-        caption={question?.messageForNotice ?? ''}
-        error={!isValueValid ? question.messageForInvalidValue : null}
+        caption={<HelperMessages messages={question.notifyingMessages} />}
+        error={
+          !isValueValid ? (
+            <HelperMessages
+              heading="ขออภัย"
+              messages={question.invalidValueMessages}
+            />
+          ) : null
+        }
       >
         <Input
           value={value}
@@ -73,4 +81,38 @@ export const ShortAnswerResponding = ({question, onValidate = () => {}}) => {
       </FormControl>
     </RespondingCommon>
   )
+}
+
+function HelperMessages({heading, messages}) {
+  if (typeof messages === 'string') {
+    return messages
+  }
+
+  if (Array.isArray(messages)) {
+    return (
+      <ul
+        style={{
+          listStyle: 'revert',
+          paddingLeft: '16px',
+        }}
+      >
+        {heading ? (
+          <Paragraph4
+            $style={{
+              marginBottom: '8px',
+              fontWeight: 'bold',
+              color: 'inherit',
+            }}
+          >
+            {heading}
+          </Paragraph4>
+        ) : null}
+        {messages.map(message => (
+          <li key={message}>{message}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  return null
 }
