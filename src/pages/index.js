@@ -11,7 +11,7 @@ import {ListItem, ListItemLabel} from 'baseui/list'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import Graphic from '../../public/undraw_mobile_testing_reah.svg'
+import Graphic from '../../public/cmu-genZ.png'
 import Logo from '../../public/Chiang_Mai_University.svg'
 
 import {Button} from '../components/Button'
