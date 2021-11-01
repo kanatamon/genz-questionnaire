@@ -18,13 +18,15 @@ import {Button} from '../components/Button'
 import * as QuestionnairesUtils from '../questionnaires-utils'
 
 export default function LandingPage() {
-  const getStartedQuestionLink =
-    QuestionnairesUtils.generateGetStartedQuestionLink()
   const [css] = useStyletron()
+
   const sharedOrderedListClassName = css({
     listStyle: 'revert',
     marginLeft: '16px',
   })
+  const questionnaireLink =
+    QuestionnairesUtils.generateFurthestVisitableQuestionLink()
+
   return (
     <div
       style={{
@@ -293,7 +295,7 @@ export default function LandingPage() {
             </Panel>
           </Accordion>
           <Block height={'64px'} />
-          <Link href={getStartedQuestionLink}>
+          <Link href={questionnaireLink}>
             <a style={{display: 'block', textAlign: 'center'}}>
               <Button
                 style={{maxWidth: '300px'}}

@@ -16,6 +16,7 @@ import {useRouter} from 'next/router'
 
 import * as QuestionnairesUtils from '../questionnaires-utils'
 import * as QuestionnairesService from '../services/questionnaires'
+import * as ClientMemory from '../client-memory'
 
 import {SubmitResultModal} from './SubmitResultModal'
 import {Button} from './Button'
@@ -77,7 +78,6 @@ function ActionsGroup({
   const questionRef = React.useRef(question)
   const routerRef = React.useRef(router)
   const isAutoNextRef = React.useRef(isAutoNext)
-  const linkCursorRef = React.useRef(linkCursor)
 
   // NOTE: syncs all refs using `useLayoutEffect` ensures that the syncRefs()
   // would run before any any other code.
@@ -85,8 +85,22 @@ function ActionsGroup({
     routerRef.current = router
     isAutoNextRef.current = isAutoNext
     questionRef.current = question
-    linkCursorRef.current = linkCursor
   })
+
+  const goToNextQuestionRef = React.useRef()
+  const {nextQuestionLink} = linkCursor
+
+  React.useEffect(
+    function syncGoToNextQuestionHandlerToLatestLinkCursor() {
+      goToNextQuestionRef.current = () => {
+        if (nextQuestionLink) {
+          routerRef.current.push(nextQuestionLink)
+          ClientMemory.saveFurthestVisitableQuestionLink(nextQuestionLink)
+        }
+      }
+    },
+    [nextQuestionLink],
+  )
 
   React.useEffect(
     function considerToAutoNext() {
@@ -96,7 +110,7 @@ function ActionsGroup({
         isAutoNextRef.current &&
         questionRef.current.type === 'MULTI_CHOICE'
       ) {
-        routerRef.current.push(linkCursorRef.current.nextQuestionLink)
+        goToNextQuestionRef.current?.()
       }
     },
     [isRespondingOk, isEditedRespondingOnceOnVisit],
@@ -120,10 +134,6 @@ function ActionsGroup({
     const submittingStatus = submittingResult.isSuccess ? SUCCESS : FAILURE
     setSubmittingStatus(submittingStatus)
     setIsOpenSubmitResultModal(true)
-  }
-
-  const goToNextQuestion = () => {
-    router.push(linkCursor.nextQuestionLink)
   }
 
   const isReadyToSubmit = !question.nextQuestionLink
@@ -177,7 +187,7 @@ function ActionsGroup({
           <div>
             <Button
               disabled={!isRespondingOk}
-              onClick={goToNextQuestion}
+              onClick={() => goToNextQuestionRef.current?.()}
               endEnhancer={<ArrowRight size={24} />}
               isChangeEnhancerOnDisabled
             >
