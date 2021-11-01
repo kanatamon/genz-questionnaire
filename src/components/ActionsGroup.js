@@ -156,7 +156,7 @@ function ActionsGroup({
       <SproutMotionWrapper key="actions-go-next" style={{gridColumn: 2}}>
         <Button
           disabled={!isRespondingOk}
-          onClick={goToNextQuestion}
+          onClick={goToNextQuestionRef.current}
           endEnhancer={<ArrowRight size={24} />}
           isChangeEnhancerOnDisabled
         >
