@@ -82,11 +82,15 @@ export function generateFirstQuestionLink() {
 }
 
 export function generateGetStartedQuestionLink() {
-  return `${generateFirstQuestionLink()}?isGetStarted`
+  return `${generateFirstQuestionLink()}?command=new-form`
 }
 
 export function generateGetStartedWithoutClearingContactQuestionLink() {
-  return `${generateFirstQuestionLink()}?isGetStartedWithoutClearingContact`
+  return `${generateFirstQuestionLink()}?command=reset-form`
+}
+
+export function generateFurthestVisitableQuestionLink() {
+  return `${generateFirstQuestionLink()}?command=furthest-visitable-question`
 }
 
 export function getSectionTitleInfoBySectionSlug(slug) {

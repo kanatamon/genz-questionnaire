@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["GENZ", "baseui", "respondings", "styletron"]
+  "cSpell.words": ["GENZ", "baseui", "respondings", "styletron"],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

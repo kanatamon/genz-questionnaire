@@ -1,16 +1,6 @@
 import * as React from 'react'
 
 import {Block} from 'baseui/block'
-import {
-  Display1,
-  Label2,
-  Label3,
-  Label4,
-  Paragraph1,
-  Paragraph2,
-  Paragraph3,
-  Paragraph4,
-} from 'baseui/typography'
 import {motion, AnimatePresence} from 'framer-motion'
 
 import * as QuestionnairesUtils from '../../../questionnaires-utils'

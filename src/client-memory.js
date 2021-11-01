@@ -50,14 +50,18 @@ export function getRegisteredGroups() {
   return Array.isArray(registeredGroups) ? registeredGroups : []
 }
 
-// export function saveAttendeeEmail(email) {
-//   localStorage.setItem('ATTENDEE_EMAIL_KEY', email)
-// }
+export function saveFurthestVisitableQuestionLink(link) {
+  if (link) {
+    localStorage.setItem('FURTHEST_VISITABLE_LINK', link)
+    return
+  }
+  localStorage.removeItem('FURTHEST_VISITABLE_LINK')
+}
 
-// export function getAttendeeEmail() {
-//   const attendeeEmail = localStorage.getItem('ATTENDEE_EMAIL_KEY')
-//   return attendeeEmail
-// }
+export function getFurthestVisitableQuestionLink() {
+  const attendeeEmail = localStorage.getItem('FURTHEST_VISITABLE_LINK')
+  return attendeeEmail
+}
 
 // export function saveAttendeeName(name) {
 //   localStorage.setItem('ATTENDEE_NAME_KEY', name)
@@ -87,6 +91,7 @@ export function resetResponding() {
     QuestionnairesUtils.generateNewRespondingsTemplate()
   saveAllRespondingsTemplate(newRespondingsTemplate)
   saveRegisteredGroups([])
+  saveFurthestVisitableQuestionLink(null)
 }
 
 export function resetAll() {

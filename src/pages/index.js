@@ -5,7 +5,6 @@ import {H1, Paragraph1, Paragraph2} from 'baseui/typography'
 import {Block} from 'baseui/block'
 import ArrowRight from 'baseui/icon/arrow-right'
 import {Accordion, Panel} from 'baseui/accordion'
-import {StyledTable, StyledHeadCell, StyledBodyCell} from 'baseui/table-grid'
 import {ListItem, ListItemLabel} from 'baseui/list'
 
 import Image from 'next/image'
@@ -18,13 +17,15 @@ import {Button} from '../components/Button'
 import * as QuestionnairesUtils from '../questionnaires-utils'
 
 export default function LandingPage() {
-  const getStartedQuestionLink =
-    QuestionnairesUtils.generateGetStartedQuestionLink()
   const [css] = useStyletron()
+
   const sharedOrderedListClassName = css({
     listStyle: 'revert',
     marginLeft: '16px',
   })
+  const questionnaireLink =
+    QuestionnairesUtils.generateFurthestVisitableQuestionLink()
+
   return (
     <div
       style={{
@@ -113,18 +114,17 @@ export default function LandingPage() {
                 <li>
                   <Paragraph2>
                     ผู้ตอบแบบสอบถามสามารถกลับเข้ามาทำแบบสอบถามได้หลายครั้ง
-                    โดยทำการ Log in ด้วย e-mail
-                    ของผู้ตอบแบบสอบถามที่ได้ลงทะเบียนไว้ ทั้งนี้
+                    โดยการใช้อุปกรณ์เครื่องเดิมที่ทำค้างไว้ ทั้งนี้
                     ผู้ตอบแบบสอบถามจะต้องส่ง (Submit)
                     ข้อมูลแบบสอบถามภายในวันศุกร์ที่ 10 ธันวาคม 2564 เวลา 16.00
-                    น.
+                    น. น.
                   </Paragraph2>
                 </li>
                 <Block height={'16px'} />
                 <li>
                   <Paragraph2>
                     ข้อมูล ชื่อ-นามสกุล และ e-mail
-                    ของผู้ตอบแบบสอบถามจะใช้เพื่อการกลับเข้าตอบแบบสอบถามที่ยังตอบคำถามไม่สมบูรณ์
+                    ของผู้ตอบแบบสอบถามจะถูกเก็บกรณีที่เข้าร่วมกิจกรรมลุ้นรับของรางวัล
                     และใช้ยืนยันตัวตนในกรณีที่เป็นผู้โชคดีได้รับรางวัลเท่านั้น
                     คำตอบในแบบสอบถามจะถูกเก็บเป็นข้อมูลแยกอิสระจากข้อมูล
                     ชื่อ-นามสกุล และ e-mail ของผู้ตอบแบบสอบถาม
@@ -293,7 +293,7 @@ export default function LandingPage() {
             </Panel>
           </Accordion>
           <Block height={'64px'} />
-          <Link href={getStartedQuestionLink}>
+          <Link href={questionnaireLink}>
             <a style={{display: 'block', textAlign: 'center'}}>
               <Button
                 style={{maxWidth: '300px'}}
