@@ -2,11 +2,7 @@ import * as React from 'react'
 
 import {AnimatePresence} from 'framer-motion'
 import {useStyletron} from 'baseui'
-import {Paragraph3} from 'baseui/typography'
 import {Checkbox, LABEL_PLACEMENT} from 'baseui/checkbox'
-import {StatefulPopover} from 'baseui/popover'
-import {colors} from 'baseui/tokens'
-import {Block} from 'baseui/block'
 
 import ArrowRight from 'baseui/icon/arrow-right'
 import ArrowLeft from 'baseui/icon/arrow-left'
@@ -148,43 +144,14 @@ function ActionsGroup({
   if (linkCursor.nextQuestionLink) {
     rightAction = (
       <SproutMotionWrapper key="actions-go-next" style={{gridColumn: 2}}>
-        <StatefulPopover
-          overrides={{
-            Body: {
-              style: {
-                display: isRespondingOk ? 'none' : 'block',
-              },
-            },
-            Arrow: {
-              style: {
-                backgroundColor: colors.yellow200,
-              },
-            },
-            Inner: {
-              style: {
-                backgroundColor: colors.yellow200,
-              },
-            },
-          }}
-          content={() => (
-            <Block padding={'20px'}>
-              <Paragraph3>โปรดระบุคำตอบเพื่อไปยังคำถามถัดไป !</Paragraph3>
-            </Block>
-          )}
-          accessibilityType={'tooltip'}
-          showArrow
+        <Button
+          disabled={!isRespondingOk}
+          onClick={goToNextQuestion}
+          endEnhancer={<ArrowRight size={24} />}
+          isChangeEnhancerOnDisabled
         >
-          <div>
-            <Button
-              disabled={!isRespondingOk}
-              onClick={goToNextQuestion}
-              endEnhancer={<ArrowRight size={24} />}
-              isChangeEnhancerOnDisabled
-            >
-              ถัดไป
-            </Button>
-          </div>
-        </StatefulPopover>
+          ถัดไป
+        </Button>
       </SproutMotionWrapper>
     )
   } else if (!linkCursor.nextQuestionLink && isReadyToSubmit) {
