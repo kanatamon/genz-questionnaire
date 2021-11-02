@@ -75,6 +75,15 @@ function Questionnaire({question}) {
     [question],
   )
 
+  React.useEffect(
+    function onSessionIdChangeHandler() {
+      if (typeof window !== 'undefined') {
+        setRegisteredGroups(ClientMemory.getRegisteredGroups())
+      }
+    },
+    [sessionId],
+  )
+
   const handleOnRespondingValidate = isOk => {
     setIsRespondingOk(isOk)
   }

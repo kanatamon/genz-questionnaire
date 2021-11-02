@@ -38,7 +38,11 @@ function useClientSession() {
         }
 
         case 'reset-form': {
-          commandResetFormHandler(router)
+          commandResetFormHandler(router, isSuccess => {
+            if (isSuccess) {
+              setSessionId(generateIdentifier())
+            }
+          })
           return
         }
 
@@ -72,11 +76,13 @@ function commandNewFormHandler(router, onExecuted = () => null) {
   })
 }
 
-function commandResetFormHandler(router) {
+function commandResetFormHandler(router, onExecuted = () => null) {
   const firstQuestionLink = QuestionnairesUtils.generateFirstQuestionLink()
 
   ClientMemory.resetResponding()
-  router.replace(firstQuestionLink)
+  router.replace(firstQuestionLink).then(isSuccess => {
+    typeof onExecuted === 'function' && onExecuted(isSuccess)
+  })
 }
 
 function commandFurthestVisitableQuestionHandler(router) {
