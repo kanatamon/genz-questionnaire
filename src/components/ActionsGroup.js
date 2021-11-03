@@ -11,17 +11,12 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 
 import * as QuestionnairesUtils from '../questionnaires-utils'
-import * as QuestionnairesService from '../services/questionnaires'
+
 import * as ClientMemory from '../client-memory'
 
-import {SubmitResultModal} from './SubmitResultModal'
+import {SubmitConfirmationModal} from './SubmitConfirmationModal'
 import {Button} from './Button'
 import {SproutMotionWrapper} from './SproutMotionWrapper'
-
-const IDLE = 'idle'
-const PENDING = 'pending'
-const SUCCESS = 'success'
-const FAILURE = 'failure'
 
 function ActionsGroup({
   question,
@@ -32,9 +27,8 @@ function ActionsGroup({
   const router = useRouter()
   const [css, theme] = useStyletron()
 
-  const [isOpenSubmitResultModal, setIsOpenSubmitResultModal] =
+  const [isOpenSubmitConfirmationModal, setIsOpenSubmitConfirmationModal] =
     React.useState(false)
-  const [submittingStatus, setSubmittingStatus] = React.useState(IDLE)
   const [isAutoNext, setIsAutoNext] = React.useState(false)
 
   const routerRef = React.useRef(router)
@@ -57,37 +51,21 @@ function ActionsGroup({
     }
   }, [linkCursor])
 
-  React.useEffect(
-    function switchSubmittingStatusToIdleWhenUserRelizedSomeFailure() {
-      if (!isOpenSubmitResultModal && submittingStatus === FAILURE) {
-        setSubmittingStatus(IDLE)
-      }
-    },
-    [isOpenSubmitResultModal, submittingStatus],
-  )
-
-  const handleOnSubmitAllRespondingsToServer = async () => {
-    setSubmittingStatus(PENDING)
-
-    const submittingResult =
-      await QuestionnairesService.submitAllRespondingsToServer()
-
-    const submittingStatus = submittingResult.isSuccess ? SUCCESS : FAILURE
-    setSubmittingStatus(submittingStatus)
-    setIsOpenSubmitResultModal(true)
-  }
-
   const isReadyToSubmit = !question.nextQuestionLink
 
   let leftAction = null
   let rightAction = null
 
-  if (linkCursor.prevQuestionLink && submittingStatus === IDLE) {
+  if (linkCursor.prevQuestionLink) {
     leftAction = (
       <SproutMotionWrapper key="actions-go-previous" style={{gridColumn: 1}}>
         <Link href={linkCursor.prevQuestionLink}>
           <a>
-            <Button variant="secondary" startEnhancer={<ArrowLeft size={24} />}>
+            <Button
+              disabled={isOpenSubmitConfirmationModal}
+              variant="secondary"
+              startEnhancer={<ArrowLeft size={24} />}
+            >
               ก่อนหน้า
             </Button>
           </a>
@@ -100,7 +78,7 @@ function ActionsGroup({
     rightAction = (
       <SproutMotionWrapper key="actions-go-next" style={{gridColumn: 2}}>
         <Button
-          disabled={!isRespondingOk}
+          disabled={!isRespondingOk || isOpenSubmitConfirmationModal}
           onClick={goToNextQuestion}
           endEnhancer={<ArrowRight size={24} />}
           isChangeEnhancerOnDisabled
@@ -113,10 +91,9 @@ function ActionsGroup({
     rightAction = (
       <SproutMotionWrapper key="actions-submit" style={{gridColumn: 2}}>
         <Button
+          disabled={isOpenSubmitConfirmationModal}
           variant="submit"
-          onClick={handleOnSubmitAllRespondingsToServer}
-          disabled={submittingStatus !== IDLE}
-          isLoading={submittingStatus === PENDING}
+          onClick={() => setIsOpenSubmitConfirmationModal(true)}
         >
           ส่งคำตอบ
           <ArrowRight size={24} />
@@ -174,10 +151,9 @@ function ActionsGroup({
           </div>
         </div>
       </div>
-      <SubmitResultModal
-        isOpen={isOpenSubmitResultModal}
-        onClose={() => setIsOpenSubmitResultModal(false)}
-        isSuccess={submittingStatus === SUCCESS}
+      <SubmitConfirmationModal
+        isOpen={isOpenSubmitConfirmationModal}
+        onClose={() => setIsOpenSubmitConfirmationModal(false)}
       />
     </>
   )
