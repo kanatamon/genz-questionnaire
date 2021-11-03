@@ -25,7 +25,7 @@ const FAILURE = 'failure'
 
 function ActionsGroup({
   question,
-  registeredGroups,
+  linkCursor,
   isRespondingOk,
   isEditedRespondingOnceOnVisit,
 }) {
@@ -36,81 +36,26 @@ function ActionsGroup({
     React.useState(false)
   const [submittingStatus, setSubmittingStatus] = React.useState(IDLE)
   const [isAutoNext, setIsAutoNext] = React.useState(false)
-  const linkCursor = React.useMemo(
-    function updateLinkCursor() {
-      const allQuestionsMap = QuestionnairesUtils.generateAllQuestionsMap()
-      const allQuestionsMapIds = Object.keys(allQuestionsMap)
 
-      const thisQuestionPosition = allQuestionsMapIds.indexOf(question.id)
-
-      const nextQuestionPosition = thisQuestionPosition + 1
-      const allPossibleNextQuestionIds =
-        allQuestionsMapIds.slice(nextQuestionPosition)
-
-      const nextQuestionLink = findNearestQuestionLink(
-        allPossibleNextQuestionIds,
-        allQuestionsMap,
-        registeredGroups,
-      )
-
-      const allPossiblePrevQuestionIds = allQuestionsMapIds
-        .slice(0, thisQuestionPosition)
-        .reverse()
-
-      const prevQuestionLink = findNearestQuestionLink(
-        allPossiblePrevQuestionIds,
-        allQuestionsMap,
-        registeredGroups,
-      )
-
-      return {
-        nextQuestionLink,
-        prevQuestionLink,
-      }
-    },
-    [question, registeredGroups],
-  )
-
-  const questionRef = React.useRef(question)
   const routerRef = React.useRef(router)
-  const isAutoNextRef = React.useRef(isAutoNext)
+  // const questionRef = React.useRef(question)
+  // const isAutoNextRef = React.useRef(isAutoNext)
 
   // NOTE: syncs all refs using `useLayoutEffect` ensures that the syncRefs()
   // would run before any any other code.
   React.useLayoutEffect(function syncRefs() {
     routerRef.current = router
-    isAutoNextRef.current = isAutoNext
-    questionRef.current = question
+    // isAutoNextRef.current = isAutoNext
+    // questionRef.current = question
   })
 
-  const goToNextQuestionRef = React.useRef()
-  const {nextQuestionLink} = linkCursor
-
-  React.useEffect(
-    function syncGoToNextQuestionHandlerToLatestLinkCursor() {
-      goToNextQuestionRef.current = () => {
-        if (nextQuestionLink) {
-          routerRef.current.push(nextQuestionLink)
-          ClientMemory.saveFurthestVisitableQuestionLink(nextQuestionLink)
-        }
-      }
-    },
-    [nextQuestionLink],
-  )
-
-  React.useEffect(
-    function considerToAutoNext() {
-      if (
-        isEditedRespondingOnceOnVisit &&
-        isRespondingOk &&
-        isAutoNextRef.current &&
-        questionRef.current.type === 'MULTI_CHOICE'
-      ) {
-        goToNextQuestionRef.current?.()
-      }
-    },
-    [isRespondingOk, isEditedRespondingOnceOnVisit],
-  )
+  const goToNextQuestion = React.useCallback(() => {
+    const {nextQuestionLink} = linkCursor
+    if (nextQuestionLink) {
+      routerRef.current.push(nextQuestionLink)
+      ClientMemory.saveFurthestVisitableQuestionLink(nextQuestionLink)
+    }
+  }, [linkCursor])
 
   React.useEffect(
     function switchSubmittingStatusToIdleWhenUserRelizedSomeFailure() {
@@ -156,7 +101,7 @@ function ActionsGroup({
       <SproutMotionWrapper key="actions-go-next" style={{gridColumn: 2}}>
         <Button
           disabled={!isRespondingOk}
-          onClick={goToNextQuestionRef.current}
+          onClick={goToNextQuestion}
           endEnhancer={<ArrowRight size={24} />}
           isChangeEnhancerOnDisabled
         >
@@ -217,14 +162,14 @@ function ActionsGroup({
             <div
               style={{gridColumn: '1 / -1', gridRow: 2, justifySelf: 'center'}}
             >
-              <Checkbox
+              {/* <Checkbox
                 checked={isAutoNext}
                 onChange={e => setIsAutoNext(e.target.checked)}
                 labelPlacement={LABEL_PLACEMENT.right}
                 disabled={question.type !== 'MULTI_CHOICE'}
               >
                 เปิดโหมดเลื่อนคำถามถัดไปอัตโนมัติ?
-              </Checkbox>
+              </Checkbox> */}
             </div>
           </div>
         </div>
@@ -236,37 +181,6 @@ function ActionsGroup({
       />
     </>
   )
-}
-
-function findNearestQuestionLink(
-  allPossibleQuestionIds,
-  allQuestionsMap,
-  registeredGroups,
-) {
-  const nextQuestionIdIndex = allPossibleQuestionIds.findIndex(questionId => {
-    const {showForGroups} = allQuestionsMap[questionId]
-
-    if (!showForGroups) {
-      return true
-    }
-
-    const isNext = registeredGroups.some(registeredGroup =>
-      showForGroups.includes(registeredGroup),
-    )
-
-    return isNext
-  })
-
-  let nextQuestionLink = null
-
-  if (nextQuestionIdIndex !== -1) {
-    const nextQuestionId = allPossibleQuestionIds[nextQuestionIdIndex]
-    const {link} = allQuestionsMap[nextQuestionId]
-
-    nextQuestionLink = link
-  }
-
-  return nextQuestionLink
 }
 
 export {ActionsGroup}

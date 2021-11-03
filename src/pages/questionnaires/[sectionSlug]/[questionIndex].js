@@ -62,10 +62,8 @@ function Questionnaire({question}) {
   const [isEditedRespondingOnceOnVisit, setIsEditedRespondingOnceOnVisit] =
     React.useState(false)
 
-  const [registeredGroups, setRegisteredGroups] = React.useState(() => {
-    return typeof window !== 'undefined'
-      ? ClientMemory.getRegisteredGroups()
-      : []
+  const [linkCursor, setLinkCursor] = React.useState(() => {
+    return updateLinkCursor(question, [])
   })
 
   React.useEffect(
@@ -77,11 +75,13 @@ function Questionnaire({question}) {
 
   React.useEffect(
     function onSessionIdChangeHandler() {
-      if (typeof window !== 'undefined') {
-        setRegisteredGroups(ClientMemory.getRegisteredGroups())
-      }
+      const registeredGroups =
+        typeof window !== 'undefined'
+          ? ClientMemory.getRegisteredGroups()
+          : null
+      setLinkCursor(updateLinkCursor(question.id, registeredGroups))
     },
-    [sessionId],
+    [sessionId, question.id],
   )
 
   const handleOnRespondingValidate = isOk => {
@@ -93,7 +93,7 @@ function Questionnaire({question}) {
   }
 
   const handleOnRegisteringNewGroups = newRegisteringGroups => {
-    setRegisteredGroups(newRegisteringGroups)
+    setLinkCursor(updateLinkCursor(question.id, newRegisteringGroups))
   }
 
   const RespondingComp = RESPONDING_COMPONENTS[question.type]
@@ -168,13 +168,77 @@ function Questionnaire({question}) {
       <ClientOnly>
         <ActionsGroup
           isRespondingOk={isRespondingOk}
-          registeredGroups={registeredGroups}
+          // registeredGroups={registeredGroups}
+          linkCursor={linkCursor}
           question={question}
           isEditedRespondingOnceOnVisit={isEditedRespondingOnceOnVisit}
         />
       </ClientOnly>
     </>
   )
+}
+
+function updateLinkCursor(staringQuestionId, registeredGroups) {
+  const allQuestionsMap = QuestionnairesUtils.generateAllQuestionsMap()
+  const allQuestionsMapIds = Object.keys(allQuestionsMap)
+
+  const thisQuestionPosition = allQuestionsMapIds.indexOf(staringQuestionId)
+
+  const nextQuestionPosition = thisQuestionPosition + 1
+  const allPossibleNextQuestionIds =
+    allQuestionsMapIds.slice(nextQuestionPosition)
+
+  const nextQuestionLink = findNearestQuestionLink(
+    allPossibleNextQuestionIds,
+    allQuestionsMap,
+    registeredGroups,
+  )
+
+  const allPossiblePrevQuestionIds = allQuestionsMapIds
+    .slice(0, thisQuestionPosition)
+    .reverse()
+
+  const prevQuestionLink = findNearestQuestionLink(
+    allPossiblePrevQuestionIds,
+    allQuestionsMap,
+    registeredGroups,
+  )
+
+  return {
+    nextQuestionLink,
+    prevQuestionLink,
+  }
+}
+
+function findNearestQuestionLink(
+  allPossibleQuestionIds,
+  allQuestionsMap,
+  registeredGroups,
+) {
+  const nextQuestionIdIndex = allPossibleQuestionIds.findIndex(questionId => {
+    const {showForGroups} = allQuestionsMap[questionId]
+
+    if (!showForGroups) {
+      return true
+    }
+
+    const isNext = registeredGroups.some(registeredGroup =>
+      showForGroups.includes(registeredGroup),
+    )
+
+    return isNext
+  })
+
+  let nextQuestionLink = null
+
+  if (nextQuestionIdIndex !== -1) {
+    const nextQuestionId = allPossibleQuestionIds[nextQuestionIdIndex]
+    const {link} = allQuestionsMap[nextQuestionId]
+
+    nextQuestionLink = link
+  }
+
+  return nextQuestionLink
 }
 
 export async function getStaticPaths() {
