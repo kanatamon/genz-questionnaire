@@ -23,6 +23,13 @@ export default function LandingPage() {
     listStyle: 'revert',
     marginLeft: '16px',
   })
+
+  const sharedContentContainerClassName = css({
+    flex: '1 1 400px',
+    paddingTop: '64px',
+    paddingBottom: '64px',
+  })
+
   const questionnaireLink =
     QuestionnairesUtils.generateFurthestVisitableQuestionLink()
 
@@ -65,9 +72,7 @@ export default function LandingPage() {
             </a>
           </Link>
         </nav>
-        <div
-          style={{flex: '1 1 400px', paddingTop: '64px', paddingBottom: '64px'}}
-        >
+        <div className={sharedContentContainerClassName}>
           <H1 style={{fontSize: '1.4rem', textAlign: 'center'}}>
             แบบสอบถามโครงการศึกษาคุณลักษณะของ Gen Z
           </H1>
@@ -78,9 +83,7 @@ export default function LandingPage() {
             alt="Picture of the author"
           />
         </div>
-        <header
-          style={{flex: '1 1 400px', paddingTop: '64px', paddingBottom: '64px'}}
-        >
+        <header className={sharedContentContainerClassName}>
           <Paragraph1>
             ผู้วิจัยโครงการศึกษาคุณลักษณะของ Gen Z มหาวิทยาลัยเชียงใหม่
             ขอเชิญชวนผู้สนใจที่มีอายุ ระหว่าง 16 – 26 ปี ตอบแบบสอบถาม โดยมี
@@ -202,6 +205,47 @@ export default function LandingPage() {
               </ol>
             </Panel>
             <Panel title="รายละเอียดของโครงการวิจัย">
+              <Paragraph2>หลักการและเหตุผลของการวิจัย</Paragraph2>
+              <Block height={'16px'} />
+              <p
+                className={css({
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  WebkitLineClamp: 8,
+                  lineClamp: 8,
+                  display: '-webkit-box',
+                  WebkitBoxOrient: 'vertical',
+                })}
+              >
+                การก้าวเข้าสู่ยุคโลกาภิวัตน์ (Globalizations)
+                ที่มีอินเตอร์เน็ตเป็นศูนย์กลางในการสื่อสาร ได้มีการ
+                เปลี่ยนแปลงเกิดขึ้นอย่างมากมายในสังคมโลกและยังส่งผลอย่างกว้างขวางถึงพฤติกรรมของคนที่เกิดในยุคหลัง
+                ๆ ด้วย เจเนอร์เรชั่นแซดเป็นกลุ่มคนที่อายุน้อยที่สุด
+                ที่กำลังจะก้าวเข้าสู่ตลาดแรงงานในปัจจุบัน เจเนอเรชั่น แซด คือ
+                ค่านิยามของคนรุ่นใหม่ในยุคปัจจุบัน หมายถึงคนที่เกิดหลังจากปี
+                ค.ศ. 1995 หรือปี พ.ศ. 2538 เป็น ต้นมา
+                กลุ่มเจเนอเรชั่นแซดนี้จะเติบโตมาพร้อมกับสิ่งอำนวยความสะดวกมากมาย
+                มีความสามารถในการใช้ งานเทคโนโลยีต่าง ๆ และเรียนรู้ได้เร็ว
+                คนกลุ่ม เจเนอเรชั่นแซด โดยในเจเนอเรชั่นนี้จะเป็นช่วงที่มีประชากร
+                เกิดใหม่น้อยลง
+                เนื่องจากโลกมีความเป็นเมืองเพิ่มขึ้นทำให้มีภาระด้านการดำเนินชีวิต
+                การทำงาน ที่อยู่อาศัย ค่าใช้จ่าย และอื่น ๆ
+                ทำให้ค่านิยมการมีลูกน้อยลง (เจเนอเรชั่นแซด Manpower, 2554)
+              </p>
+              <Block height={'16px'} />
+              <div>
+                <a
+                  className={css({
+                    textDecoration: 'revert',
+                  })}
+                  rel="noreferrer"
+                  target="_blank"
+                  href="https://www1.reg.cmu.ac.th/asama/cmusurvey/cmu-genZ-Document.pdf"
+                >
+                  อ่านเพิ่มเติม
+                </a>
+              </div>
+              <Block height={'24px'} />
               <Paragraph2>วัตถุประสงค์ของการวิจัย</Paragraph2>
               <Block height={'16px'} />
               <ol className={sharedOrderedListClassName}>
