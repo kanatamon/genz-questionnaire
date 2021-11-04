@@ -51,6 +51,7 @@ function formatToServerResponseDetails(allRespondingsTemplate) {
 
 export async function submitAllRespondingsToServer() {
   const attendeeContact = ClientMemory.getAttendeeContact()
+  const registeredGroups = ClientMemory.getRegisteredGroups()
 
   const allRespondingsTemplate = ClientMemory.getAllRespondingsTemplate()
   const responseDetails = formatToServerResponseDetails(allRespondingsTemplate)
@@ -58,6 +59,7 @@ export async function submitAllRespondingsToServer() {
   const submittingData = {
     qid: 'GenZ',
     response_details: responseDetails,
+    answer_group: registeredGroups?.[0] ?? null,
     ...attendeeContact,
   }
 
