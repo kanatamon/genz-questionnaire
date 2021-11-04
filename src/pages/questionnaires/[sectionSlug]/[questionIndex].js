@@ -18,6 +18,7 @@ import {SuperHeader} from '../../../components/SuperHeader'
 
 import {usePrevious} from '../../../hooks/usePrevious'
 import {useClientSession} from '../../../hooks/useClientSession'
+import {usePreventUserOnSubmitUnavailable} from '../../../hooks/usePreventUserOnSubmitUnavailable'
 
 const RESPONDING_COMPONENTS = {
   SHORT_ANSWER: ShortAnswerResponding,
@@ -49,8 +50,8 @@ const questionMotionVariants = {
 }
 
 function Questionnaire({question}) {
+  usePreventUserOnSubmitUnavailable()
   const sessionId = useClientSession()
-
   const prevQuestionLinkIndex = usePrevious(question.linkIndex)
 
   const direction =

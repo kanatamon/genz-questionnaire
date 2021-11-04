@@ -1,18 +1,6 @@
 import * as QuestionnairesUtils from '../questionnaires-utils'
 import * as ClientMemory from '../client-memory'
-
-async function postData(url = '', data = {}) {
-  const response = await fetch(url, {
-    method: 'POST',
-    cache: 'no-cache',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-  const responseData = await response.json()
-  return responseData
-}
+import {postData} from './http-tools'
 
 function formatToServerOptions(respondingOptions) {
   return respondingOptions.map(option => ({

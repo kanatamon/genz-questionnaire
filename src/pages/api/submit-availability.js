@@ -2,20 +2,18 @@
 import axios from 'axios'
 
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
+  if (req.method === 'GET') {
     try {
-      await axios.post(
-        'https://www1.reg.cmu.ac.th/asama/cmusurvey/savedata.php',
-        req.body,
+      const {data: checkAvailabilityResult} = await axios.get(
+        'https://www1.reg.cmu.ac.th/asama/cmusurvey/checkTime.php',
       )
       return res.status(200).json({
-        isSuccess: true,
-        message: 'Submitted questionnaires successfully',
+        isOk: checkAvailabilityResult.isOK,
       })
     } catch (error) {
       return res.status(500).json({
-        isSuccess: false,
-        message: 'Submitted questionnaires failed',
+        isOk: false,
+        message: 'Service not available',
       })
     }
   }

@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import {Notification, KIND as NotificationKind} from 'baseui/notification'
 import {Input} from 'baseui/input'
 import {FormControl} from 'baseui/form-control'
 import {Block} from 'baseui/block'
@@ -7,8 +8,9 @@ import {Modal, ModalHeader, ModalBody, ModalFooter} from 'baseui/modal'
 import {Checkbox, LABEL_PLACEMENT} from 'baseui/checkbox'
 import {Select} from 'baseui/select'
 import {Button as BaseButton, KIND, SIZE} from 'baseui/button'
-import {Paragraph2} from 'baseui/typography'
 
+import {useCheckContactAvailability} from '../hooks/useCheckContactAvailability'
+import * as EmailDomain from '../domains/email'
 import {Button} from './Button'
 
 const PREFIXES_DICTIONARY = {
@@ -56,6 +58,8 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
     convertInitialContactToLocalState(initialContact),
   )
 
+  const checkContactAvailabilityResult = useCheckContactAvailability(contact)
+
   React.useEffect(() => {
     setContact(convertInitialContactToLocalState(initialContact))
   }, [initialContact])
@@ -99,10 +103,16 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
     contact.surname.trim().length === 0
 
   const isEmailInputNeededToFillCorrectly =
-    isEitherRequiredFieldOfContactFulfilled && !isValidEmail(contact.email)
+    isEitherRequiredFieldOfContactFulfilled &&
+    !EmailDomain.isValidEmail(contact.email)
+
+  const canUserUseThisContact =
+    checkContactAvailabilityResult.status ===
+    checkContactAvailabilityResult.STATUSES.AVAILABLE
 
   const isOkToSubmit =
-    isValidEmail(contact.email) &&
+    canUserUseThisContact &&
+    EmailDomain.isValidEmail(contact.email) &&
     contact.name.trim().length > 0 &&
     contact.surname.trim().length > 0 &&
     contact.isAcceptPolicy
@@ -110,6 +120,10 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
   const isInitialContactExisted =
     typeof initialContact === 'object' &&
     Object.values(initialContact).every(Boolean)
+
+  const isContactUnavailable =
+    checkContactAvailabilityResult.status ===
+    checkContactAvailabilityResult.STATUSES.UNAVAILABLE
 
   return (
     <Modal
@@ -176,10 +190,12 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
         <FormControl
           label={() => 'ชื่อ'}
           caption={() =>
-            isNameInputNeedToFillCorrectly ? 'กรุณาใส่ ชื่อ' : null
+            isNameInputNeedToFillCorrectly && !isContactUnavailable
+              ? 'กรุณาใส่ ชื่อ'
+              : null
           }
           positive={contact.name.trim().length > 0}
-          error={isNameInputNeedToFillCorrectly}
+          error={isNameInputNeedToFillCorrectly || isContactUnavailable}
         >
           <Input
             name="name"
@@ -193,10 +209,12 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
         <FormControl
           label={() => 'นามสกุล'}
           caption={() =>
-            isSurnameInputNeedToFillCorrectly ? 'กรุณาใส่ นามสกุล' : null
+            isSurnameInputNeedToFillCorrectly && !isContactUnavailable
+              ? 'กรุณาใส่ นามสกุล'
+              : null
           }
           positive={contact.surname.trim().length > 0}
-          error={isSurnameInputNeedToFillCorrectly}
+          error={isSurnameInputNeedToFillCorrectly || isContactUnavailable}
         >
           <Input
             name="surname"
@@ -211,12 +229,12 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
         <FormControl
           label={() => 'E-mail'}
           caption={() =>
-            isEmailInputNeededToFillCorrectly
+            isEmailInputNeededToFillCorrectly && !isContactUnavailable
               ? 'รูปแบบ e-mail ไม่ถูกต้อง กรุณาใช้ e-mail ที่ถูกต้อง เช่น example@email.org'
               : null
           }
-          positive={isValidEmail(contact.email)}
-          error={isEmailInputNeededToFillCorrectly}
+          positive={EmailDomain.isValidEmail(contact.email)}
+          error={isEmailInputNeededToFillCorrectly || isContactUnavailable}
         >
           <Input
             name="email"
@@ -227,8 +245,17 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
             type="email"
           />
         </FormControl>
+        {isContactUnavailable ? (
+          <Notification
+            kind={NotificationKind.negative}
+            overrides={{
+              Body: {style: {width: 'auto'}},
+            }}
+          >
+            ชื่อ-สกุล หรือ e-mail นี้ถูกใช้แล้ว
+          </Notification>
+        ) : null}
         <Block height={'12px'} />
-
         <Checkbox
           name="isAcceptPolicy"
           labelPlacement={LABEL_PLACEMENT.right}
@@ -280,12 +307,6 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
         </div>
       </ModalFooter>
     </Modal>
-  )
-}
-
-function isValidEmail(email) {
-  return /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
-    email,
   )
 }
 
