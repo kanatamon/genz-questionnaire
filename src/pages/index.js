@@ -79,7 +79,7 @@ export default function LandingPage() {
           />
         </div>
         <header
-          style={{maxWidth: '500px', paddingTop: '64px', paddingBottom: '64px'}}
+          style={{flex: '1 1 400px', paddingTop: '64px', paddingBottom: '64px'}}
         >
           <Paragraph1>
             ผู้วิจัยโครงการศึกษาคุณลักษณะของ Gen Z มหาวิทยาลัยเชียงใหม่
