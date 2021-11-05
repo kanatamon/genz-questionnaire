@@ -133,6 +133,8 @@ function Questionnaire({question}) {
           style={{
             isolation: 'isolate',
             flex: '1',
+            // NOTE: Prevent overflow on X axis while animating any change of each question
+            overflowX: 'hidden',
           }}
         >
           <AnimatePresence exitBeforeEnter initial={false} custom={direction}>
