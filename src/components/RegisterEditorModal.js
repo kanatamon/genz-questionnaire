@@ -15,10 +15,10 @@ import {Button} from './Button'
 import {useDebounce} from '../hooks/useDebounce'
 
 const PREFIXES_DICTIONARY = {
+  ไม่ระบุ: {label: 'ไม่ระบุ', id: '3'},
   นาย: {label: 'นาย', id: '0'},
   นางสาว: {label: 'นางสาว', id: '1'},
   นาง: {label: 'นาง', id: '2'},
-  ไม่ระบุ: {label: 'ไม่ระบุ', id: '3'},
 }
 
 function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
@@ -291,7 +291,7 @@ function convertInitialContactToLocalState(initialContact) {
     prefix:
       initialContact && initialContact.prefix
         ? PREFIXES_DICTIONARY[initialContact.prefix]
-        : Object.values(PREFIXES_DICTIONARY).at(-1),
+        : Object.values(PREFIXES_DICTIONARY)[0],
   }
 }
 
