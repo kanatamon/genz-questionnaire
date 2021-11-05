@@ -20,7 +20,7 @@ import {SproutMotionWrapper} from './SproutMotionWrapper'
 
 function ActionsGroup({
   question,
-  linkCursor,
+  registeredGroups,
   isRespondingOk,
   isEditedRespondingOnceOnVisit,
 }) {
@@ -43,13 +43,19 @@ function ActionsGroup({
     // questionRef.current = question
   })
 
-  const goToNextQuestion = React.useCallback(() => {
+  const linkCursor = React.useMemo(
+    () => updateLinkCursor(question.id, registeredGroups),
+    [question.id, registeredGroups],
+  )
+
+  const goToNextQuestion = () => {
     const {nextQuestionLink} = linkCursor
+
     if (nextQuestionLink) {
       routerRef.current.push(nextQuestionLink)
       ClientMemory.saveFurthestVisitableQuestionLink(nextQuestionLink)
     }
-  }, [linkCursor])
+  }
 
   const isReadyToSubmit = !question.nextQuestionLink
 
@@ -157,6 +163,70 @@ function ActionsGroup({
       />
     </>
   )
+}
+
+function updateLinkCursor(staringQuestionId, registeredGroups) {
+  const allQuestionsMap = QuestionnairesUtils.generateAllQuestionsMap()
+  const allQuestionsMapIds = Object.keys(allQuestionsMap)
+
+  const thisQuestionPosition = allQuestionsMapIds.indexOf(staringQuestionId)
+
+  const nextQuestionPosition = thisQuestionPosition + 1
+  const allPossibleNextQuestionIds =
+    allQuestionsMapIds.slice(nextQuestionPosition)
+
+  const nextQuestionLink = findNearestQuestionLink(
+    allPossibleNextQuestionIds,
+    allQuestionsMap,
+    registeredGroups,
+  )
+
+  const allPossiblePrevQuestionIds = allQuestionsMapIds
+    .slice(0, thisQuestionPosition)
+    .reverse()
+
+  const prevQuestionLink = findNearestQuestionLink(
+    allPossiblePrevQuestionIds,
+    allQuestionsMap,
+    registeredGroups,
+  )
+
+  return {
+    nextQuestionLink,
+    prevQuestionLink,
+  }
+}
+
+function findNearestQuestionLink(
+  allPossibleQuestionIds,
+  allQuestionsMap,
+  registeredGroups,
+) {
+  const nextQuestionIdIndex = allPossibleQuestionIds.findIndex(questionId => {
+    const {showForGroups} = allQuestionsMap[questionId]
+
+    if (!showForGroups) {
+      return true
+    }
+
+    const isNext =
+      registeredGroups?.some(registeredGroup =>
+        showForGroups.includes(registeredGroup),
+      ) ?? true
+
+    return isNext
+  })
+
+  let nextQuestionLink = null
+
+  if (nextQuestionIdIndex !== -1) {
+    const nextQuestionId = allPossibleQuestionIds[nextQuestionIdIndex]
+    const {link} = allQuestionsMap[nextQuestionId]
+
+    nextQuestionLink = link
+  }
+
+  return nextQuestionLink
 }
 
 export {ActionsGroup}
