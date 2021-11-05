@@ -140,7 +140,6 @@ const ListWrapper = styled('div', {
 })
 
 const DragGuard = styled('div', ({$theme}) => ({
-  background: 'rgba(0, 0, 0, 0.2)',
   position: 'absolute',
   top: 0,
   right: 0,
