@@ -27,7 +27,7 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
   )
 
   const debouncedContact = useDebounce(contact, 500)
-  const {stats: contactCheckingStatus, STATUSES: CONTACT_CHECKING_STATUSES} =
+  const {status: contactCheckingStatus, STATUSES: CONTACT_CHECKING_STATUSES} =
     useCheckContactAvailability(debouncedContact)
 
   React.useEffect(() => {
@@ -92,7 +92,7 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
 
   const isContactUnavailable =
     contactCheckingStatus === CONTACT_CHECKING_STATUSES.UNAVAILABLE
-
+  console.log(contactCheckingStatus)
   return (
     <Modal
       unstable_ModalBackdropScroll={true}
