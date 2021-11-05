@@ -12,6 +12,7 @@ import {Button as BaseButton, KIND, SIZE} from 'baseui/button'
 import {useCheckContactAvailability} from '../hooks/useCheckContactAvailability'
 import * as EmailDomain from '../domains/email'
 import {Button} from './Button'
+import {useDebounce} from '../hooks/useDebounce'
 
 const PREFIXES_DICTIONARY = {
   นาย: {label: 'นาย', id: '0'},
@@ -20,45 +21,14 @@ const PREFIXES_DICTIONARY = {
   ไม่ระบุ: {label: 'ไม่ระบุ', id: '3'},
 }
 
-function convertInitialContactToLocalState(initialContact) {
-  return {
-    isAcceptPolicy:
-      initialContact && initialContact.isAcceptPolicy
-        ? initialContact.isAcceptPolicy
-        : false,
-    email: initialContact && initialContact.email ? initialContact.email : '',
-    name: initialContact && initialContact.name ? initialContact.name : '',
-    surname:
-      initialContact && initialContact.surname ? initialContact.surname : '',
-    prefix:
-      initialContact && initialContact.prefix
-        ? PREFIXES_DICTIONARY[initialContact.prefix]
-        : Object.values(PREFIXES_DICTIONARY).at(-1),
-  }
-}
-
-function generateSubmittingContact({
-  isAcceptPolicy = false,
-  email = '',
-  name = '',
-  surname = '',
-  prefix = '',
-} = {}) {
-  return {
-    isAcceptPolicy,
-    email,
-    name,
-    surname,
-    prefix: typeof prefix === 'object' ? prefix.label : prefix,
-  }
-}
-
 function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
   const [contact, setContact] = React.useState(
     convertInitialContactToLocalState(initialContact),
   )
 
-  const checkContactAvailabilityResult = useCheckContactAvailability(contact)
+  const debouncedContact = useDebounce(contact, 500)
+  const {stats: contactCheckingStatus, STATUSES: CONTACT_CHECKING_STATUSES} =
+    useCheckContactAvailability(debouncedContact)
 
   React.useEffect(() => {
     setContact(convertInitialContactToLocalState(initialContact))
@@ -107,8 +77,7 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
     !EmailDomain.isValidEmail(contact.email)
 
   const canUserUseThisContact =
-    checkContactAvailabilityResult.status ===
-    checkContactAvailabilityResult.STATUSES.AVAILABLE
+    contactCheckingStatus === CONTACT_CHECKING_STATUSES.AVAILABLE
 
   const isOkToSubmit =
     canUserUseThisContact &&
@@ -122,8 +91,7 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
     Object.values(initialContact).every(Boolean)
 
   const isContactUnavailable =
-    checkContactAvailabilityResult.status ===
-    checkContactAvailabilityResult.STATUSES.UNAVAILABLE
+    contactCheckingStatus === CONTACT_CHECKING_STATUSES.UNAVAILABLE
 
   return (
     <Modal
@@ -308,6 +276,39 @@ function RegisterEditorModal({initialContact, isOpen, onClose, onSubmit}) {
       </ModalFooter>
     </Modal>
   )
+}
+
+function convertInitialContactToLocalState(initialContact) {
+  return {
+    isAcceptPolicy:
+      initialContact && initialContact.isAcceptPolicy
+        ? initialContact.isAcceptPolicy
+        : false,
+    email: initialContact && initialContact.email ? initialContact.email : '',
+    name: initialContact && initialContact.name ? initialContact.name : '',
+    surname:
+      initialContact && initialContact.surname ? initialContact.surname : '',
+    prefix:
+      initialContact && initialContact.prefix
+        ? PREFIXES_DICTIONARY[initialContact.prefix]
+        : Object.values(PREFIXES_DICTIONARY).at(-1),
+  }
+}
+
+function generateSubmittingContact({
+  isAcceptPolicy = false,
+  email = '',
+  name = '',
+  surname = '',
+  prefix = '',
+} = {}) {
+  return {
+    isAcceptPolicy,
+    email,
+    name,
+    surname,
+    prefix: typeof prefix === 'object' ? prefix.label : prefix,
+  }
 }
 
 export {RegisterEditorModal}
