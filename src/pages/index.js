@@ -6,6 +6,7 @@ import {Block} from 'baseui/block'
 import ArrowRight from 'baseui/icon/arrow-right'
 import {Accordion, Panel} from 'baseui/accordion'
 import {ListItem, ListItemLabel} from 'baseui/list'
+import {Notification, KIND} from 'baseui/notification'
 
 import Image from 'next/image'
 import Link from 'next/link'
@@ -84,6 +85,18 @@ export default function LandingPage() {
           />
         </div>
         <header className={sharedContentContainerClassName}>
+          <Notification
+            kind={KIND.warning}
+            overrides={{
+              Body: {style: {width: 'auto'}},
+            }}
+          >
+            แบบทดสอบชุดนี้เป็นชุดเพื่อทำการทดสอบระบบและตรวจสอบความเข้าใจในข้อคำถาม
+            หากท่านสนใจในการร่วมกิจกรรมชิงโชครางวัล
+            กรุณากลับมาในระบบเพื่อทำแบบสอบถามอีกครั้งหลังวันที่ 17 พฤศจิกายน
+            2564
+          </Notification>
+          <Block height={'32px'} />
           <Paragraph1>
             ผู้วิจัยโครงการศึกษาคุณลักษณะของ Gen Z มหาวิทยาลัยเชียงใหม่
             ขอเชิญชวนผู้สนใจที่มีอายุ ระหว่าง 16 – 26 ปี ตอบแบบสอบถาม โดยมี
