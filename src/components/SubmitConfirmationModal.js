@@ -69,7 +69,7 @@ function SubmitConfirmationModal({isOpen, onClose}) {
           }}
         >
           {submittingStatus !== SUCCESS ? (
-            <p style={{textAlign: 'justify'}}>
+            <p style={{textAlign: 'left'}}>
               ทีมวิจัยขอขอบคุณท่านที่ทำแบบสอบถามในครั้งนี้ กรุณากด
               &quot;ย้อนกลับ&quot; หากท่านต้องการแก้ไขคำตอบ กรุณากด
               &quot;ยืนยันส่งคำตอบ&quot; หากท่านตอบแบบสอบถามเสร็จสมบูรณ์แล้ว

@@ -28,7 +28,9 @@ function QuestionHeader({title, description, label}) {
         </Tag>
       ) : null} */}
       {description ? (
-        <Caption1 $style={{marginTop: '8px', marginBottom: '0px'}}>
+        <Caption1
+          $style={{marginTop: '8px', marginBottom: '0px', fontSize: '16px'}}
+        >
           {description}
         </Caption1>
       ) : null}
