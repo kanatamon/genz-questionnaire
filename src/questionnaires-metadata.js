@@ -71,6 +71,8 @@ export const SECTIONS = {
     title: 'ข้อมูลทั่วไป',
     questions: [
       {
+        __section: '1',
+        __no: '1',
         type: RESPONSE_TYPE_SHORT_ANSWER,
         title: 'อายุ',
         description: 'ใส่ช่วงอายุ Gen Z ระหว่าง 16 – 26 ปี เท่านั้น',
@@ -88,13 +90,22 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '1',
+        __no: '2',
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'โปรดระบุเพศ',
-        options: [{title: 'ชาย'}, {title: 'หญิง'}, {title: 'ไม่ระบุ'}],
+        options: [
+          {title: 'ชาย'},
+          {title: 'หญิง'},
+          {title: 'LGBTQ+'},
+          {title: 'ไม่ระบุ'},
+        ],
       },
       {
+        __section: '1',
+        __no: '3',
         type: RESPONSE_TYPE_MULTI_CHOICE,
-        title: 'ภูมิภาค',
+        title: 'ภูมิภาคที่อาศัยอยู่ในปัจจุบัน',
         options: [
           {title: 'ภาคเหนือ'},
           {title: 'ภาคกลาง'},
@@ -105,6 +116,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '1',
+        __no: '4',
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'ข้อมูลด้านสถานภาพ',
         options: [
@@ -123,6 +136,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '1',
+        __no: '4.1',
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'โปรดระบุระดับที่กำลังศึกษาอยู่ในปัจจุบัน',
@@ -131,11 +146,13 @@ export const SECTIONS = {
           {title: 'ประกาศนียบัตรวิชาชีพ (ปวช.)'},
           {title: 'ประกาศนียบัตรวิชาชีพชั้นสูง (ปวส.)'},
           {title: 'การศึกษาตามอัธยาศัย (กศน.)'},
-          {title: 'การเรียนแบบ Home School'},
+          {title: 'การเรียนแบบ home school'},
           {title: 'ไม่ได้ศึกษาอยู่ในระดับใด'},
         ],
       },
       {
+        __section: '1',
+        __no: '4.2.1',
         showForGroups: ['B'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'ท่านศึกษาหลักสูตรในกลุ่มสาขาวิชาใด',
@@ -149,6 +166,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '1',
+        __no: '4.2.2',
         showForGroups: ['B'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'ระดับชั้นปี',
@@ -162,6 +181,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '1',
+        __no: '4.3',
         showForGroups: ['C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'สำเร็จการศึกษาระดับปริญญาตรีแล้ว',
@@ -177,6 +198,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '1',
+        __no: '4.3.1',
         showForGroups: ['C', 'D'],
         type: RESPONSE_TYPE_CHECKBOXES,
         title: 'สำเร็จการศึกษาระดับปริญญาตรี และประกอบอาชีพ',
@@ -186,14 +209,16 @@ export const SECTIONS = {
           {title: 'พนักงานรัฐวิสาหกิจ'},
           {title: 'พนักงานเอกชน'},
           {title: 'ธุรกิจส่วนตัว'},
-          {title: 'ประกอบอาชีพอิสระ (Freelance)'},
-          {title: 'ว่างงาน'},
+          {title: 'ประกอบอาชีพอิสระ (freelance)'},
+          {title: 'ว่างงาน / ยังไม่ได้ประกอบอาชีพ'},
           {
             type: 'SHORT_ANSWER',
           },
         ],
       },
       {
+        __section: '1',
+        __no: '4.3.2',
         showForGroups: ['C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'รายได้ต่อเดือน',
@@ -214,6 +239,8 @@ export const SECTIONS = {
     title: 'แหล่งความรู้และรูปแบบการเรียนรู้',
     questions: [
       {
+        __section: '2',
+        __no: '1',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_CHECKBOXES,
         title: 'ท่านค้นคว้าหาความรู้จากแหล่งใด',
@@ -238,6 +265,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '2',
+        __no: '2',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_CHECKBOXES,
         title:
@@ -276,6 +305,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '2',
+        __no: '3',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_PRIORITIZATION,
         title: 'ท่านชอบการเรียนในรูปแบบใด',
@@ -285,7 +316,7 @@ export const SECTIONS = {
           {title: 'เรียนในห้องเรียน (on-site)'},
           {
             title:
-              'เรียนออนไลน์ตามเวลาที่กำหนดในสถานที่ใดก็ได้ (live) เช่น ผ่าน Zoom, Google meets, Microsoft teams, webinar',
+              'เรียนออนไลน์ตามเวลาที่กำหนดในสถานที่ใดก็ได้ (live) เช่น ผ่าน Zoom, Google Meets, Microsoft Teams, webinar',
           },
           {
             title:
@@ -303,9 +334,12 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '2',
+        __no: '4',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_CHECKBOXES,
-        title: 'นอกเหนือจากปริญญา ท่านมีเป้าหมายใดในการพัฒนาตนเอง',
+        title:
+          'ท่านมีเป้าหมายใดในการเรียนนอกเหนือจากการเรียนเพื่อปริญญา (non-degree program)',
         description: 'เลือกได้มากกว่า 1 ข้อ',
         options: [
           {title: 'เพื่อให้ได้รับใบประกาศนียบัตร เช่น ใบรับรองสมรรถนะ'},
@@ -315,23 +349,29 @@ export const SECTIONS = {
           },
           {title: 'เพื่อสร้างเครือข่ายความสัมพันธ์ (connection)'},
           {title: 'เพื่อเรียนรู้ในสิ่งที่ไม่มีสอนในชั้นเรียนหรือหลักสูตรปกติ'},
+          {title: 'ไม่มีเป้าหมายในการพัฒนาตนเอง'},
           {
             type: 'SHORT_ANSWER',
           },
         ],
       },
       {
+        __section: '2',
+        __no: '5',
         showForGroups: ['B', 'C', 'D'],
         type: RESPONSE_TYPE_CHECKBOXES,
-        title: 'นอกเหนือจากการศึกษาเพื่อปริญญา ท่านพัฒนาตนเองเพื่อจุดประสงค์ใด',
+        title: 'ท่านต้องการพัฒนาทักษะใด',
         options: [
           {
             title:
-              'เพื่อพัฒนาทักษะ Soft skill หรือทักษะที่เป็นประโยชน์ต่อการทำงานและการใช้ชีวิตสังคม เช่น ความคิดสร้างสรรค์ ความสามารถในการสื่อสาร การทำงานเป็นทีม',
+              'ทักษะที่เป็นประโยชน์ต่อการทำงานและการใช้ชีวิตในสังคม (soft skill) เช่น ความคิดสร้างสรรค์ ความสามารถในการสื่อสาร การทำงานเป็นทีม',
           },
           {
             title:
-              'เพื่อพัฒนา Professional skill/Hard skill หรือทักษะเชิงเทคนิคเพื่อการประกอบอาชีพ ทักษะด้านวิชาชีพ',
+              'ทักษะเชิงเทคนิคเพื่อการประกอบอาชีพ หรือ (professional skill/hard skill) เช่น ทักษะด้านวิชาชีพ',
+          },
+          {
+            title: 'ไม่มีความต้องการในการพัฒนา',
           },
           {
             type: 'SHORT_ANSWER',
@@ -339,6 +379,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '2',
+        __no: '6',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
@@ -351,6 +393,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '2',
+        __no: '7',
         showForGroups: ['C', 'D'],
         type: RESPONSE_TYPE_PRIORITIZATION,
         limit: 3,
@@ -358,37 +402,39 @@ export const SECTIONS = {
           'ทักษะในด้านใดต่อไปนี้ ที่ท่านคิดว่าตนเองยังขาดและต้องการได้รับการพัฒนา',
         description: 'โปรดเลือก 3 อันดับ ที่คิดว่าจำเป็นมากที่สุด',
         options: [
-          {title: 'วิธีการเรียนรู้อย่างมีประสิทธิภาพ (Learning how to learn)'},
-          {title: 'การแก้ปัญหาอย่างเป็นระบบ (Structured problem solving)'},
-          {title: 'การให้เหตุผลเชิงตรรกะ (Logical reasoning)'},
-          {title: 'การทำความเข้าใจความคิดที่มีอคติ (Understanding biases)'},
-          {title: 'การสืบหาข้อมูลส่วนสำคัญ (Seeking relevant information)'},
+          {title: 'วิธีการเรียนรู้อย่างมีประสิทธิภาพ (learning how to learn)'},
+          {title: 'การแก้ปัญหาอย่างเป็นระบบ (structured problem solving)'},
+          {title: 'การให้เหตุผลเชิงตรรกะ (logical reasoning)'},
+          {title: 'การทำความเข้าใจความคิดที่มีอคติ (understanding biases)'},
+          {title: 'การสืบหาข้อมูลส่วนสำคัญ (seeking relevant information)'},
           {
             title:
-              'การเล่าเรื่องและการพูดต่อหน้าสาธารณชน (Storytelling and public speaking)',
+              'การเล่าเรื่องและการพูดต่อหน้าสาธารณชน (storytelling and public speaking)',
           },
-          {title: 'การถามในประเด็นที่ตรงจุด (Asking the right questions)'},
-          {title: 'การสร้างสารและสื่อความหมาย (Synthesizing messages)'},
-          {title: 'การรับฟังความเห็น (Active listening)'},
-          {title: 'การพัฒนาแผนงาน (Work-plan development)'},
+          {title: 'การถามในประเด็นที่ตรงจุด (asking the right questions)'},
+          {title: 'การสร้างสารและสื่อความหมาย (synthesizing messages)'},
+          {title: 'การรับฟังความเห็น (active listening)'},
+          {title: 'การพัฒนาแผนงาน (work-plan development)'},
           {
             title:
-              'การบริหารเวลาและการลำดับความสำคัญ (Time management and prioritization)',
+              'การบริหารเวลาและการลำดับความสำคัญ (time management and prioritization)',
           },
-          {title: 'ความคิดแบบคล่องแคล่ว-ยืดหยุ่น (Agile thinking)'},
-          {title: 'ความคิดสร้างสรรค์และจินตนาการ (Creativity and Imagination)'},
+          {title: 'ความคิดแบบคล่องแคล่ว-ยืดหยุ่น (agile thinking)'},
+          {title: 'ความคิดสร้างสรรค์และจินตนาการ (creativity and imagination)'},
           {
             title:
-              'การประยุกต์ใช้ความรู้ในบริบทต่าง ๆ (Translating Knowledge to different context)',
+              'การประยุกต์ใช้ความรู้ในบริบทต่าง ๆ (translating knowledge to different context)',
           },
           {
             title:
-              'การสร้างมุมมองและทัศนะใหม่ ๆ (Adopting a different perspective)',
+              'การสร้างมุมมองและทัศนะใหม่ ๆ (adopting a different perspective)',
           },
-          {title: 'การปรับตัวให้เข้ากับสถานการณ์ (Adaptability)'},
+          {title: 'การปรับตัวให้เข้ากับสถานการณ์ (adaptability)'},
         ],
       },
       {
+        __section: '2',
+        __no: '8',
         showForGroups: ['D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'ในอนาคตท่านมีความคิดที่จะศึกษาต่อในระดับบัณฑิตศึกษาหรือไม่',
@@ -401,6 +447,8 @@ export const SECTIONS = {
     title: 'สภาพปัจจุบันของคนในยุค Gen Z',
     questions: [
       {
+        __section: '3.1',
+        __no: '1',
         label: 'ด้านเป้าหมายในชีวิต/อนาคต',
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -416,6 +464,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '2',
         label: 'ด้านเป้าหมายในชีวิต/อนาคต',
         showForGroups: ['B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -431,10 +481,12 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '3',
         label: 'ด้านเป้าหมายในชีวิต/อนาคต',
         showForGroups: ['B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
-        title: 'วุฒิการศึกษาระดับบัณฑิตศึกษาทำให้ท่านเกิดความก้าวหน้าของอาชีพ',
+        title: 'วุฒิการศึกษาระดับบัณฑิตศึกษาทำให้ท่านเกิดความก้าวหน้าในอาชีพ',
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
@@ -445,11 +497,13 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '4',
         label: 'ด้านเป้าหมายในชีวิต/อนาคต',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
-          'ท่านต้องการสำเร็จการศึกษาจากสถาบันที่มีชื่อเสียงทำให้ท่านเกิดการได้เปรียบในการได้งานที่มีรายได้สูง',
+          'ท่านต้องการสำเร็จการศึกษาจากสถาบันที่มีชื่อเสียง เพื่อให้ท่านเกิดการได้เปรียบในการได้งานที่มีรายได้สูง',
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
@@ -460,11 +514,13 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '5',
         label: 'ด้านเป้าหมายในชีวิต/อนาคต',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
-          'การเรียนเพื่อการพัฒนาทักษะที่เป็นประโยชน์ต่อการทำงานและการใช้ชีวิตสังคม เช่น ทักษะการคิดเชิงวิพากษ์ (Critical thinking) การคิดเชิงสังเคราะห์ (synthesis thinking)  ทักษะการทำงานเป็นทีม (teamwork) เป็นต้น มีความจำเป็นต่อการใช้ชีวิตในอนาคต',
+          'การเรียนเพื่อการพัฒนาทักษะที่เป็นประโยชน์ต่อการทำงานและการใช้ชีวิตในสังคม เช่น ทักษะการคิดเชิงวิพากษ์ (critical thinking) การคิดเชิงสังเคราะห์ (synthesis thinking)  ทักษะการทำงานเป็นทีม (teamwork) เป็นต้น มีความจำเป็นต่อการใช้ชีวิตในอนาคต',
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
@@ -475,6 +531,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '6',
         label: 'ด้านเป้าหมายในชีวิต/อนาคต',
         showForGroups: ['A', 'B'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -489,11 +547,13 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '7',
         label: 'ด้านเป้าหมายในชีวิต/อนาคต',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
-          'การสำเร็จการศึกษาจากมหาวิทยาลัยที่มีชื่อเสียงทำให้ท่านมีความก้าวหน้าของอาชีพ',
+          'การสำเร็จการศึกษาจากมหาวิทยาลัยที่มีชื่อเสียงทำให้ท่านมีความก้าวหน้าในอาชีพ',
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
@@ -504,6 +564,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '8',
         label: 'ด้านเป้าหมายในชีวิต/อนาคต',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -519,11 +581,13 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '9',
         label: 'ด้านเป้าหมายในชีวิต/อนาคต',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
-          'การประกอบอาชีพอิสระ การเป็นผู้ประกอบการ หรือเจ้านายตัวเองดีกว่าการทำงานเป็นองค์กรภาครัฐหรือเอกชน',
+          'การประกอบอาชีพอิสระ การเป็นผู้ประกอบการ หรือเจ้านายตัวเองดีกว่าการทำงานในองค์กรภาครัฐหรือเอกชน',
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
@@ -534,6 +598,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '10',
         label: 'ด้านเป้าหมายในชีวิต/อนาคต',
         showForGroups: ['B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -549,11 +615,13 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '11',
         label: 'แรงสนับสนุนจากตนเอง',
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
-          'ท่านมีจุดมุ่งหมายของการเรียนรู้คือพัฒนาตนเองเพื่อเข้าสู่การเรียนระดับมหาวิทยาลัย',
+          'จุดมุ่งหมายในการเรียนของท่านคือพัฒนาตนเองเพื่อเข้าสู่การเรียนระดับมหาวิทยาลัย',
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
@@ -564,10 +632,12 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '12',
         label: 'แรงสนับสนุนจากตนเอง',
         showForGroups: ['B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
-        title: 'ท่านสามารถกำหนดทิศทางการพัฒนาตนเองได้ ',
+        title: 'ท่านสามารถกำหนดทิศทางการพัฒนาตนเองได้',
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
@@ -578,11 +648,30 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '13',
+        label: 'แรงสนับสนุนจากตนเอง',
+        showForGroups: ['A', 'B', 'C', 'D'],
+        type: RESPONSE_TYPE_MULTI_CHOICE,
+        title:
+          'ท่านมีจุดมุ่งหมายของการเรียนเพื่อพัฒนาทักษะที่เป็นประโยชน์ต่อการทำงานและการใช้ชีวิตในสังคม (soft skill)',
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
+        options: [
+          {title: 'มากที่สุด', weight: 5},
+          {title: 'มาก', weight: 4},
+          {title: 'ปานกลาง', weight: 3},
+          {title: 'น้อย', weight: 2},
+          {title: 'น้อยที่สุด', weight: 1},
+        ],
+      },
+      {
+        __section: '3.1',
+        __no: '14',
         label: 'แรงสนับสนุนจากตนเอง',
         showForGroups: ['B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
-          'ท่านมีจุดมุ่งหมายของการเรียนคือการปรับและเพิ่มพูนทักษะ (Reskill/Upskill) ในการประกอบอาชีพ',
+          'ท่านมีจุดมุ่งหมายของการเรียนคือการปรับและเพิ่มพูนทักษะ (reskill/upskill) ในการประกอบอาชีพ',
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
@@ -593,7 +682,8 @@ export const SECTIONS = {
         ],
       },
       {
-        no: 11,
+        __section: '3.1',
+        __no: '15',
         label: 'แรงสนับสนุนจากตนเอง',
         showForGroups: ['B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -609,21 +699,8 @@ export const SECTIONS = {
         ],
       },
       {
-        label: 'แรงสนับสนุนจากตนเอง',
-        showForGroups: ['A', 'B', 'C', 'D'],
-        type: RESPONSE_TYPE_MULTI_CHOICE,
-        title:
-          'ท่านมีจุดมุ่งหมายของการเรียนเพื่อพัฒนาทักษะ Soft skill หรือทักษะที่เป็นประโยชน์ต่อการทำงานและการใช้ชีวิตสังคม',
-        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
-        options: [
-          {title: 'มากที่สุด', weight: 5},
-          {title: 'มาก', weight: 4},
-          {title: 'ปานกลาง', weight: 3},
-          {title: 'น้อย', weight: 2},
-          {title: 'น้อยที่สุด', weight: 1},
-        ],
-      },
-      {
+        __section: '3.1',
+        __no: '16',
         label: 'แรงสนับสนุนจากตนเอง',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -639,6 +716,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '17',
         label: 'แรงสนับสนุนจากตนเอง',
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -654,6 +733,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '18',
         label: 'แรงสนับสนุนด้านสังคม',
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -668,6 +749,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '19',
         label: 'แรงสนับสนุนด้านสังคม',
         showForGroups: ['B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -682,6 +765,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '20',
         label: 'แรงสนับสนุนด้านสังคม',
         showForGroups: ['A', 'B'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -696,6 +781,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '21',
         label: 'แรงสนับสนุนด้านสังคม',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -710,6 +797,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '22',
         label: 'แรงสนับสนุนด้านสังคม',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -725,6 +814,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '23',
         label: 'แรงสนับสนุนด้านสังคม',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -739,6 +830,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.1',
+        __no: '24',
         label: 'แรงสนับสนุนด้านสังคม',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -754,12 +847,13 @@ export const SECTIONS = {
         ],
       },
       {
-        no: 20,
+        __section: '3.1',
+        __no: '25',
         label: 'แรงสนับสนุนด้านสังคม',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
-          'ท่านสนใจเรียนรู้สิ่งใหม่/ทักษะใหม่ เมื่อได้รับคำแนะนำจากบุคคลใกล้ชิด',
+          'คำแนะนำจากบุคคลใกล้ชิดส่งผลให้ท่านสนใจเรียนรู้สิ่งใหม่/ทักษะใหม่ (reskill/upskill)',
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
         options: [
           {title: 'มากที่สุด', weight: 5},
@@ -776,6 +870,8 @@ export const SECTIONS = {
     title: 'สภาพปัจจุบันของคนในยุค Gen Z',
     questions: [
       {
+        __section: '3.2',
+        __no: '1',
         title: 'ท่านยังไม่รู้ว่าตนเองชอบ ถนัด อยากเรียนหรืออยากประกอบอาชีพใด',
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -789,6 +885,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '2',
         title: 'ท่านยังไม่รู้ว่าตัวเองเรียนไปทำไม นำไปใช้ทำสิ่งใด อย่างไร',
         showForGroups: ['B'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -802,6 +900,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '3',
         title: 'ท่านยังไม่มีความรู้ ความเข้าใจอย่างแท้จริงในอาชีพที่ตนสนใจ',
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -815,6 +915,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '4',
         title:
           'ท่านมีความเร็วในการเรียนรู้ไม่เท่ากับเพื่อน/มักตามสิ่งที่อาจารย์สอนไม่ทัน',
         showForGroups: ['B'],
@@ -829,6 +931,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '5',
         title:
           'ท่านไม่เห็นความสำคัญในการเรียนต่อระดับปริญญาตรีทันทีที่จบระดับการศึกษาระดับมัธยมศึกษาตอนปลายหรือเทียบเท่า',
         showForGroups: ['A'],
@@ -843,6 +947,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '6',
         title:
           'ท่านคิดว่าการศึกษาต่อระดับบัณฑิตศึกษาไม่มีความจำเป็นกับการทำงาน หรือการประกอบอาชีพของท่านในปัจจุบัน',
         showForGroups: ['D'],
@@ -856,21 +962,25 @@ export const SECTIONS = {
           {title: 'น้อยที่สุด', weight: 1},
         ],
       },
-      // {
-      //   title:
-      //     'ท่านจะเลือกคณะ/สาขาวิชาที่มีโอกาสได้เข้าเรียนในมหาวิทยาลัยมากที่สุดก่อน',
-      //   showForGroups: ['A'],
-      //   type: RESPONSE_TYPE_MULTI_CHOICE,
-      //   description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
-      //   options: [
-      //     {title: 'มากที่สุด', weight: 5},
-      //     {title: 'มาก', weight: 4},
-      //     {title: 'ปานกลาง', weight: 3},
-      //     {title: 'น้อย', weight: 2},
-      //     {title: 'น้อยที่สุด', weight: 1},
-      //   ],
-      // },
       {
+        __section: '3.2',
+        __no: '7',
+        title:
+          'ท่านจะเลือกคณะ/สาขาวิชาที่มีโอกาสได้เข้าเรียนในมหาวิทยาลัยมากที่สุดก่อน',
+        showForGroups: ['A'],
+        type: RESPONSE_TYPE_MULTI_CHOICE,
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
+        options: [
+          {title: 'มากที่สุด', weight: 5},
+          {title: 'มาก', weight: 4},
+          {title: 'ปานกลาง', weight: 3},
+          {title: 'น้อย', weight: 2},
+          {title: 'น้อยที่สุด', weight: 1},
+        ],
+      },
+      {
+        __section: '3.2',
+        __no: '8',
         title:
           'ยังไม่มีหลักสูตร/สาขาวิชาที่ท่านสนใจหรืออยากเรียนในระดับมหาวิทยาลัย',
         showForGroups: ['A'],
@@ -885,8 +995,10 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '9',
         title:
-          'หลักสูตรไม่ตรงกับความต้องการ/ไม่มีหลักสูตรสมรรถนะที่ reskill/upskill ตรงตามความต้องการ',
+          'หลักสูตรไม่ตรงกับความต้องการ/ไม่มีหลักสูตรสมรรถนะที่เรียนรู้สิ่งใหม่/ทักษะใหม่ (reskill/upskill) ตรงตามความต้องการ',
         showForGroups: ['B', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
@@ -899,6 +1011,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '10',
         title: 'หลักสูตรในมหาวิทยาลัยปัจจุบันไม่ตรงกับความต้องการของท่าน',
         showForGroups: ['C'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -912,6 +1026,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '11',
         title:
           'หลักสูตร/เนื้อหาของหลักสูตรในมหาวิทยาลัยที่เรียนปัจจุบันล้าสมัย',
         showForGroups: ['B', 'C', 'D'],
@@ -926,6 +1042,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '12',
         title: 'ท่านมีความกังวลในการประกอบอาชีพหลังจากจบการศึกษา',
         showForGroups: ['B', 'C'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -939,6 +1057,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '13',
         title:
           'เนื้อหาที่เรียนในมหาวิทยาลัยมากเกินไปและบางวิชาไม่จำเป็นต้องเรียน',
         showForGroups: ['B', 'C', 'D'],
@@ -953,6 +1073,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '14',
         title: 'เนื้อหาที่เรียนนำไปใช้ในการประกอบอาชีพ/เป็นประโยชน์กับอาชีพได้',
         showForGroups: ['B', 'C'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -966,6 +1088,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '15',
         title:
           'เนื้อหาที่เรียนในระดับปริญญาตรีนำไปใช้ในการประกอบอาชีพ/เป็นประโยชน์กับอาชีพได้',
         showForGroups: ['D'],
@@ -980,6 +1104,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '16',
         title:
           'การเรียนในมหาวิทยาลัยยังไม่ทำให้รู้จักลักษณะวิชาชีพ/การทำงานในอาชีพนั้นๆ อย่างแท้จริง',
         showForGroups: ['B', 'C', 'D'],
@@ -994,8 +1120,9 @@ export const SECTIONS = {
         ],
       },
       {
-        title:
-          'หลักสูตรไม่มีให้อิสระในการเลือกเรียนเท่าที่ควรหรือไม่สามารถเลือกเรียนในวิชาที่อยากเรียนได้',
+        __section: '3.2',
+        __no: '17',
+        title: 'ไม่มีอิสระในการเลือกเรียนวิชาที่อยากเรียน',
         showForGroups: ['D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
@@ -1007,20 +1134,24 @@ export const SECTIONS = {
           {title: 'น้อยที่สุด', weight: 1},
         ],
       },
+      // {
+      //   __section: '3.2',
+      //   __no: '18',
+      //   title: 'ระบบการรับสมัคร/คัดเลือกเข้าเรียนระดับบัณฑิตศึกษามีความยุ่งยาก',
+      //   showForGroups: ['B'],
+      //   type: RESPONSE_TYPE_MULTI_CHOICE,
+      //   description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
+      //   options: [
+      //     {title: 'มากที่สุด', weight: 5},
+      //     {title: 'มาก', weight: 4},
+      //     {title: 'ปานกลาง', weight: 3},
+      //     {title: 'น้อย', weight: 2},
+      //     {title: 'น้อยที่สุด', weight: 1},
+      //   ],
+      // },
       {
-        title: 'ระบบการรับสมัคร/คัดเลือกเข้าเรียนระดับบัณฑิตศึกษามีความยุ่งยาก',
-        showForGroups: ['B'],
-        type: RESPONSE_TYPE_MULTI_CHOICE,
-        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
-        options: [
-          {title: 'มากที่สุด', weight: 5},
-          {title: 'มาก', weight: 4},
-          {title: 'ปานกลาง', weight: 3},
-          {title: 'น้อย', weight: 2},
-          {title: 'น้อยที่สุด', weight: 1},
-        ],
-      },
-      {
+        __section: '3.2',
+        __no: '18',
         title:
           'ท่านไม่สามารถเลือกเรียนในวิชาที่อยากเรียนหรือมีอิสระในการเลือกเรียนเท่าที่ควร',
         showForGroups: ['B', 'C'],
@@ -1034,24 +1165,10 @@ export const SECTIONS = {
           {title: 'น้อยที่สุด', weight: 1},
         ],
       },
-      {
-        title:
-          'หลักสูตรยังไม่ให้อิสระในการเลือกเรียนเท่าที่หรือยังสามารถเลือกเรียนในวิชาที่อยากเรียนได้',
-        showForGroups: ['D'],
-        type: RESPONSE_TYPE_MULTI_CHOICE,
-        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
-        options: [
-          {title: 'มากที่สุด', weight: 5},
-          {title: 'มาก', weight: 4},
-          {title: 'ปานกลาง', weight: 3},
-          {title: 'น้อย', weight: 2},
-          {title: 'น้อยที่สุด', weight: 1},
-        ],
-      },
       // {
       //   title:
-      //     'วิธีการสอน การจัดการเรียนรู้และรูปแบบการเรียนการสอนในมหาวิทยาลัยยังไม่น่าสนใจ ไม่หลากหลาย',
-      //   showForGroups: ['A', 'B', 'C'],
+      //     'หลักสูตรยังไม่ให้อิสระในการเลือกเรียนเท่าที่หรือยังสามารถเลือกเรียนในวิชาที่อยากเรียนได้',
+      //   showForGroups: ['D'],
       //   type: RESPONSE_TYPE_MULTI_CHOICE,
       //   description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
       //   options: [
@@ -1063,7 +1180,25 @@ export const SECTIONS = {
       //   ],
       // },
       {
-        title: 'ระยะเวลาเรียนในระดับอุดมศึกษานานเกินไป',
+        __section: '3.2',
+        __no: '20',
+        title:
+          'วิธีการสอน การจัดการเรียนรู้และรูปแบบการเรียนการสอนในมหาวิทยาลัยยังไม่น่าสนใจ ไม่หลากหลาย',
+        showForGroups: ['A', 'B', 'C'],
+        type: RESPONSE_TYPE_MULTI_CHOICE,
+        description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
+        options: [
+          {title: 'มากที่สุด', weight: 5},
+          {title: 'มาก', weight: 4},
+          {title: 'ปานกลาง', weight: 3},
+          {title: 'น้อย', weight: 2},
+          {title: 'น้อยที่สุด', weight: 1},
+        ],
+      },
+      {
+        __section: '3.2',
+        __no: '21',
+        title: 'ระยะเวลาเรียนในระดับมหาวิทยาลัยนานเกินไป',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
@@ -1076,6 +1211,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '22',
         title: 'การลาศึกษาต่อเป็นระยะเวลาติดต่อกันนานๆ เป็นไปได้ยาก',
         showForGroups: ['C'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -1089,6 +1226,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '23',
         title: 'การลาศึกษาต่อเต็มเวลา/ติดต่อกันยาวๆ ขณะทำงานไปด้วยนั้นทำได้ยาก',
         showForGroups: ['D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -1102,6 +1241,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '24',
         title: 'ค่าใช้จ่ายในการเรียนหรือค่าธรรมเนียมการศึกษาในมหาวิทยาลัยสูง',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -1115,6 +1256,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '25',
         title:
           'การเรียนในระบบออนไลน์ไม่สามารถตอบสนองการเรียนรู้ของท่านได้อย่างเต็มที่',
         showForGroups: ['B', 'C'],
@@ -1129,6 +1272,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '26',
         title:
           'เทคโนโลยี/เครื่องมือ/สิ่งอำนวยความสะดวกในการเรียนรู้ของท่าน ไม่มีหรือมีไม่เพียงพอ',
         showForGroups: ['B', 'C', 'D'],
@@ -1143,8 +1288,10 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '27',
         title:
-          'สภาพแวดล้อมด้านกายภาพ(ห้องเรียน อาคารเรียน) ไม่เอื้อต่อการเรียนรู้',
+          'สภาพแวดล้อมด้านกายภาพ (ห้องเรียน อาคารเรียน) ไม่เอื้อต่อการเรียนรู้',
         showForGroups: ['B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
@@ -1157,6 +1304,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '28',
         title: 'ท่านยังขาดความรู้เกี่ยวกับคณะ/สาขาที่จะเลือกเรียนในมหาวิทยาลัย',
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -1170,6 +1319,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '29',
         title: 'ท่านไม่มีผู้ให้คำแนะนำในการเรียน/ขาดความรู้เกี่ยวกับหลักสูตร',
         showForGroups: ['B'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -1183,6 +1334,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '30',
         title: 'ท่านขาดผู้ให้คำแนะนำในการเรียนต่อในระดับอุดมศึกษา',
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -1196,7 +1349,9 @@ export const SECTIONS = {
         ],
       },
       {
-        title: 'เข้าถึง/ค้นหาข้อมูลหลักสูตร/การอบรมในมหาวิทยาลัยได้ยาก',
+        __section: '3.2',
+        __no: '31',
+        title: 'ท่านเข้าถึง/ค้นหาข้อมูลหลักสูตร/การอบรมในมหาวิทยาลัยได้ยาก',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
@@ -1209,6 +1364,8 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '3.2',
+        __no: '32',
         title: 'ระบบการรับสมัคร/คัดเลือกเข้าเรียนในมหาวิทยาลัยมีความยุ่งยาก',
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
@@ -1222,7 +1379,9 @@ export const SECTIONS = {
         ],
       },
       {
-        title: 'ระบบการเรียนการสอน/การสอนในมหาวิทยาลัยมีความยุ่งยาก',
+        __section: '3.2',
+        __no: '33',
+        title: 'ระบบการเรียนการสอนในมหาวิทยาลัยมีความยุ่งยาก',
         showForGroups: ['B'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         description: 'โปรดเลือกระดับความคิดเห็นของท่าน',
@@ -1241,6 +1400,8 @@ export const SECTIONS = {
     title: 'ข้อมูลการตัดสินใจและความต้องการของคนในยุค Gen Z',
     questions: [
       {
+        __section: '4.1',
+        __no: '1',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_PRIORITIZATION,
         title: 'โปรดเรียงลำดับความสำคัญต่อการตัดสินใจในการเรียนรู้ของท่าน',
@@ -1266,7 +1427,8 @@ export const SECTIONS = {
     title: 'ข้อมูลการตัดสินใจและความต้องการของคนในยุค Gen Z',
     questions: [
       {
-        no: 1,
+        __section: '4.2',
+        __no: '1',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
@@ -1281,7 +1443,8 @@ export const SECTIONS = {
         ],
       },
       {
-        no: 2,
+        __section: '4.2',
+        __no: '2',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
@@ -1296,7 +1459,8 @@ export const SECTIONS = {
         ],
       },
       {
-        no: 3,
+        __section: '4.2',
+        __no: '3',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
@@ -1311,7 +1475,8 @@ export const SECTIONS = {
         ],
       },
       {
-        no: 4,
+        __section: '4.2',
+        __no: '4',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
@@ -1326,11 +1491,12 @@ export const SECTIONS = {
         ],
       },
       {
-        no: 5,
+        __section: '4.2',
+        __no: '5',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
-          'มหาวิทยาลัยมีหลักสูตรที่เน้นการพัฒนาทักษะความรู้ที่ไม่มุ่งหวังปริญญา (non-degree) เพื่อส่งเสริมให้เป็นผู้เรียนรู้ตลอดชีวิต (lifelong learner)',
+          'มหาวิทยาลัยมีหลักสูตรที่เน้นการพัฒนาทักษะความรู้ เพื่อส่งเสริมให้เป็นผู้เรียนรู้ตลอดชีวิต (lifelong learner)',
         description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
@@ -1341,7 +1507,8 @@ export const SECTIONS = {
         ],
       },
       {
-        no: 6,
+        __section: '4.2',
+        __no: '6',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
@@ -1356,7 +1523,8 @@ export const SECTIONS = {
         ],
       },
       {
-        no: 7,
+        __section: '4.2',
+        __no: '7',
         showForGroups: ['A'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'มหาวิทยาลัยมีหลักสูตรหรือกิจกรรมการปูพื้นฐานในระดับมหาวิทยาลัย',
@@ -1370,10 +1538,12 @@ export const SECTIONS = {
         ],
       },
       {
+        __section: '4.2',
+        __no: '8',
         showForGroups: ['B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
-          'มหาวิทยาลัยมีหลักสูตรที่ออกแบบตามระดับความรู้ของผู้เรียน (ระดับ beginner intermediate advance)',
+          'มหาวิทยาลัยมีมหลักสูตรที่ออกแบบตามระดับความรู้ของผู้เรียน (ระดับ beginner/intermediate/advance)',
         description: 'โปรดเลือกระดับความต้องการการเรียนรู้ในมหาวิทยาลัย',
         options: [
           {title: 'มากที่สุด', weight: 5},
@@ -1384,7 +1554,8 @@ export const SECTIONS = {
         ],
       },
       {
-        no: 8,
+        __section: '4.2',
+        __no: '9',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title: 'มหาวิทยาลัยมีหลักสูตรเน้นการลงมือปฏิบัติจริง',
@@ -1398,7 +1569,8 @@ export const SECTIONS = {
         ],
       },
       {
-        no: 9,
+        __section: '4.2',
+        __no: '10',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
@@ -1413,7 +1585,8 @@ export const SECTIONS = {
         ],
       },
       {
-        no: 10,
+        __section: '4.2',
+        __no: '11',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
@@ -1428,7 +1601,8 @@ export const SECTIONS = {
         ],
       },
       {
-        no: 11,
+        __section: '4.2',
+        __no: '12',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
@@ -1443,7 +1617,8 @@ export const SECTIONS = {
         ],
       },
       {
-        no: 12,
+        __section: '4.2',
+        __no: '13',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
@@ -1458,7 +1633,8 @@ export const SECTIONS = {
         ],
       },
       {
-        no: 13,
+        __section: '4.2',
+        __no: '14',
         showForGroups: ['A', 'B', 'C', 'D'],
         type: RESPONSE_TYPE_MULTI_CHOICE,
         title:
@@ -1480,6 +1656,8 @@ export const SECTIONS = {
       'กรุณาให้ข้อเสนอแนะในมุมมองด้านความสำคัญของมหาวิทยาลัยต่ออนาคตของท่าน',
     questions: [
       {
+        __section: '5',
+        __no: null,
         type: RESPONSE_TYPE_LONG_ANSWER,
         title:
           'กรุณาให้ข้อเสนอแนะในมุมมองด้านความสำคัญของมหาวิทยาลัยต่ออนาคตของท่าน',
