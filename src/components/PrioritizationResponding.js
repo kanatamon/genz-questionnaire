@@ -4,14 +4,18 @@ import {Input} from 'baseui/input'
 import {styled} from 'baseui'
 import {List, arrayMove, arrayRemove} from 'baseui/dnd-list'
 import {Paragraph2} from 'baseui/typography'
+import {Tooltip, PLACEMENT} from 'baseui/tooltip'
+import {Block} from 'baseui/block'
 
 import * as ClientMemory from '../client-memory'
+import {useTimeout} from '../hooks/useTimeout'
 
 import {RespondingCommon} from './RespondingCommon'
 
 function PrioritizationResponding({question, onValidate = () => {}}) {
   const [items, setItems] = React.useState([])
   const [shortAnswer, setShortAnswer] = React.useState('')
+  const [hasTouched, setHasTouched] = React.useState(false)
 
   const onValidateRef = React.useRef(onValidate)
   const questionRef = React.useRef(question)
@@ -58,6 +62,7 @@ function PrioritizationResponding({question, onValidate = () => {}}) {
 
       setItems(initialItems)
       setShortAnswer(initialShortAnswer)
+      setHasTouched(false)
     },
     [question],
   )
@@ -117,16 +122,18 @@ function PrioritizationResponding({question, onValidate = () => {}}) {
               <WeightDragHandle
                 {...dragHandleProps}
                 limitedWeight={question?.limit}
+                hasTouched={hasTouched}
               />
             ),
           }}
-          onChange={({oldIndex, newIndex}) =>
+          onChange={({oldIndex, newIndex}) => {
             setItems(
               newIndex === -1
                 ? arrayRemove(items, oldIndex)
                 : arrayMove(items, oldIndex, newIndex),
             )
-          }
+            setHasTouched(true)
+          }}
         />
         {isEnableDragGuard ? <DragGuard /> : null}
       </ListWrapper>
@@ -150,12 +157,26 @@ const DragGuard = styled('div', ({$theme}) => ({
   },
 }))
 
-const WeightDragHandle = ({$index, limitedWeight}) => {
+const NothingWrapper = ({children}) => {
+  return <>{children}</>
+}
+
+const DELAY_TO_SHOW_HELPER = 1500
+
+const WeightDragHandle = ({$index, limitedWeight, hasTouched}) => {
+  const [isOpenHelper, setIsOpenHelper] = React.useState(false)
+
+  useTimeout(() => {
+    setIsOpenHelper(true)
+  }, DELAY_TO_SHOW_HELPER)
+
   const isCurrentItemOverLimit = isZeroBasedIndexIsOverPrioritizationLimit(
     $index,
     limitedWeight,
   )
   const renderedWeight = !isCurrentItemOverLimit ? $index + 1 : null
+
+  const HelperComponent = !hasTouched && $index === 0 ? Tooltip : NothingWrapper
 
   return (
     <div
@@ -165,22 +186,37 @@ const WeightDragHandle = ({$index, limitedWeight}) => {
         alignItems: 'center',
       }}
     >
-      <div
-        className="luster"
-        style={{
-          width: '44px',
-          height: '44px',
-          borderRadius: 999,
-          color: '#ffffff',
-          backgroundColor: isCurrentItemOverLimit ? '#dadada' : '#000000',
-          display: 'grid',
-          placeContent: 'center',
-          fontWeight: 700,
-          fontSize: '1rem',
-        }}
+      <HelperComponent
+        isOpen={isOpenHelper}
+        popoverMargin={6}
+        content={() => (
+          <Block padding={'12px'} style={{fontSize: '16px'}}>
+            เลื่อนตัวเลข ขึ้น-ลง เพื่อเรียงลำดับความสำคัญ
+          </Block>
+        )}
+        accessibilityType={'tooltip'}
+        placement={PLACEMENT.top}
+        showArrow
+        returnFocus
+        autoFocus
       >
-        {renderedWeight}
-      </div>
+        <div
+          className="luster"
+          style={{
+            width: '44px',
+            height: '44px',
+            borderRadius: 999,
+            color: '#ffffff',
+            backgroundColor: isCurrentItemOverLimit ? '#dadada' : '#000000',
+            display: 'grid',
+            placeContent: 'center',
+            fontWeight: 700,
+            fontSize: '1rem',
+          }}
+        >
+          {renderedWeight}
+        </div>
+      </HelperComponent>
     </div>
   )
 }
