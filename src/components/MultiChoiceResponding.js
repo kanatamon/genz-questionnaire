@@ -72,18 +72,41 @@ function MultiChoiceResponding({
       if (!optionOfCurrentValue) {
         throw new Error(`Oop! there is no option for '${value}'`)
       }
+
       const isShortAnswer = optionOfCurrentValue.type === 'SHORT_ANSWER'
       const {registeringGroups, title, weight = null} = optionOfCurrentValue
 
-      ClientMemory.patchRespondingByQuestionId(questionRef.current.id, {
-        respondingOptions: [
+      let savingRespondingOptions = null
+
+      if (questionRef.current.type === 'WEIGHTED_MULTI_CHOICE') {
+        savingRespondingOptions = [
           {
             respondingText: isShortAnswer ? null : title,
             weight,
             isOther: isShortAnswer,
             respondingOtherText: isShortAnswer ? shortAnswerRef.current : null,
           },
-        ],
+        ]
+      } else if (questionRef.current.type === 'MULTI_CHOICE') {
+        savingRespondingOptions = questionRef.current.options.map(option => {
+          const isUserCreateShortAnswer = option.type === 'SHORT_ANSWER'
+
+          const defaultWeight = option.weight ?? 1
+          const weightSelector = +(option.title === value)
+
+          return {
+            respondingText: option.title ?? null,
+            weight: defaultWeight * weightSelector,
+            isOther: isUserCreateShortAnswer,
+            respondingOtherText: isUserCreateShortAnswer
+              ? shortAnswerRef.current
+              : null,
+          }
+        })
+      }
+
+      ClientMemory.patchRespondingByQuestionId(questionRef.current.id, {
+        respondingOptions: savingRespondingOptions,
       })
 
       if (registeringGroups) {
@@ -203,7 +226,9 @@ function initShortAnswerFromMemory(questionId) {
 
 function initValueFromMemory(questionId) {
   const memoryResponding = ClientMemory.getRespondingByQuestionId(questionId)
-  const memoryRespondingOption = memoryResponding?.respondingOptions?.[0]
+  const memoryRespondingOption = memoryResponding?.respondingOptions?.find(
+    option => option.weight > 0,
+  )
 
   if (!memoryRespondingOption) {
     return ''

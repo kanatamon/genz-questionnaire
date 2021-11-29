@@ -23,6 +23,7 @@ import {usePreventUserOnSubmitUnavailable} from '../../../hooks/usePreventUserOn
 const RESPONDING_COMPONENTS = {
   SHORT_ANSWER: ShortAnswerResponding,
   MULTI_CHOICE: MultiChoiceResponding,
+  WEIGHTED_MULTI_CHOICE: MultiChoiceResponding,
   CHECKBOXES: CheckboxesResponding,
   PRIORITIZATION: PrioritizationResponding,
   LONG_ANSWER: LongAnswerResponding,
