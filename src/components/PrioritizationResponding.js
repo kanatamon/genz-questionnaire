@@ -222,7 +222,8 @@ const WeightDragHandle = ({$index, limitedWeight, hasTouched}) => {
 }
 
 function convertZeroBasedIndexToWeight(zeroBasedIndex, limitedWeight) {
-  return Math.max(limitedWeight - zeroBasedIndex, 0)
+  const weight = zeroBasedIndex + 1
+  return weight > limitedWeight ? 0 : weight
 }
 
 function isZeroBasedIndexIsOverPrioritizationLimit(
