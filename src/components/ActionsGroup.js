@@ -132,8 +132,8 @@ function ActionsGroup({
               borderTopRightRadius: '16px',
               marginRight: 'calc(-1 * var(--column-spacing))',
               marginLeft: 'calc(-1 * var(--column-spacing))',
-              background: 'rgba(255, 255, 255, 0.8)',
-              backdropFilter: 'saturate(180%) blur(10px)',
+              background: 'rgba(255, 255, 255, 0.4)',
+              backdropFilter: 'saturate(180%) blur(2px)',
             })}
           >
             <AnimatePresence exitBeforeEnter initial={false}>
