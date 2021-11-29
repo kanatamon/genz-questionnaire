@@ -15,7 +15,7 @@ export function ProgressBar() {
   return (
     <BaseUiProgressBar
       getProgressLabel={value =>
-        `ตอบแบบสอบถามแล้ว ${value}% เหลืออีกน้อยกว่า ${numOfRemaining} ข้อ`
+        `ตอบแบบสอบถามแล้ว ${value}% เหลืออีก ${numOfRemaining} ข้อ`
       }
       showLabel
       overrides={{
@@ -30,6 +30,7 @@ export function ProgressBar() {
         Bar: {
           style: ({$theme}) => ({
             overflow: 'revert',
+            height: $theme.sizing.scale600,
             borderTopLeftRadius: '0px',
             borderTopRightRadius: '0px',
             borderBottomLeftRadius: '0px',
@@ -53,6 +54,12 @@ export function ProgressBar() {
               bottom: '-16px',
               right: '-8.5px',
             },
+          }),
+        },
+        Label: {
+          style: ({$theme}) => ({
+            transform: `translateY(calc(-1 * ${$theme.sizing.scale600}))`,
+            color: '#000000',
           }),
         },
       }}
