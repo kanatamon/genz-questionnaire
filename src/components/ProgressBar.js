@@ -3,10 +3,21 @@ import {ProgressBar as BaseUiProgressBar, SIZE} from 'baseui/progress-bar'
 import * as ClientMemory from '../client-memory'
 
 export function ProgressBar() {
-  const respondedProgress = ClientMemory.calculateProgress() * 100
+  const {numOfAllRequiredQuestions, numOfAllRespondedQuestions} =
+    ClientMemory.calculateNumberOfRequiredAndResponded()
+
+  const respondedProgress = (
+    (100 * numOfAllRespondedQuestions) /
+    numOfAllRequiredQuestions
+  ).toFixed(0)
+  const numOfRemaining = numOfAllRequiredQuestions - numOfAllRespondedQuestions
 
   return (
     <BaseUiProgressBar
+      getProgressLabel={value =>
+        `ตอบแบบสอบถามแล้ว ${value}% เหลืออีกน้อยกว่า ${numOfRemaining} ข้อ`
+      }
+      showLabel
       overrides={{
         BarContainer: {
           style: ({$theme}) => ({

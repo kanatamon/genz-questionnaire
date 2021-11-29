@@ -99,7 +99,7 @@ export function resetAll() {
   resetResponding()
 }
 
-export function calculateProgress() {
+export function calculateNumberOfRequiredAndResponded() {
   const allRespondings = getAllRespondingsTemplate()
   const registeredGroups = getRegisteredGroups()
 
@@ -112,7 +112,10 @@ export function calculateProgress() {
     checkIsRespondedQuestion,
   ).length
 
-  return numOfAllRespondedQuestions / numOfAllRequiredQuestions
+  return {
+    numOfAllRequiredQuestions,
+    numOfAllRespondedQuestions,
+  }
 }
 
 function checkIsRespondedQuestion(responding) {
