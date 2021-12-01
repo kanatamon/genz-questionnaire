@@ -85,15 +85,6 @@ export default function LandingPage() {
           />
         </div>
         <header className={sharedContentContainerClassName}>
-          <Notification
-            kind={KIND.warning}
-            overrides={{
-              Body: {style: {width: 'auto'}},
-            }}
-          >
-
-          </Notification>
-          <Block height={'32px'} />
           <Paragraph1>
             ผู้วิจัยโครงการศึกษาคุณลักษณะของ Gen Z มหาวิทยาลัยเชียงใหม่
             ขอเชิญชวนผู้สนใจที่มีอายุ ระหว่าง 16 – 26 ปี ตอบแบบสอบถาม โดยมี
