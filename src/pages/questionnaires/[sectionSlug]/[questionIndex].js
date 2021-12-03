@@ -120,7 +120,7 @@ function Questionnaire({question}) {
         >
           <SuperHeader style={{
             background: #7f68a9;,
-          }}>แบบสอบถามโครงการศึกษาคุณลักษณะของ Gen Z</SuperHeader>
+          }}>แบบสอบถามคุณลักษณะของ Gen Z</SuperHeader>
           <ClientOnly>
             <ProgressBar />
           </ClientOnly>
