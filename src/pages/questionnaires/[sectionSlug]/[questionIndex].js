@@ -118,7 +118,9 @@ function Questionnaire({question}) {
             zIndex: 99,
           }}
         >
-          <SuperHeader>แบบสอบถามโครงการศึกษาคุณลักษณะของ Gen Z</SuperHeader>
+          <SuperHeader style={{
+            background: #7f68a9;,
+          }}>แบบสอบถามโครงการศึกษาคุณลักษณะของ Gen Z</SuperHeader>
           <ClientOnly>
             <ProgressBar />
           </ClientOnly>
