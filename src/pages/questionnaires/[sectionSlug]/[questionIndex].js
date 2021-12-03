@@ -118,7 +118,7 @@ function Questionnaire({question}) {
             zIndex: 99,
           }}
         >
-          <SuperHeader>อยู่ระหว่างทดสอบระบบ</SuperHeader>
+          <SuperHeader>แบบสอบถามโครงการศึกษาคุณลักษณะของ Gen Z</SuperHeader>
           <ClientOnly>
             <ProgressBar />
           </ClientOnly>
