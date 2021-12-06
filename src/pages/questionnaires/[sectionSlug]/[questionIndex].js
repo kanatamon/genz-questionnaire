@@ -116,7 +116,6 @@ function Questionnaire({question}) {
             position: 'sticky',
             top: 0,
             zIndex: 99,
-            background: '#684f9f',
           }}
         >
           <SuperHeader>แบบสอบถามคุณลักษณะของ Gen Z</SuperHeader>
