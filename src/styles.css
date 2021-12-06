@@ -142,9 +142,6 @@ html,
 body {
   height: 100%;
 }
-header {
-   background: #684f9f;
-}
 a {
   color: inherit;
   text-decoration: inherit;
