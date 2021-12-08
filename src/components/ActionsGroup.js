@@ -10,7 +10,7 @@ import ArrowLeft from 'baseui/icon/arrow-left'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 
-import {useDebounceFn} from '../hooks/useDebounce'
+import {useReverselyDebounceFn} from '../hooks/useDebounce'
 import * as QuestionnairesUtils from '../questionnaires-utils'
 import * as ClientMemory from '../client-memory'
 
@@ -18,7 +18,7 @@ import {SubmitConfirmationModal} from './SubmitConfirmationModal'
 import {Button} from './Button'
 import {SproutMotionWrapper} from './SproutMotionWrapper'
 
-const DELAY_TO_FIRE_FUNCTION_AFTER_LAST_PRESS = 50
+const DELAY_AFTER_LAST_PRESS = 500
 
 function ActionsGroup({
   question,
@@ -50,14 +50,14 @@ function ActionsGroup({
     [question.id, registeredGroups],
   )
 
-  const goToNextQuestionDebounced = useDebounceFn(() => {
+  const goToNextQuestionDebounced = useReverselyDebounceFn(() => {
     const {nextQuestionLink} = linkCursor
 
     if (nextQuestionLink) {
       routerRef.current.push(nextQuestionLink)
       ClientMemory.saveFurthestVisitableQuestionLink(nextQuestionLink)
     }
-  }, DELAY_TO_FIRE_FUNCTION_AFTER_LAST_PRESS)
+  }, DELAY_AFTER_LAST_PRESS)
 
   const isReadyToSubmit = !question.nextQuestionLink
 
