@@ -47,7 +47,7 @@ function MainNavigation({title, subtitle}) {
     2. Removing the unused space of the outer container of primary-menu-element
        by setting width to 0px.
     */
-    const baseSelector = `[data-baseweb="app-nav-bar"] > *:nth-child(2) > *:first-child`
+    const baseSelector = `[data-baseweb="app-nav-bar"] > *:nth-child(2) > *:first-child > *:first-child`
 
     const appNameEl = document.querySelector(`${baseSelector} > *:nth-child(1)`)
     const primaryMenuEl = document.querySelector(
