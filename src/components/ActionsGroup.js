@@ -99,11 +99,7 @@ function ActionsGroup({
     rightAction = (
       <SproutMotionWrapper key="actions-go-next" style={{gridColumn: 2}}>
         <Button
-          disabled={
-            !isAllowedToPressNextBtnRef.current ||
-            !isRespondingOk ||
-            isOpenSubmitConfirmationModal
-          }
+          disabled={!isRespondingOk || isOpenSubmitConfirmationModal}
           onClick={goToNextQuestion}
           endEnhancer={<ArrowRight size={24} />}
           isChangeEnhancerOnDisabled
