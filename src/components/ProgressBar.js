@@ -35,6 +35,8 @@ export function ProgressBar() {
             borderTopRightRadius: '0px',
             borderBottomLeftRadius: '0px',
             borderBottomRightRadius: '0px',
+            backgroundColor: 'rgba(255, 255, 255, 0.6)',
+            backdropFilter: 'saturate(180%) blur(8px)',
           }),
         },
         BarProgress: {
