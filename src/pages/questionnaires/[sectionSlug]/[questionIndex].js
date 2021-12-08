@@ -111,6 +111,7 @@ function Questionnaire({question}) {
           isolation: 'isolate',
         }}
       >
+        <SuperHeader>แบบสอบถามคุณลักษณะของ Gen Z</SuperHeader>
         <div
           style={{
             position: 'sticky',
@@ -118,7 +119,6 @@ function Questionnaire({question}) {
             zIndex: 99,
           }}
         >
-          <SuperHeader>แบบสอบถามคุณลักษณะของ Gen Z</SuperHeader>
           <ClientOnly>
             <ProgressBar />
           </ClientOnly>
