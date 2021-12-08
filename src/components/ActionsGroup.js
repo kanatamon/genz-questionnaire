@@ -11,12 +11,13 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 
 import * as QuestionnairesUtils from '../questionnaires-utils'
-
 import * as ClientMemory from '../client-memory'
 
 import {SubmitConfirmationModal} from './SubmitConfirmationModal'
 import {Button} from './Button'
 import {SproutMotionWrapper} from './SproutMotionWrapper'
+
+const DELAY_AFTER_QUESTION_CHANGED = 500
 
 function ActionsGroup({
   question,
@@ -30,6 +31,7 @@ function ActionsGroup({
   const [isOpenSubmitConfirmationModal, setIsOpenSubmitConfirmationModal] =
     React.useState(false)
   const [isAutoNext, setIsAutoNext] = React.useState(false)
+  const isAllowedToPressNextBtnRef = React.useRef(false)
 
   const routerRef = React.useRef(router)
   // const questionRef = React.useRef(question)
@@ -43,6 +45,17 @@ function ActionsGroup({
     // questionRef.current = question
   })
 
+  React.useEffect(
+    function triggerAllowToPressNextBtnAfterQuestionChanged() {
+      const timeout = setTimeout(() => {
+        isAllowedToPressNextBtnRef.current = true
+      }, DELAY_AFTER_QUESTION_CHANGED)
+
+      return () => clearTimeout(timeout)
+    },
+    [question.id],
+  )
+
   const linkCursor = React.useMemo(
     () => updateLinkCursor(question.id, registeredGroups),
     [question.id, registeredGroups],
@@ -51,9 +64,11 @@ function ActionsGroup({
   const goToNextQuestion = () => {
     const {nextQuestionLink} = linkCursor
 
-    if (nextQuestionLink) {
+    if (nextQuestionLink && isAllowedToPressNextBtnRef.current) {
       routerRef.current.push(nextQuestionLink)
       ClientMemory.saveFurthestVisitableQuestionLink(nextQuestionLink)
+
+      isAllowedToPressNextBtnRef.current = false
     }
   }
 
@@ -84,7 +99,11 @@ function ActionsGroup({
     rightAction = (
       <SproutMotionWrapper key="actions-go-next" style={{gridColumn: 2}}>
         <Button
-          disabled={!isRespondingOk || isOpenSubmitConfirmationModal}
+          disabled={
+            !isAllowedToPressNextBtnRef.current ||
+            !isRespondingOk ||
+            isOpenSubmitConfirmationModal
+          }
           onClick={goToNextQuestion}
           endEnhancer={<ArrowRight size={24} />}
           isChangeEnhancerOnDisabled
