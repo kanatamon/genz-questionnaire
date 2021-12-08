@@ -6,7 +6,7 @@ function SuperHeader({children, ...delegated}) {
       {...delegated}
       style={{
         padding: '20px 45.5px',
-        background: 'rgb(109 80 151)',
+        background: 'rgb(126 74 143)',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
