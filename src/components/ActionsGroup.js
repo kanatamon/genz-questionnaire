@@ -10,6 +10,7 @@ import ArrowLeft from 'baseui/icon/arrow-left'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 
+import {useDebounceFn} from '../hooks/useDebounce'
 import * as QuestionnairesUtils from '../questionnaires-utils'
 import * as ClientMemory from '../client-memory'
 
@@ -17,7 +18,7 @@ import {SubmitConfirmationModal} from './SubmitConfirmationModal'
 import {Button} from './Button'
 import {SproutMotionWrapper} from './SproutMotionWrapper'
 
-const DELAY_AFTER_QUESTION_CHANGED = 500
+const DELAY_TO_FIRE_FUNCTION_AFTER_LAST_PRESS = 50
 
 function ActionsGroup({
   question,
@@ -31,7 +32,6 @@ function ActionsGroup({
   const [isOpenSubmitConfirmationModal, setIsOpenSubmitConfirmationModal] =
     React.useState(false)
   const [isAutoNext, setIsAutoNext] = React.useState(false)
-  const isAllowedToPressNextBtnRef = React.useRef(false)
 
   const routerRef = React.useRef(router)
   // const questionRef = React.useRef(question)
@@ -45,32 +45,19 @@ function ActionsGroup({
     // questionRef.current = question
   })
 
-  React.useEffect(
-    function triggerAllowToPressNextBtnAfterQuestionChanged() {
-      const timeout = setTimeout(() => {
-        isAllowedToPressNextBtnRef.current = true
-      }, DELAY_AFTER_QUESTION_CHANGED)
-
-      return () => clearTimeout(timeout)
-    },
-    [question.id],
-  )
-
   const linkCursor = React.useMemo(
     () => updateLinkCursor(question.id, registeredGroups),
     [question.id, registeredGroups],
   )
 
-  const goToNextQuestion = () => {
+  const goToNextQuestionDebounced = useDebounceFn(() => {
     const {nextQuestionLink} = linkCursor
 
-    if (nextQuestionLink && isAllowedToPressNextBtnRef.current) {
+    if (nextQuestionLink) {
       routerRef.current.push(nextQuestionLink)
       ClientMemory.saveFurthestVisitableQuestionLink(nextQuestionLink)
-
-      isAllowedToPressNextBtnRef.current = false
     }
-  }
+  }, DELAY_TO_FIRE_FUNCTION_AFTER_LAST_PRESS)
 
   const isReadyToSubmit = !question.nextQuestionLink
 
@@ -100,7 +87,7 @@ function ActionsGroup({
       <SproutMotionWrapper key="actions-go-next" style={{gridColumn: 2}}>
         <Button
           disabled={!isRespondingOk || isOpenSubmitConfirmationModal}
-          onClick={goToNextQuestion}
+          onClick={goToNextQuestionDebounced}
           endEnhancer={<ArrowRight size={24} />}
           isChangeEnhancerOnDisabled
         >

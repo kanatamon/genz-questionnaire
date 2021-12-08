@@ -17,3 +17,26 @@ export function useDebounce(value, delay) {
 
   return debouncedValue
 }
+
+export function useDebounceFn(fn, delay) {
+  const latestFn = React.useRef()
+  const [callCount, setCallCount] = React.useState(0)
+
+  React.useEffect(() => {
+    latestFn.current = fn
+  }, [fn])
+
+  React.useEffect(() => {
+    if (callCount > 0) {
+      const fire = () => {
+        setCallCount(0)
+        latestFn.current()
+      }
+
+      const id = setTimeout(fire, delay)
+      return () => clearTimeout(id)
+    }
+  }, [callCount, delay])
+
+  return () => setCallCount(callCount => callCount + 1)
+}
