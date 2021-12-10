@@ -75,8 +75,15 @@ function ActionsGroup({
 
   const goToNextQuestionDebounced = useReverselyDebounceFn(() => {
     const {nextQuestionLink} = linkCursor
+
+    const responding = ClientMemory.getRespondingByQuestionId(question.id)
+    const isRespondingInMemoryOk =
+      !responding.isRequired ||
+      typeof responding.respondingText === 'string' ||
+      responding.respondingOptions.length > 0
+
     const isReadyToGoNext =
-      isRespondingOk &&
+      isRespondingInMemoryOk &&
       !isOpenSubmitConfirmationModal &&
       isAllowedToGoNextOnceQuestionChangedRef.current
 
