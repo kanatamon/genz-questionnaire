@@ -69,6 +69,7 @@ function Questionnaire({question}) {
   React.useEffect(
     function restoreStatesWhenQuestionChanged() {
       setIsEditedRespondingOnceOnVisit(false)
+      setIsRespondingOk(false)
     },
     [question],
   )

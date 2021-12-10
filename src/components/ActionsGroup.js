@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import {AnimatePresence} from 'framer-motion'
 import {useStyletron} from 'baseui'
-import {Checkbox, LABEL_PLACEMENT} from 'baseui/checkbox'
+// import {Checkbox, LABEL_PLACEMENT} from 'baseui/checkbox'
 
 import ArrowRight from 'baseui/icon/arrow-right'
 import ArrowLeft from 'baseui/icon/arrow-left'
@@ -24,26 +24,49 @@ function ActionsGroup({
   question,
   registeredGroups,
   isRespondingOk,
-  isEditedRespondingOnceOnVisit,
+  // isEditedRespondingOnceOnVisit,
 }) {
   const router = useRouter()
   const [css, theme] = useStyletron()
 
   const [isOpenSubmitConfirmationModal, setIsOpenSubmitConfirmationModal] =
     React.useState(false)
-  const [isAutoNext, setIsAutoNext] = React.useState(false)
+  // const [isAutoNext, setIsAutoNext] = React.useState(false)
 
-  const routerRef = React.useRef(router)
+  // const routerRef = React.useRef(router)
   // const questionRef = React.useRef(question)
   // const isAutoNextRef = React.useRef(isAutoNext)
 
   // NOTE: syncs all refs using `useLayoutEffect` ensures that the syncRefs()
   // would run before any any other code.
-  React.useLayoutEffect(function syncRefs() {
-    routerRef.current = router
-    // isAutoNextRef.current = isAutoNext
-    // questionRef.current = question
-  })
+  // React.useLayoutEffect(function syncRefs() {
+  // routerRef.current = router
+  // isAutoNextRef.current = isAutoNext
+  // questionRef.current = question
+  // })
+
+  // NOTE: `isAllowedToGoNextOnceQuestionChanged` is used to make sure that user can execute
+  // `route.push()` only one time for a question even they try to
+  // batch and keep clicking multiple times on the Next Button.
+  //
+  // This mechanism is going to work by the following steps:
+  // 1. On component mounted user won't be able to execute the `route.push()`
+  // 2. Once the effect of a question-changed executed, `isAllowedToGoNextOnceQuestionChanged`
+  //    -will be `true`, and user can continue to check others condition
+  // 3. Once use is able to executed `route.push()` on the current question
+  //    , then `isAllowedToGoNextOnceQuestionChanged` will immediately set to `false`
+  //    , and user won't be able to execute `route.push()` again on the same question.
+  const isAllowedToGoNextOnceQuestionChangedRef = React.useRef(false)
+
+  React.useLayoutEffect(
+    function resetAllowanceToPressNextBtnWhenQuestionChanged() {
+      const id = setTimeout(() => {
+        isAllowedToGoNextOnceQuestionChangedRef.current = true
+      }, 1000)
+      return () => clearTimeout(id)
+    },
+    [question.id],
+  )
 
   const linkCursor = React.useMemo(
     () => updateLinkCursor(question.id, registeredGroups),
@@ -52,10 +75,15 @@ function ActionsGroup({
 
   const goToNextQuestionDebounced = useReverselyDebounceFn(() => {
     const {nextQuestionLink} = linkCursor
+    const isReadyToGoNext =
+      isRespondingOk &&
+      !isOpenSubmitConfirmationModal &&
+      isAllowedToGoNextOnceQuestionChangedRef.current
 
-    if (nextQuestionLink) {
-      routerRef.current.push(nextQuestionLink)
+    if (nextQuestionLink && isReadyToGoNext) {
+      isAllowedToGoNextOnceQuestionChangedRef.current = false
       ClientMemory.saveFurthestVisitableQuestionLink(nextQuestionLink)
+      router.push(nextQuestionLink)
     }
   }, DELAY_AFTER_LAST_PRESS)
 
