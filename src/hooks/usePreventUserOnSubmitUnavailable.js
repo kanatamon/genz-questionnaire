@@ -6,10 +6,6 @@ export function usePreventUserOnSubmitUnavailable() {
   const router = useRouter()
   const routerRef = React.useRef(router)
 
-  React.useLayoutEffect(() => {
-    routerRef.current = router
-  })
-
   React.useEffect(() => {
     SubmitAvailabilityService.checkCanUserSubmit().then(canUserSubmitResult => {
       if (!canUserSubmitResult.isOk) {
