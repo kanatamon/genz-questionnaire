@@ -3,19 +3,20 @@ import axios from 'axios'
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
-    try {
-      const {data: checkAvailabilityResult} = await axios.get(
-        'https://www1.reg.cmu.ac.th/asama/cmusurvey/checkTime.php',
-      )
-      return res.status(200).json({
-        isOk: checkAvailabilityResult.isOK,
-      })
-    } catch (error) {
-      return res.status(500).json({
-        isOk: true,
-        message: 'Service not available',
-      })
-    }
+//     try {
+//       const {data: checkAvailabilityResult} = await axios.get(
+//         'https://www1.reg.cmu.ac.th/asama/cmusurvey/checkTime.php',
+//       )
+//       return res.status(200).json({
+//         isOk: checkAvailabilityResult.isOK,
+//       })
+//     } catch (error) {
+//       return res.status(500).json({
+//         isOk: true,
+//         message: 'Service not available',
+//       })
+//     }
+    return res.status(200).json({ isOk: true })
   }
 
   return res.status(405).json({
