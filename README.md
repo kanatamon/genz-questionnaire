@@ -25,3 +25,7 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 result.
+
+## Related Repository
+
+- [Gen Z Analytic File Generator](https://github.com/kanatamon/genz-analytic-file-generator)
